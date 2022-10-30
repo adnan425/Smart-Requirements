@@ -42,7 +42,7 @@ export default function Details() {
                                 <div class="product_img">
                                     <img src="assets/images/cmmsgo-image2.png" alt="" />
                                 </div>
-                                <div class="product_preview">
+                                <div class="product_preview">NDE
                                     <a target="_blank" href="https://demo.rajodiya.com/cmmsgo/login"
                                         class="custome_btn">Live preview</a>
 

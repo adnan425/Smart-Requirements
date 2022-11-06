@@ -1,370 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!--
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-  <title>React App</title>
+    <title>React App</title>
 
-  <!-- Landing Page -->
-  <!-- <script src="assets/js/code.tidio.co-v6yd8ekeqht8753hnnqcxzjcz425wzup.js" async></script>
-  <link rel="stylesheet" href="assets/css/animate.css-animate.min.css">
+    <!-- Landing Page -->
+    <!-- <script src="assets/js/code.tidio.co-v6yd8ekeqht8753hnnqcxzjcz425wzup.js" async></script> -->
+    <!-- <link rel="stylesheet" href="assets/css/animate.css-animate.min.css">   -->
   <link rel="stylesheet" type="text/css" href="assets/css/css-bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/css-slick.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/css-swiper.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/css-select2.min.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/css-style.css">
+  <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-slick.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-swiper.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-select2.min.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-style.css"> adding extra scrollbar    -->
   <link rel="stylesheet" type="text/css" href="assets/css/css-responsive.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/css-intlTelInput.min.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-intlTelInput.min.css">   -->
+        
 
-  <!-- admin login -->
-	<link rel="stylesheet" href="assets/fonts/tabler-icons.min.css" />
-	<link rel="stylesheet" href="assets/fonts/feather.css" />
-	<link rel="stylesheet" href="assets/fonts/fontawesome.css" />
-	<link rel="stylesheet" href="assets/fonts/material.css" /> 
-
-   <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/style.css" id="main-style-link" />
-
-   <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/animate.min.css">
-   <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/style.css">
-
-	<link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/customizer.css" />
-  <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/dropzone.min.css">
-  <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/animate.min.css" />
-   <!--bootstrap switch-->
-   <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/bootstrap-switch-button.min.css">
-  <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/public/custom/css/custom.css" />
-<style>
-    img.navbar-brand-img {
-        width: 245px;
-        height: 61px;
-    }
-</style>
- 
-</head>
-
-<body class="theme-3">
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
-  <!--  <script src="assets/js/js-jquery-3.6.0.min.js"></script> -->
-  <script src="assets/js/js-bootstrap.bundle.min.js"></script>
-  <script src="assets/js/js-swiper.min.js"></script>
-  <script src="assets/js/js-slick.min.js"></script>
-  <script src="assets/js/js-select2.min.js"></script>
-  <script src="assets/js/min-moment.min.js"></script>
-  <script src="assets/js/bootstrap-notify-bootstrap-notify.min.js"></script>
-  <script src="assets/js/js-custome.js"></script>
-  <script src="assets/js/js-custom.js"></script>
-  <script src="assets/js/js-jquery.validate.min.js"></script> -->
-
-  <script type="text/javascript">
-
-    $(".custom-navbar-toggler").click(function () {
-      if ($(this).attr('aria-expanded') == 'true') {
-        $("body").addClass("scroll_hide");
-        $("html").addClass("scroll_hide");
-      } else {
-        $("body").removeClass("scroll_hide");
-        $("html").removeClass("scroll_hide");
-      }
-
-    });
-
-
-  </script>
-
-  <script>
-    var swiper = new Swiper(".swiper-container.two", {
-      loop: true,
-      speed: 1000,
-      // autoplay: {
-      //     delay: 3000,
-      // },
-      effect: 'coverflow',
-      grabCursor: true,
-      centeredSlides: true,
-      slidesPerView: 'auto',
-      coverflowEffect: {
-        rotate: 0,
-        stretch: 103,
-        depth: 41,
-        modifier: 3,
-        slideShadows: false,
-        watchSlidesVisibility: true,
-      },
-
-      // Navigation arrows
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      // Navigation Dots
-      //   pagination: {
-      //     el: ".swiper-pagination",
-      //     clickable: true,
-      //   },
-      breakpoints: {
-        1023: {
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 170,
-            depth: 92,
-            modifier: 2,
-            slideShadows: false,
-            watchSlidesVisibility: true,
-          }
-        },
-        1024: {
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 110,
-            depth: 25,
-            modifier: 3,
-            slideShadows: false,
-            watchSlidesVisibility: true,
-          }
-        },
-        767: {
-          spaceBetween: 15,
-          // Navigation Dots
-          pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-          },
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 0,
-            depth: 25,
-            modifier: 0,
-            slideShadows: false,
-            slidesPerView: 'auto',
-            watchSlidesVisibility: true,
-          }
-
-        }
-      }
-    });
-
-
-  </script>
-
-
-<!-- Admin -->
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/vendor-all.js"></script>
-
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/popper.min.js"></script>
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/bootstrap.min.js"></script>
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/feather.min.js"></script>
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/dash.js"></script>
-<script src="https://demo.rajodiya.com/cmmsgo/assets/libs/bootstrap-notify/bootstrap-notify.min.js"></script>
- 
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/apexcharts.min.js"></script>
-
-<script>
-
-(function () {
-var options = {
-chart: {
-    height: 250,
-    type: 'area',
-    toolbar: {
-        show: false,
-    },
-},
-dataLabels: {
-    enabled: false
-},
-stroke: {
-    width: 2,
-    curve: 'smooth'
-},
-series: [{
-    name: 'Visitors',
-    data: [20, 50, 30, 60, 40, 50, 40]
-}],
-xaxis: {
-    categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-},
-colors: ['#ffa21d'],
-
-grid: {
-    strokeDashArray: 4,
-},
-legend: {
-    show: false,
-},
-yaxis: {
-    tickAmount: 3,
-    min: 10,
-    max: 70,
-}
-};
-var chart = new ApexCharts(document.querySelector("#task-chart-work-order"), options);
-chart.render();
-})();
-
-(function() {
-    var options = {
-        chart: {
-            height: 210,
-            type: 'donut',
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '70%',
-                }
-            }
-        },
-        series: [80, 20],
-        colors: ["#3ec9d6", "#6fd943"],
-        labels: ["In progress", "Done"],
-        legend: {
-            show: false
-        }
-    };
-    var chart = new ApexCharts(document.querySelector("#total_work_order"), options);
-    chart.render();
-})();
-
-
-var projectStatusOptions = {
-    series: [20, 50, 30, 60, 40, 50, 40],
-
-    chart: {
-        height: '400px',
-        width: '500px',
-        type: 'pie',
-    },
-    colors: ["#00B8D9", "#36B37E"],
-    labels: ["Pandding","Complete"],
-    noData: {
-        text: '0 Work Order',
-    },
-
-    plotOptions: {
-        pie: {
-            dataLabels: {
-                offset: -5
-            }
-        }
-    },
-    title: {
-        text: ""
-    },
-    dataLabels: {},
-    legend: {
-        display: false
-    },
-
-
-};
-var projectStatusChart = new ApexCharts(document.querySelector("#project-status-chart"), projectStatusOptions);
-projectStatusChart.render();
-</script>
-
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/main.min.js"></script>
-
-<!-- sweet alert Js -->
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/sweetalert2.all.min.js"></script>
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/pages/ac-alert.js"></script>
-
-<!--Botstrap switch-->
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/bootstrap-switch-button.min.js"></script>
-
-
-<script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/simple-datatables.js"></script>
-
-<script type="text/javascript">
-  $(document).ready(function() {
-      $('.show_confirm').click(function(event) {
-          var form = $(this).closest("form");
-          const swalWithBootstrapButtons = Swal.mixin({
-              customClass: {
-                  confirmButton: 'btn btn-success',
-                  cancelButton: 'btn btn-danger'
-              },
-              buttonsStyling: false
-          })
-          swalWithBootstrapButtons.fire({
-              title: 'Are you sure?',
-              text: "This action can not be undone. Do you want to continue?",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonText: 'Yes',
-              cancelButtonText: 'No',
-              reverseButtons: true
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  form.submit();
-              }
-          })
-      });
-  });
-</script>  <script>
-  var today = new Date()
-  var curHr = today.getHours()
-  var target = document.getElementById("greetings");
-
-  if (curHr < 12) {
-      target.innerHTML = "Good Morning,";
-  } else if (curHr < 17) {
-      target.innerHTML = "Good Afternoon,";
-  } else {
-      target.innerHTML = "Good Evening,";
-  }
-</script>   </script>
-
+      <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/main.css"> -->
+      <!-- font css -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
+      <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/fonts/tabler-icons.min.css"> -->
+      <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/fonts/feather.css"> -->
+      <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/fonts/fontawesome.css"> -->
+      <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/fonts/material.css"> -->
+  
+          <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/animate.min.css">
+      <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/style.css">
+      <!-- vendor css -->
+     
+                  <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/style.css" id="main-style-link">
+          
+      <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/customizer.css">
+      <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/dropzone.min.css"> -->
+      <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/animate.min.css" /> -->
+       <!--bootstrap switch-->
+       <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/bootstrap-switch-button.min.css"> -->
+  <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/public/custom/css/custom.css">
+     
    
-<script>
-var date_picker_locale = {
-format: 'YYYY-MM-DD',
-daysOfWeek: [
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat"
-],
-monthNames: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-],
-};
-var calender_header = {
-today: "today",
-month: 'month',
-week: 'week',
-day: 'day',
-list: 'list'
-};
-</script>
-</body>
+  </head>
 
+  <body class="theme-3">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+     <script src="assets/js/js-jquery-3.6.0.min.js"></script>
+    <script src="assets/js/js-bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+
+
+
+    
+    <script src="assets/js/js-swiper.min.js"></script>
+    <script src="assets/js/js-slick.min.js"></script>
+    <script src="assets/js/js-select2.min.js"></script>
+    <script src="assets/js/min-moment.min.js"></script>
+    <!-- <script src="assets/js/bootstrap-notify-bootstrap-notify.min.js"></script> -->
+    <script src="assets/js/js-custome.js"></script>
+    <script src="assets/js/js-custom.js"></script>
+    <!-- <script src="assets/js/js-jquery.validate.min.js"></script> -->
+    <script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/popper.min.js"></script>
+    <script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="https://demo.rajodiya.com/cmmsgo/assets/js/dash.js"></script>
+    <!-- <script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/apexcharts.min.js"></script> -->
+    <script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/main.min.js"></script>
+<script src="https://demo.rajodiya.com/whatsstore-saas/assets/js/plugins/simple-datatables.js"></script>
+<!-- project tables -->
+<link rel="stylesheet" href="https://demo.rajodiya.com/erpgo-saas/css/custom.css" id="main-style-link">
+    <script type="text/javascript">
+      $(".custom-navbar-toggler").click(function () {
+        if ($(this).attr("aria-expanded") == "true") {
+          $("body").addClass("scroll_hide");
+          $("html").addClass("scroll_hide");
+        } else {
+          $("body").removeClass("scroll_hide");
+          $("html").removeClass("scroll_hide");
+        }
+      });
+    </script>
+
+    <script>
+      var swiper = new Swiper(".swiper-container.two", {
+        loop: true,
+        speed: 1000,
+        // autoplay: {
+        //     delay: 3000,
+        // },
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 103,
+          depth: 41,
+          modifier: 3,
+          slideShadows: false,
+          watchSlidesVisibility: true,
+        },
+
+        // Navigation arrows
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        // Navigation Dots
+        //   pagination: {
+        //     el: ".swiper-pagination",
+        //     clickable: true,
+        //   },
+        breakpoints: {
+          1023: {
+            coverflowEffect: {
+              rotate: 0,
+              stretch: 170,
+              depth: 92,
+              modifier: 2,
+              slideShadows: false,
+              watchSlidesVisibility: true,
+            },
+          },
+          1024: {
+            coverflowEffect: {
+              rotate: 0,
+              stretch: 110,
+              depth: 25,
+              modifier: 3,
+              slideShadows: false,
+              watchSlidesVisibility: true,
+            },
+          },
+          767: {
+            spaceBetween: 15,
+            // Navigation Dots
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true,
+            },
+            coverflowEffect: {
+              rotate: 0,
+              stretch: 0,
+              depth: 25,
+              modifier: 0,
+              slideShadows: false,
+              slidesPerView: "auto",
+              watchSlidesVisibility: true,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
 </html>

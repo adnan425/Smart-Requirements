@@ -1,16 +1,14 @@
-
-import { Helmet } from "react-helmet";
-import Home from './Pages/Home'
-import './App.css';  
-import Admin from "./Components/Admin/Admin";
-
+import Home from "./Pages/Home";
+import "./App.css";
+import Admin from "./Components/Admin/Admin"; 
 function App() {
   return (
-    <>
-  {/* <Admin/> */}
+    <>  
+      <Admin />
+      {/* <Home /> */}
+      {/* <Login/> */}
+      <script src="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons-react/dist/index.umd.min.js"></script>
 
-    <Home />
-    {/* <Login/> */}
     </>
   );
 }

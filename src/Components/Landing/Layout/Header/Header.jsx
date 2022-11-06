@@ -1,5 +1,5 @@
 import React from 'react'
-
+import banner from '../../assets/banners/process.svg'
 export default function Header() {
   return (
     <>
@@ -15,12 +15,10 @@ export default function Header() {
                         <span>CONTROL</span> ALL <span>BUSINESS MAINTENANCE OPERATIONS FROM INSIDE</span> ONE <span>TOOL</span>
                       </h1>
                     </div>
-                    <div className="description">
+    \20\200\Flip-Image-Hover-3D-Effects-                <div className="description">
                       <p>Need an efficient way to manage your business operations? Look no more! CMMSGo will keep you up to date with your assets, sales, and purchases. Use an automated tool to streamline your business maintenance.</p>
                     </div>
-                    <div className="btn_wrapper">
-                      <a target="_blank" href="https://codecanyon.net/checkout/from_item/36662539?license=regular&amp;support=bundle_6month" className="custome_btn mb-3">
-                        <span>Buy Now $19</span></a>
+                    <div className="btn_wrapper"> 
                       <a target="_blank" href="https://demo.rajodiya.com/cmmsgo/login" className="custome_btn">
                         <span>Get Started For Free!</span></a>
                     </div>
@@ -29,7 +27,7 @@ export default function Header() {
                 <div className="right_side">
                   <div className="main_image_wrap">
                     <div className="single_image">
-                      <img src="/assets/images/cmmsgo-image1.png" alt="banner" />
+                      <img src={banner} alt="banner" />
                     </div>
                     <div className="image_rings">
                       <div className="ring_0 ring"></div>
@@ -39,18 +37,7 @@ export default function Header() {
 
                     </div>
                   </div>
-                  <div className="users_rating">
-                    <div className="tag_lines">
-                      <p>Fully Verified Ratings <br /> Trusted by Hundreds of Happy Users.</p>
-                      <ul className="rating_star">
-                        <li className="star">
-                        </li><li className="star">
-                        </li><li className="star">
-                        </li><li className="star">
-                        </li><li className="star">
-                        </li></ul>
-                    </div>
-                  </div>
+               
                 </div>
               </div>
             </div>

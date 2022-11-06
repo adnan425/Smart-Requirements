@@ -23,8 +23,7 @@ export default function Layout({ children }) {
       <Navbar />
       <Intro />
       <Operations />
-      <Details />
-      <Testimonial />
+      <Details /> 
       <About />
       <Output />
       <Futuers />

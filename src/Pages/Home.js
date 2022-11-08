@@ -1,17 +1,16 @@
-import React from 'react'
-import Layout from '../Components/Landing/Layout/Layout' 
-
- 
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import LandingPage from "../Components/Landing/Layout/LandingPage";
+import Login from './Login/Login';
+import Signup from './Signup';
 export default function Home() {
   return (
     <>
-      <div class="page" id="page-content">
-      <Layout>
-
-      </Layout>
-      </div>
-      
+      <Routes> 
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
+      </Routes>
     </>
-
-  )
+  );
 }

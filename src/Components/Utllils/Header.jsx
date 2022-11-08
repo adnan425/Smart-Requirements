@@ -56,7 +56,7 @@ export default function Header() {
             <li class="dropdown dash-h-item drp-notification">
               <a
                 class="dash-head-link arrow-none me-0"
-                href="https://demo.rajodiya.com/erpgo-saas/chats"
+                href=""
                 aria-haspopup="false"
                 aria-expanded="false"
               >

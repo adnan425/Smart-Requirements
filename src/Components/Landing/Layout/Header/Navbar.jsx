@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     return (
@@ -14,7 +15,7 @@ export default function Navbar() {
                         
                      
                         <div className="menu_btn">
-                            <a href="#" target="_blank" className="header_btn go_to_shop">Login</a>
+                            <Link to={'/login'} target="_blank" className="header_btn go_to_shop">Login</Link>
                         </div>
                     </div>
                     <button className="navbar-toggler custom-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">

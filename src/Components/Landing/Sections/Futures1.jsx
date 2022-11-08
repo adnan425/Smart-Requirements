@@ -1,59 +1,86 @@
-import React from 'react'
-
+import React from "react";
+import Banner from "../common/Banner";
 export default function Futures1() {
-    return (
-        <section class="slider-with-listing dark-back">
-            <div class="container">
-                <div class="title_wrapper">
-                    <h1 class="main_title">
-                        <span> CMMSGO MAKES YOUR JOB</span> EASIER, FASTER, AND BETTER
-                    </h1>
-                </div>
-                <div class="listing-slider-one">
-                    <div class="listing-slider-one-item d-flex">
-                        <div class="row align-content-center">
-                            <div class="col-md-5 col-12 d-flex align-items-center">
-                                <div class="listing-slider-left-column">
-                                    <img src="assets/images/cmmsgo-image2.png" />
-                                </div>
-                            </div>
-                            <div class="col-md-7 col-12">
-                                <div class="listing-slider-right-column">
-                                    <h2 class="orange-color">
-                                        Easily Manage Your Operations From A Single Tab
-                                    </h2>
-                                    <ul>
-                                        <li>Save time wasted looking for information. Access everything without
-                                            opening multiple tabs.</li>
-                                        <li>View and modify existing user data in a transparent and simple manner.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="listing-slider-one-item d-flex">
-                        <div class="row align-content-center">
-                            <div class="col-md-5 col-12 d-flex align-items-center">
-                                <div class="listing-slider-left-column">
-                                    <img src="assets/images/cmmsgo-image2.png" />
-                                </div>
-                            </div>
-                            <div class="col-md-7 col-12">
-                                <div class="listing-slider-right-column">
-                                    <h2 class="orange-color">
-                                        Run Your Business Smoothly
-                                    </h2>
-                                    <ul>
-                                        <li>Eliminate lags in your production by optimizing employee output and
-                                            keeping your work equipment in peak condition.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
+  const outputList = [
+    {
+      id: 1,
+      heading: "Take Charge Of Your Business Management",
+      img: "assets/images/cmmsgo-image2.png",
+      points: [
+        {
+          points_id: 1,
+          point_text:
+            "Manage your purchases, assets, sales and maintenance with ease.",
+        },
+        {
+          points_id: 2,
+          point_text:
+            "Outsource parts and manage locations and vendors with a single tool.",
+        },
+        {
+          points_id: 3,
+          point_text:
+            "Gain control over access, grant permissions, and assign roles to team members.- whenever you want.",
+        },
+      ],
+    },
+    {
+      id: 2,
+      heading: "Spend Less Money On Your Maintenance Operations",
+      img: "assets/images/cmmsgo-image2.png",
+      points: [
+        {
+          points_id: 1,
+          point_text:
+            "Get the right thing done at the right time - at no extra charges.",
+        },
+        {
+          points_id: 2,
+          point_text:
+            "Outsource parts and manage locations and vendors with a single tool.",
+        },
+        {
+          points_id: 3,
+          point_text:
+            "Gain control over access, grant permissions, and assign roles to team members.- whenever you want.",
+        },
+      ],
+    },
+    {
+      id: 3,
+      heading: "Manage Your Team Operations Easily",
+      img: "assets/images/cmmsgo-image2.png",
+      points: [
+        {
+          points_id: 1,
+          point_text:
+            "Get the right thing done at the right time - at no extra charges.",
+        },
+        {
+          points_id: 2,
+          point_text:
+            "Outsource parts and manage locations and vendors with a single tool.",
+        },
+        {
+          points_id: 3,
+          point_text:
+            "Gain control over access, grant permissions, and assign roles to team members.- whenever you want.",
+        },
+      ],
+    },
+  ];
+  return (
+    <section class="slider-with-listing dark-back">
+      <div class="container">
+        <div class="title_wrapper">
+          <h1 class="main_title">
+            <span> CMMSGO MAKES YOUR JOB</span> EASIER, FASTER, AND BETTER
+          </h1>
+        </div>
+        <div class="listing-slider-one">
+          <Banner list={outputList} />
+        </div>
+      </div>
+    </section>
+  );
 }

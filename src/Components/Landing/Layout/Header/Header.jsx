@@ -1,5 +1,6 @@
-import React from 'react'
-import banner from '../../assets/banners/process.svg'
+import React from "react";
+import banner from "../../assets/banners/process.svg";
+import { Link } from 'react-router-dom';
 export default function Header() {
   return (
     <>
@@ -12,15 +13,27 @@ export default function Header() {
                   <div className="main_content_wrap">
                     <div className="title_wrapper">
                       <h1 className="main_title">
-                        <span>CONTROL</span> ALL <span>BUSINESS MAINTENANCE OPERATIONS FROM INSIDE</span> ONE <span>TOOL</span>
+                        <span>CONTROL</span> ALL{" "}
+                        <span>BUSINESS MAINTENANCE OPERATIONS FROM INSIDE</span>{" "}
+                        ONE <span>TOOL</span>
                       </h1>
+                    </div> 
+                    <div className="description">
+                      <p>
+                        Need an efficient way to manage your business
+                        operations? Look no more! CMMSGo will keep you up to
+                        date with your assets, sales, and purchases. Use an
+                        automated tool to streamline your business maintenance.
+                      </p>
                     </div>
-    \20\200\Flip-Image-Hover-3D-Effects-                <div className="description">
-                      <p>Need an efficient way to manage your business operations? Look no more! CMMSGo will keep you up to date with your assets, sales, and purchases. Use an automated tool to streamline your business maintenance.</p>
-                    </div>
-                    <div className="btn_wrapper"> 
-                      <a target="_blank" href="https://demo.rajodiya.com/cmmsgo/login" className="custome_btn">
-                        <span>Get Started For Free!</span></a>
+                    <div className="btn_wrapper">
+                      <Link
+                        target="_blank"
+                        to="/login"
+                        className="custome_btn"
+                      >
+                        <span>Get Started For Free!</span>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -34,18 +47,14 @@ export default function Header() {
                       <div className="ring_1 ring"></div>
                       <div className="ring_2 ring"></div>
                       <div className="ring_3 ring"></div>
-
                     </div>
                   </div>
-               
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
     </>
-
-  )
+  );
 }

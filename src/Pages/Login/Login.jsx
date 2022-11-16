@@ -4,9 +4,12 @@ import pic1 from "./../../assets/banners/svg/login1.svg";
 import pic2 from "./../../assets/banners/svg/login2.svg";
 import pic3 from "./../../assets/banners/svg/login3.svg";
 import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import Joi from "joi-browser";
+import Input from "../../Components/Utllils/Input";
 
-export default function Login() {
-  const keyPoints = [
+export default class Login extends Component {
+  keyPoints = [
     {
       id: 1,
       heading: "Attention is the new currency",
@@ -26,157 +29,175 @@ export default function Login() {
       pic: pic3,
     },
   ];
-  return (
-    <>
-      <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-      />
+  schema = {
+    username: Joi.string().required().label("Email"),
+    password: Joi.string().required().label("Password"),
+  };
+  state = {
+    account: { username: "", password: "" },
+    errors: {},
+  };
+  validate = () => {
+    const { error } = Joi.validate(this.state.account, this.schema, {
+      abortEarly: false,
+    });
+    console.log(error);
 
-      <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div
-              className="col-md-4 bg-primary m-sm-0 mt-3 mt-lg-3 mt-xl-3 "
-              style={{ borderRadius: "13px" }}
-            >
-              <div className="row justify-content-center ">
-                <div className="col-12 ">
-                  <a class="navbar-brand" href="#">
-                    <img
-                      src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
-                      class="mx-2 my-3 auth-logo navbar-logo"
-                    />
-                  </a>
-                </div>
-                <div className="col-9 d-flex d-none d-md-block d-lg-block d-xl-block">
-                  <Carousel showArrows={false} showThumbs={false}>
-                    {keyPoints.map((point) => {
-                      return (
-                        <div key={point.id}>
-                          <img src={point.pic} alt="" class="img-fluid" />
-                          <div className="text-center">
-                            <h3 class="text-white mb-2 mt-5"> 
-                              “{point.heading}”
-                            </h3>
-                            <p class="text-white text-center">{point.text}</p>
-                            <div class="d-grid mb-4">
-                              <Link
-                                class="btn btn-primary btn-block mt-2 mb-4"
-                                to={"/signup"}
-                              >
-                                Sign Up
-                              </Link>
+    // if no errors
+    if (!error) return null;
+
+    const errors = {};
+    for (let item of error.details) errors[item.path[0]] = item.message;
+    console.log(errors);
+    return errors;
+  };
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const errors = this.validate();
+    this.setState({ errors: errors || {} });
+    if (errors) return false;
+
+    // call server
+    console.log("handle submit");
+  };
+  render() {
+    const { account, errors } = this.state;
+    return (
+      <>
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+
+        <div>
+          <div className="container-fluid">
+            <div className="row">
+              <div
+                className="col-md-4 bg-primary m-sm-0 mt-3 mt-lg-3 mt-xl-3 "
+                style={{ borderRadius: "13px" }}
+              >
+                <div className="row justify-content-center ">
+                  <div className="col-12 ">
+                    <Link class="navbar-brand" to="/">
+                      <img
+                      
+                        src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
+                        class="mx-2 my-3 auth-logo navbar-logo"
+                        alt="logo"
+                      />
+                    </Link>
+                  </div>
+                  <div className="col-9 d-flex d-none d-md-block d-lg-block d-xl-block">
+                    <Carousel showArrows={false} showThumbs={false}>
+                      {this.keyPoints.map((point) => {
+                        return (
+                          <div key={point.id}>
+                            <img src={point.pic} alt="" class="img-fluid" />
+                            <div className="text-center">
+                              <h3 class="text-white mb-2 mt-5">
+                                “{point.heading}”
+                              </h3>
+                              <p class="text-white text-center">{point.text}</p>
+                              <div class="d-grid mb-4">
+                                <Link
+                                  class="btn btn-primary btn-block mt-2 mb-4"
+                                  to={"/signup"}
+                                >
+                                  Sign Up
+                                </Link>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </Carousel>
+                        );
+                      })}
+                    </Carousel>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Form */}
-            <div className="col-md-7">
-              <div
-                class="row d-flex justify-content-center align-items-center"
-                style={{
-                  //   display: "flex",
-                  //   justifyContent: "center",
-                  //   alignItems: "center",
-                  height: "100%",
-                }}
-              >
-                <div className="col-md-7 my-4">
-                  <div class="text-center">
-                    <h2 class="mb-3 f-w-600">Sign in to Smart Requirement</h2>
-                    <p className="lead text-center">
-                      Sent, spend and save smarter
-                    </p>
-                  </div>
-                  <div class="row ">
-                    <div class="col-6">
-                      <div class="d-grid">
-                        <a href="#" class="btn btn-danger btn-block mt-2">
-                          <i class="mx-3 fa fa-google"></i>{" "}
-                          <span
-                            className="d-none 
-                           d-lg-inline-block d-xl-inline-block"
-                          >
-                            Sign in with <b>Google</b>
-                          </span>
-                        </a>
-                      </div>
+              {/* Form */}
+              <div className="col-md-7">
+                <div
+                  class="row d-flex justify-content-center align-items-center"
+                  style={{
+                    height: "100%",
+                  }}
+                >
+                  <div className="col-md-7 my-4">
+                    <div class="text-center">
+                      <h2 class="mb-3 f-w-600">Sign in to Smart Requirement</h2>
+                      <p className="lead text-center">
+                        Sent, spend and save smarter
+                      </p>
                     </div>
-                    <div class="col-6">
-                      <div class="d-grid">
-                        <a href="#" class="btn btn-danger btn-block mt-2">
-                          <i class="mx-3 fa fa-google"></i>{" "}
-                          <span
-                            className="d-none 
+                    <div class="row ">
+                      <div class="col-6">
+                        <div class="d-grid">
+                          <a href="#" class="btn btn-danger btn-block mt-2">
+                            <i class="mx-3 fa fa-google"></i>{" "}
+                            <span
+                              className="d-none 
                            d-lg-inline-block d-xl-inline-block"
-                          >
-                            Sign in with <b>Google</b>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <hr data-content="AND" class="hr-text" />
-                  <form
-                    method="POST"
-                    accept-charset="UTF-8"
-                    id="loginForm"
-                    class="login-form"
-                  >
-                    <div class="">
-                      <div class="form-group mb-3">
-                        <label class="form-label">Email</label>
-                        <input 
-                          type="email"
-                          class="form-control  "
-                          name="email" 
-                          placeholder="Email" 
-                        />
-                      </div>
-                      <div class="form-group mb-3">
-                        <label class="form-label">Password</label>
-                        <input
-                          id="password"
-                          type="password"
-                          class="form-control  "
-                          value="1234"
-                          name="password"
-                          placeholder="Password"
-                          required=""
-                        />
-                        <div class="mb-2 mt-2">
-                          <a
-                            href="https://demo.rajodiya.com/cmmsgo/forgot-password"
-                            class="small text-muted text-underline--dashed border-primar"
-                          >
-                            Forgot Your Password?
+                            >
+                              Sign in with <b>Google</b>
+                            </span>
                           </a>
                         </div>
                       </div>
-
-                      <div class="d-grid">
-                        <input
-                          class="btn btn-primary btn-block mt-2 login-do-btn"
-                          id="saveBtn"
-                          type="submit"
-                          value="Sign in"
-                        />
+                      <div class="col-6">
+                        <div class="d-grid">
+                          <a href="#" class="btn btn-danger btn-block mt-2">
+                            <i class="mx-3 fa fa-google"></i>{" "}
+                            <span
+                              className="d-none 
+                           d-lg-inline-block d-xl-inline-block"
+                            >
+                              Sign in with <b>Google</b>
+                            </span>
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </form>
-                  <p class="">Copyright © 2022 </p>
+                    <hr data-content="AND" class="hr-text" />
+                    <form
+                      onSubmit={this.handleSubmit}
+                      method="POST"
+                      accept-charset="UTF-8"
+                      id="loginForm"
+                      class="login-form"
+                    >
+                      <div class="">
+                        <Input
+                          name={"email"}
+                          value={""}
+                          label={"Email"}
+                          type={"email"}
+                          error={errors.username}
+                        />
+                        <Input
+                          name={"password"}
+                          value={""}
+                          label={"Password"}
+                          type={"password"}
+                          error={errors.password}
+                        />
+                        <div class="d-grid">
+                          <button class="btn btn-primary btn-block mt-2" 
+                          disabled={this.validate()}
+                          >
+                            Sign in
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                    <p class="">Copyright © 2022 </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }

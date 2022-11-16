@@ -1,9 +1,10 @@
 import Home from "./Pages/Home";
 import "./App.css";
 import Admin from "./Components/Admin/Admin"; 
+import Input from './Components/Utllils/Input';
 function App() {
   return (
-    <>  
+    <>   
       {/* <Admin /> */}
       <Home />
       {/* <Login/> */}

@@ -1,22 +1,22 @@
 import React from "react";
 
-const  Input = ({ name, value, label, type = 'text', error, onChange }) =>{
+const Input = ({ name, value, label, type = "text", error, onChange}) => {
   return (
-    <div class="form-group mb-3">
-      <label htmlFor={name} class="form-label">
+    <div className="form-group mb-3">
+      <label htmlFor={name} className="form-label">
         {label}
       </label>
       <input
         type={type}
-        id={name}
-        value={value} 
-        class="form-control "
+        value={value}
         name={name}
-        // onClick={onChange}
+        id={name}
+        className="form-control"
+        onChange={onChange}
       />
-      {error && <small class="small  text-danger ">{error}</small>}
+      {error && <small className="small  text-danger ">{error}</small>}
     </div>
   );
-}
+};
 
 export default Input;

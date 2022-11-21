@@ -101,16 +101,16 @@ export default function ProjectTable({ list }) {
                         </td>
                         <td className="text-end">
                           <span>
-                            <div class="action-btn bg-warning ms-2">
+                            <div className="action-btn bg-warning ms-2">
                               <Link
                                 to={"project/" + project.id}
-                                class="mx-3 btn btn-sm align-items-center"
+                                className="mx-3 btn btn-sm align-items-center"
                                 data-bs-toggle="tooltip"
                                 title={project.name}
                                 data-original-title="Detail"
                                 data-bs-original-title="Show"
                               >
-                                <i class="ti ti-eye text-white"></i>
+                                <i className="ti ti-eye text-white"></i>
                               </Link>
                             </div>
                           </span>

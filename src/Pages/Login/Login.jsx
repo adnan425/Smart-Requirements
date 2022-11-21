@@ -1,14 +1,21 @@
+import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import Joi from "joi-browser";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import { Link, Navigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import pic1 from "./../../assets/banners/svg/login1.svg";
 import pic2 from "./../../assets/banners/svg/login2.svg";
 import pic3 from "./../../assets/banners/svg/login3.svg";
-import { Link } from "react-router-dom";
-import React, { Component } from "react";
-import Joi from "joi-browser";
-import Input from "../../Components/Utllils/Input";
+import Form from "../../Components/Utllils/Form";
 
-export default class Login extends Component {
+const MySwal = withReactContent(Swal);
+
+class Login extends Form {
   keyPoints = [
     {
       id: 1,
@@ -29,175 +36,197 @@ export default class Login extends Component {
       pic: pic3,
     },
   ];
+
   schema = {
-    username: Joi.string().required().label("Email"),
+    email: Joi.string().required().label("Email"),
     password: Joi.string().required().label("Password"),
   };
   state = {
-    account: { username: "", password: "" },
+    data: { email: "", password: "" },
     errors: {},
+    admin: false,
+    manager: false,
+    stakeholder: false,
   };
-  validate = () => {
-    const { error } = Joi.validate(this.state.account, this.schema, {
-      abortEarly: false,
-    });
-    console.log(error);
 
-    // if no errors
-    if (!error) return null;
-
-    const errors = {};
-    for (let item of error.details) errors[item.path[0]] = item.message;
-    console.log(errors);
-    return errors;
-  };
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return false;
-
+  doSubmit = async () => {
     // call server
-    console.log("handle submit");
+    axios
+      .post(
+        "http://localhost:3001/api/auth",
+        this.state.data,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Credentials": "true",
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        if (response?.status === 200) {
+          MySwal.fire("Success!", "Login Successfull...!", "success");
+          localStorage.setItem("x-auth-token", response?.data);
+          // redirect according to their role
+          const user = jwtDecode(response?.data);
+          console.log(user);
+          if (user.role === "manager") {
+
+            this.setState({ manager: true });
+          } else if (user.role == "admin") {
+            this.setState({ admin: true });
+          } else if (user.role == "stakeholder") {
+            this.setState({ stakeholder: true });
+          }
+        }
+      })
+      .catch((response) => {
+        MySwal.fire("Error!", response?.response?.data, "error");
+      });
   };
   render() {
-    const { account, errors } = this.state;
     return (
       <>
-        <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        />
+        {this.state.stakeholder && (
+          <Navigate to="/stakeholder" replace={true} />
+        )}
+        {this.state.manager && <Navigate to="/manager" replace={true} />}
+        {this.state.admin && <Navigate to="/admin" replace={true} />}
+        {!this.state.admin && !this.state.manager && !this.state.stakeholder && (
+          <>
+            <link
+              rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            />
 
-        <div>
-          <div className="container-fluid">
-            <div className="row">
-              <div
-                className="col-md-4 bg-primary m-sm-0 mt-3 mt-lg-3 mt-xl-3 "
-                style={{ borderRadius: "13px" }}
-              >
-                <div className="row justify-content-center ">
-                  <div className="col-12 ">
-                    <Link class="navbar-brand" to="/">
-                      <img
-                      
-                        src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
-                        class="mx-2 my-3 auth-logo navbar-logo"
-                        alt="logo"
-                      />
-                    </Link>
-                  </div>
-                  <div className="col-9 d-flex d-none d-md-block d-lg-block d-xl-block">
-                    <Carousel showArrows={false} showThumbs={false}>
-                      {this.keyPoints.map((point) => {
-                        return (
-                          <div key={point.id}>
-                            <img src={point.pic} alt="" class="img-fluid" />
-                            <div className="text-center">
-                              <h3 class="text-white mb-2 mt-5">
-                                “{point.heading}”
-                              </h3>
-                              <p class="text-white text-center">{point.text}</p>
-                              <div class="d-grid mb-4">
-                                <Link
-                                  class="btn btn-primary btn-block mt-2 mb-4"
-                                  to={"/signup"}
-                                >
-                                  Sign Up
-                                </Link>
+            <div>
+              <div className="container-fluid">
+                <div className="row">
+                  <div
+                    className="col-md-4 bg-primary m-sm-0 mt-3 mt-lg-3 mt-xl-3 "
+                    style={{ borderRadius: "13px" }}
+                  >
+                    <div className="row justify-content-center ">
+                      <div className="col-12 ">
+                        <Link className="navbar-brand" to="/">
+                          <img
+                            src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
+                            className="mx-2 my-3 auth-logo navbar-logo"
+                            alt="logo"
+                          />
+                        </Link>
+                      </div>
+                      <div className="col-9 d-flex d-none d-md-block d-lg-block d-xl-block">
+                        <Carousel showArrows={false} showThumbs={false}>
+                          {this.keyPoints.map((point) => {
+                            return (
+                              <div key={point.id}>
+                                <img
+                                  src={point.pic}
+                                  alt=""
+                                  className="img-fluid"
+                                />
+                                <div className="text-center">
+                                  <h3 className="text-white mb-2 mt-5">
+                                    “{point.heading}”
+                                  </h3>
+                                  <p className="text-white text-center">
+                                    {point.text}
+                                  </p>
+                                  <div className="d-grid mb-4">
+                                    <Link
+                                      className="btn btn-primary btn-block mt-2 mb-4"
+                                      to={"/signup"}
+                                    >
+                                      Sign Up
+                                    </Link>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </Carousel>
+                            );
+                          })}
+                        </Carousel>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              {/* Form */}
-              <div className="col-md-7">
-                <div
-                  class="row d-flex justify-content-center align-items-center"
-                  style={{
-                    height: "100%",
-                  }}
-                >
-                  <div className="col-md-7 my-4">
-                    <div class="text-center">
-                      <h2 class="mb-3 f-w-600">Sign in to Smart Requirement</h2>
-                      <p className="lead text-center">
-                        Sent, spend and save smarter
-                      </p>
-                    </div>
-                    <div class="row ">
-                      <div class="col-6">
-                        <div class="d-grid">
-                          <a href="#" class="btn btn-danger btn-block mt-2">
-                            <i class="mx-3 fa fa-google"></i>{" "}
-                            <span
-                              className="d-none 
-                           d-lg-inline-block d-xl-inline-block"
-                            >
-                              Sign in with <b>Google</b>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                      <div class="col-6">
-                        <div class="d-grid">
-                          <a href="#" class="btn btn-danger btn-block mt-2">
-                            <i class="mx-3 fa fa-google"></i>{" "}
-                            <span
-                              className="d-none 
-                           d-lg-inline-block d-xl-inline-block"
-                            >
-                              Sign in with <b>Google</b>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <hr data-content="AND" class="hr-text" />
-                    <form
-                      onSubmit={this.handleSubmit}
-                      method="POST"
-                      accept-charset="UTF-8"
-                      id="loginForm"
-                      class="login-form"
+                  {/* Form */}
+                  <div className="col-md-7">
+                    <div
+                      className="row d-flex justify-content-center align-items-center"
+                      style={{
+                        height: "100%",
+                      }}
                     >
-                      <div class="">
-                        <Input
-                          name={"email"}
-                          value={""}
-                          label={"Email"}
-                          type={"email"}
-                          error={errors.username}
-                        />
-                        <Input
-                          name={"password"}
-                          value={""}
-                          label={"Password"}
-                          type={"password"}
-                          error={errors.password}
-                        />
-                        <div class="d-grid">
-                          <button class="btn btn-primary btn-block mt-2" 
-                          disabled={this.validate()}
-                          >
-                            Sign in
-                          </button>
+                      <div className="col-md-7 my-4">
+                        <div className="text-center">
+                          <h2 className="mb-3 f-w-600">
+                            Sign in to Smart Requirement
+                          </h2>
+                          <p className="lead text-center">
+                            Sent, spend and save smarter
+                          </p>
+                        </div>
+                        {/* <div className="row ">
+                      <div className="col-6">
+                        <div className="d-grid">
+                          <a href="#" className="btn btn-danger btn-block mt-2">
+                            <i className="mx-3 fa fa-google"></i>{" "}
+                            <span
+                              className="d-none 
+                           d-lg-inline-block d-xl-inline-block"
+                            >
+                              Sign in with <b>Google</b>
+                            </span>
+                          </a>
                         </div>
                       </div>
-                    </form>
-                    <p class="">Copyright © 2022 </p>
+                      <div className="col-6">
+                        <div className="d-grid">
+                          <a href="#" className="btn btn-danger btn-block mt-2">
+                            <i className="mx-3 fa fa-google"></i>{" "}
+                            <span
+                              className="d-none 
+                           d-lg-inline-block d-xl-inline-block"
+                            >
+                              Sign in with <b>Google</b>
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div> */}
+                        <hr data-content="AND" className="hr-text" />
+                        <form
+                          onSubmit={this.handleSubmit}
+                          method="POST"
+                          acceptCharset="UTF-8"
+                          id="loginForm"
+                          className="login-form"
+                        >
+                          <div className="">
+                            {this.renderInput("email", "Email", "email")}
+                            {this.renderInput(
+                              "password",
+                              "Password",
+                              "password"
+                            )}
+                            {this.renderButton("Sign In")}
+                          </div>
+                        </form>
+                        <p className="">Copyright © 2022 </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </>
     );
   }
 }
+
+export default Login;

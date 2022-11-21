@@ -19,6 +19,11 @@ export default class Signup extends Component {
     email: Joi.string().required().email().label("Email"),
     password: Joi.string().min(5).required().label("Password"),
   }
+  handleChange = ({currentTarget : input}) =>{
+    const account = {...this.state.account};
+    account[input.name] = input.value;
+    this.setState({account});
+  } 
   validate = () => {
     const { error } = Joi.validate(this.state.account, this.schema, {
       abortEarly: false,
@@ -64,7 +69,7 @@ export default class Signup extends Component {
         pic: pic3,
       },
     ];
-    const { account, errors } = this.state;
+    const { account, errors , handleChange } = this.state;
     return (
       <>
         <link
@@ -136,15 +141,10 @@ export default class Signup extends Component {
                       class="login-form"
                     >
                       <div class="">
-                      <Input name={"firstname"} value={"account.firstname"} label={"First Name"}   error={errors.firstname} />
+                      <Input name={"firstname"} value={account.firstname} label={"First Name"} onChange={handleChange}   error={errors.firstname} />
                       <Input name={"lastname"} value={account.lasttname} label={"Last Name"}   error={errors.lastname} />
                       <Input name={"email"} value={account.email} label={"Email"} type={"email"}   error={errors.email} />
-                      <Input
-                            name={"password"}
-                            value={account.password}
-                            label={"Password"}
-                            type={"password"}
-                            error={errors.password}
+                      <Input name={"password"} value={account.password} label={"Password"} type={"password"} error={errors.password}
                           />  
   
                         <div class="d-grid">

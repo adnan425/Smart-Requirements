@@ -6,37 +6,37 @@ export default function Leftbar() {
       id: 1,
       icon: "ti ti-home",
       label: "Dashboard",
-      path: "/dashboard",
+      path: "dashboard",
     },
     {
       id: 2,
       icon: "ti ti-users",
       label: "Users",
-      path: "/users",
+      path: "users",
     },
     {
       id: 3,
       icon: "ti ti-tools",
       label: "Projects",
-      path: "/projects",
+      path: "projects",
     },
     {
       id: 4,
       icon: "ti ti-template",
       label: "SRS Template",
-      path: "/srs",
+      path: "srs",
     },
     {
       id: 5,
       icon: "ti ti-headphones",
       label: "Suggestions",
-      path: "/suggestions",
+      path: "suggestions",
     },
     {
       id: 6,
       icon: "ti ti-settings",
       label: "Settings",
-      path: "/settings",
+      path: "settings",
     },
   ];
   return (

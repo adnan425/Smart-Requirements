@@ -3,8 +3,8 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import {NavLink, Link} from 'react-router-dom';
  const Sidebar = ({items}) =>{
   return (
-    <nav class="dash-sidebar light-sidebar transprent-bg active dash-trigger">
-      <div class="navbar-wrapper">
+    <nav className="dash-sidebar light-sidebar transprent-bg active dash-trigger">
+      <div className="navbar-wrapper">
         <div className="m-header main-logo">
           <Link to="/dashboard" className="b-brand">
             {/* ========   change your logo hear   ============ */}

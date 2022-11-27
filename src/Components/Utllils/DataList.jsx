@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-export default function ProjectTable({ list }) {
+import { Link } from "react-router-dom"; 
+export default function DataList({ list }) {
   return (
     <>
       <div className="col-xl-12">
@@ -16,7 +15,7 @@ export default function ProjectTable({ list }) {
                     <th>Users</th>
                     <th>Completion</th>
                     <th>Status</th>
-                    <th className="text-end">Action</th>
+                    <th className="text-right">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -41,7 +40,7 @@ export default function ProjectTable({ list }) {
                           </div>
                         </td>
                         <td>{project.start_date}</td>
-                        <td>
+                        {/* <td>
                           <div className="avatar-group" id="project_13">
                             <Link
                               to={"project/" + project.id}
@@ -78,7 +77,21 @@ export default function ProjectTable({ list }) {
                               />
                             </Link>
                           </div>
-                        </td>
+                        </td> */}
+                        <td>
+            
+                         <div class="user-group"> 
+                               <img src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-1.jpg" 
+                                data-bs-toggle="tooltip" title="" data-bs-original-title="Rajodiya Infotech"
+                                 aria-label="Rajodiya Infotech"/> 
+                                 <img src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-4.jpg"
+                                   data-bs-toggle="tooltip" title="" data-bs-original-title="Anthony B Renfroe" 
+                                   aria-label="Anthony B Renfroe"/> 
+                                 <img src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-5.jpg"
+                                   data-bs-toggle="tooltip" title="" data-bs-original-title="Adrienne J Reed" aria-label="Adrienne J Reed"/>
+                              
+                           </div>
+                         </td>
                         <td>
                           <h6 className="mb-0 text-success">
                             {project.progress}
@@ -99,22 +112,37 @@ export default function ProjectTable({ list }) {
                             {project.status}
                           </span>
                         </td>
-                        <td className="text-end">
-                          <span>
-                            <div className="action-btn bg-warning ms-2">
-                              <Link
-                                to={"project/" + project.id}
-                                className="mx-3 btn btn-sm align-items-center"
-                                data-bs-toggle="tooltip"
-                                title={project.name}
-                                data-original-title="Detail"
-                                data-bs-original-title="Show"
+                        <td class="text-right"> 
+                          <div class="action-btn bg-warning ms-2">
+                            <button
+                              href="#"
+                              class="mx-3 btn btn-sm d-inline-flex align-items-center"
+                              data-bs-whatever="View Project"
+                              data-bs-toggle="tooltip"
+                              data-bs-original-title="View"
+                            >
+                              {" "}
+                              <span class="text-white">
+                                {" "}
+                                <i class="ti ti-eye"></i>
+                              </span>
+                            </button>
+                          </div>
+
+                          <div class="action-btn bg-danger ms-2">
+                            
+                              <button
+                                href="#!"
+                                class="mx-3 btn btn-sm d-flex align-items-center show_confirm"
                               >
-                                <i className="ti ti-eye text-white"></i>
-                              </Link>
-                            </div>
-                          </span>
-                        </td>
+                                <i
+                                  class="ti ti-trash text-white"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-original-title="Delete"
+                                ></i>
+                              </button> 
+                          </div>
+                        </td> 
                       </tr>
                     );
                   })}

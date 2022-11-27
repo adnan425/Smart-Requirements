@@ -1,0 +1,41 @@
+const config = require('config')
+const jwt = require('jsonwebtoken');
+const { User } = require('../models/user');
+const bcrypt = require('bcrypt');
+const Joi = require('joi');
+const express = require('express');
+const app = express(); 
+var cors = require('cors')
+
+const router = express.Router();
+
+app.use(cors({
+    origin: '*'
+}));
+
+router.post('/', async (req, res)=>{
+    console.log(req)
+    const { error } = validate(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
+    let user = await User.findOne({email: req.body.email});
+    if(!user) return res.status(400).send('Invalid email or password');
+
+    let validPassword = await bcrypt.compare(req.body.password, user.password);
+    if(!validPassword) return res.status(400).send("Invalid email or password");
+
+    // jwt
+    const token = jwt.sign({_id: user._id, name:user.name, email: user.email, role: user.role }, "myKey");
+    // const token = user.generateAuthToken();
+    // res.header("Access-Control-Allow-Origin", "*");
+    res.send(token);
+
+});
+function validate(req){
+    const schema = Joi.object({
+        email : Joi.string().min(5).max(255).required().email(),
+        password: Joi.string().min(8).max(255).required()
+    })
+    return schema.validate(req);
+}
+module.exports = router;

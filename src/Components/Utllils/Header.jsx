@@ -29,7 +29,7 @@ export default function Header() {
                   className="theme-avtar"
                   src="https://demo.rajodiya.com/cmmsgo/storage/avatars/3.jpg"
                 />
-                <span className="hide-mob ms-2">company</span>
+                <span className="hide-mob ms-2">User</span>
                 <i className="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
               </a>
               <div className="dropdown-menu dash-h-dropdown">
@@ -53,7 +53,7 @@ export default function Header() {
         </div>
         <div className="ms-auto">
           <ul className="list-unstyled">
-            <li className="dropdown dash-h-item drp-notification">
+            {/* <li className="dropdown dash-h-item drp-notification">
               <a
                 className="dash-head-link arrow-none me-0"
                 href=""
@@ -66,7 +66,7 @@ export default function Header() {
                   0<span className="sr-only"></span>
                 </span>
               </a>
-            </li>
+            </li> */}
             <li className="dropdown dash-h-item drp-language">
               <a
                 className="dash-head-link dropdown-toggle arrow-none me-0"

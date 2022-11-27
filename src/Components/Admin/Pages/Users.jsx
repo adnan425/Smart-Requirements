@@ -73,30 +73,30 @@ export default function Users() {
 
           {/* <!-- <div className="row"> --> */}
           <div className="row">
-            <div class="col-xxl-12">
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="card text-center">
-                    <div class="card-header border-0 pb-0">
-                      <div class="card-header-right">
-                        <div class="btn-group card-option">
+            <div className="col-xxl-12">
+              <div className="row">
+                <div className="col-md-3">
+                  <div className="card text-center">
+                    <div className="card-header border-0 pb-0">
+                      <div className="card-header-right">
+                        <div className="btn-group card-option">
                           <button
                             type="button"
-                            class="btn dropdown-toggle"
+                            className="btn dropdown-toggle"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
                           >
-                            <i class="ti ti-dots-vertical"></i>
+                            <i className="ti ti-dots-vertical"></i>
                           </button>
 
-                          <div class="dropdown-menu dropdown-menu-end">
+                          <div className="dropdown-menu dropdown-menu-end">
                             <a
                               href="https://demo.rajodiya.com/erpgo-saas/clients/4"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="View"
                             >
-                              <i class="ti ti-eye"></i>
+                              <i className="ti ti-eye"></i>
                               <span>Show</span>
                             </a>
 
@@ -105,10 +105,10 @@ export default function Users() {
                               data-size="md"
                               data-url="https://demo.rajodiya.com/erpgo-saas/clients/4/edit"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Edit User"
                             >
-                              <i class="ti ti-pencil"></i>
+                              <i className="ti ti-pencil"></i>
                               <span>Edit</span>
                             </a>
 
@@ -123,8 +123,8 @@ export default function Users() {
                                 type="hidden"
                                 value="DELETE"
                               />
-                              <a href="#!" class="dropdown-item bs-pass-para">
-                                <i class="ti ti-archive"></i>
+                              <a href="#!" className="dropdown-item bs-pass-para">
+                                <i className="ti ti-archive"></i>
                                 <span> Delete </span>
                               </a>
                             </form>
@@ -133,35 +133,35 @@ export default function Users() {
                               href="#!"
                               data-url="https://demo.rajodiya.com/erpgo-saas/client-reset-password/eyJpdiI6IjEvTnFUWTByb0hSay9qQk45dTZ6TkE9PSIsInZhbHVlIjoiakNLQms2M1JTSkJtTExvaDc4R2ppUT09IiwibWFjIjoiM2Y5N2M5YWQwZGQ2ZDhjYmUxNTE0MDRkOTFiOWQ2ZTQ3Yjc0ZjRlNGVlMDM3NWM2NWZhNWM5ZTcyMTZmMzJjYyIsInRhZyI6IiJ9"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Reset Password"
                             >
-                              <i class="ti ti-adjustments"></i>
+                              <i className="ti ti-adjustments"></i>
                               <span> Reset Password</span>
                             </a>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="card-body full-card">
-                      <div class="img-fluid rounded-circle card-avatar">
+                    <div className="card-body full-card">
+                      <div className="img-fluid rounded-circle card-avatar">
                         <img
                           src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-4.jpg"
                           alt="kal"
-                          class="img-user wid-80 rounded-circle"
+                          className="img-user wid-80 rounded-circle"
                         />
                       </div>
-                      <h4 class=" mt-2 text-primary">Mick Aston</h4>
+                      <h4 className=" mt-2 text-primary">Mick Aston</h4>
                       <p></p>
-                      <div class="row">
-                        <div class="col-12 col-sm-12">
-                          <div class="d-grid text-primary">
+                      <div className="row">
+                        <div className="col-12 col-sm-12">
+                          <div className="d-grid text-primary">
                             client@example.com
                           </div>
                         </div>
                       </div>
                       <div
-                        class="align-items-center h6 mt-2"
+                        className="align-items-center h6 mt-2"
                         data-bs-toggle="tooltip"
                         title=""
                         data-bs-original-title="Last Login"
@@ -169,42 +169,42 @@ export default function Users() {
                         2022-11-06 19:54:56
                       </div>
                     </div>
-                    <div class="card-footer p-3">
-                      <div class="row">
-                        <div class="col-6">
-                          <h6 class="mb-0"> 2</h6>
-                          <p class="text-muted text-sm mb-0">Deals</p>
+                    <div className="card-footer p-3">
+                      <div className="row">
+                        <div className="col-6">
+                          <h6 className="mb-0"> 2</h6>
+                          <p className="text-muted text-sm mb-0">Deals</p>
                         </div>
-                        <div class="col-6">
-                          <h6 class="mb-0"> 4</h6>
-                          <p class="text-muted text-sm mb-0">Projects</p>
+                        <div className="col-6">
+                          <h6 className="mb-0"> 4</h6>
+                          <p className="text-muted text-sm mb-0">Projects</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="card text-center">
-                    <div class="card-header border-0 pb-0">
-                      <div class="card-header-right">
-                        <div class="btn-group card-option">
+                <div className="col-md-3">
+                  <div className="card text-center">
+                    <div className="card-header border-0 pb-0">
+                      <div className="card-header-right">
+                        <div className="btn-group card-option">
                           <button
                             type="button"
-                            class="btn dropdown-toggle"
+                            className="btn dropdown-toggle"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
                           >
-                            <i class="ti ti-dots-vertical"></i>
+                            <i className="ti ti-dots-vertical"></i>
                           </button>
 
-                          <div class="dropdown-menu dropdown-menu-end">
+                          <div className="dropdown-menu dropdown-menu-end">
                             <a
                               href="https://demo.rajodiya.com/erpgo-saas/clients/4"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="View"
                             >
-                              <i class="ti ti-eye"></i>
+                              <i className="ti ti-eye"></i>
                               <span>Show</span>
                             </a>
 
@@ -213,10 +213,10 @@ export default function Users() {
                               data-size="md"
                               data-url="https://demo.rajodiya.com/erpgo-saas/clients/4/edit"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Edit User"
                             >
-                              <i class="ti ti-pencil"></i>
+                              <i className="ti ti-pencil"></i>
                               <span>Edit</span>
                             </a>
 
@@ -231,8 +231,8 @@ export default function Users() {
                                 type="hidden"
                                 value="DELETE"
                               />
-                              <a href="#!" class="dropdown-item bs-pass-para">
-                                <i class="ti ti-archive"></i>
+                              <a href="#!" className="dropdown-item bs-pass-para">
+                                <i className="ti ti-archive"></i>
                                 <span> Delete </span>
                               </a>
                             </form>
@@ -241,35 +241,35 @@ export default function Users() {
                               href="#!"
                               data-url="https://demo.rajodiya.com/erpgo-saas/client-reset-password/eyJpdiI6IjEvTnFUWTByb0hSay9qQk45dTZ6TkE9PSIsInZhbHVlIjoiakNLQms2M1JTSkJtTExvaDc4R2ppUT09IiwibWFjIjoiM2Y5N2M5YWQwZGQ2ZDhjYmUxNTE0MDRkOTFiOWQ2ZTQ3Yjc0ZjRlNGVlMDM3NWM2NWZhNWM5ZTcyMTZmMzJjYyIsInRhZyI6IiJ9"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Reset Password"
                             >
-                              <i class="ti ti-adjustments"></i>
+                              <i className="ti ti-adjustments"></i>
                               <span> Reset Password</span>
                             </a>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="card-body full-card">
-                      <div class="img-fluid rounded-circle card-avatar">
+                    <div className="card-body full-card">
+                      <div className="img-fluid rounded-circle card-avatar">
                         <img
                           src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-4.jpg"
                           alt="kal"
-                          class="img-user wid-80 rounded-circle"
+                          className="img-user wid-80 rounded-circle"
                         />
                       </div>
-                      <h4 class=" mt-2 text-primary">Mick Aston</h4>
+                      <h4 className=" mt-2 text-primary">Mick Aston</h4>
                       <p></p>
-                      <div class="row">
-                        <div class="col-12 col-sm-12">
-                          <div class="d-grid text-primary">
+                      <div className="row">
+                        <div className="col-12 col-sm-12">
+                          <div className="d-grid text-primary">
                             client@example.com
                           </div>
                         </div>
                       </div>
                       <div
-                        class="align-items-center h6 mt-2"
+                        className="align-items-center h6 mt-2"
                         data-bs-toggle="tooltip"
                         title=""
                         data-bs-original-title="Last Login"
@@ -277,42 +277,42 @@ export default function Users() {
                         2022-11-06 19:54:56
                       </div>
                     </div>
-                    <div class="card-footer p-3">
-                      <div class="row">
-                        <div class="col-6">
-                          <h6 class="mb-0"> 2</h6>
-                          <p class="text-muted text-sm mb-0">Deals</p>
+                    <div className="card-footer p-3">
+                      <div className="row">
+                        <div className="col-6">
+                          <h6 className="mb-0"> 2</h6>
+                          <p className="text-muted text-sm mb-0">Deals</p>
                         </div>
-                        <div class="col-6">
-                          <h6 class="mb-0"> 4</h6>
-                          <p class="text-muted text-sm mb-0">Projects</p>
+                        <div className="col-6">
+                          <h6 className="mb-0"> 4</h6>
+                          <p className="text-muted text-sm mb-0">Projects</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="card text-center">
-                    <div class="card-header border-0 pb-0">
-                      <div class="card-header-right">
-                        <div class="btn-group card-option">
+                <div className="col-md-3">
+                  <div className="card text-center">
+                    <div className="card-header border-0 pb-0">
+                      <div className="card-header-right">
+                        <div className="btn-group card-option">
                           <button
                             type="button"
-                            class="btn dropdown-toggle"
+                            className="btn dropdown-toggle"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
                           >
-                            <i class="ti ti-dots-vertical"></i>
+                            <i className="ti ti-dots-vertical"></i>
                           </button>
 
-                          <div class="dropdown-menu dropdown-menu-end">
+                          <div className="dropdown-menu dropdown-menu-end">
                             <a
                               href="https://demo.rajodiya.com/erpgo-saas/clients/4"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="View"
                             >
-                              <i class="ti ti-eye"></i>
+                              <i className="ti ti-eye"></i>
                               <span>Show</span>
                             </a>
 
@@ -321,10 +321,10 @@ export default function Users() {
                               data-size="md"
                               data-url="https://demo.rajodiya.com/erpgo-saas/clients/4/edit"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Edit User"
                             >
-                              <i class="ti ti-pencil"></i>
+                              <i className="ti ti-pencil"></i>
                               <span>Edit</span>
                             </a>
 
@@ -339,8 +339,8 @@ export default function Users() {
                                 type="hidden"
                                 value="DELETE"
                               />
-                              <a href="#!" class="dropdown-item bs-pass-para">
-                                <i class="ti ti-archive"></i>
+                              <a href="#!" className="dropdown-item bs-pass-para">
+                                <i className="ti ti-archive"></i>
                                 <span> Delete </span>
                               </a>
                             </form>
@@ -349,35 +349,35 @@ export default function Users() {
                               href="#!"
                               data-url="https://demo.rajodiya.com/erpgo-saas/client-reset-password/eyJpdiI6IjEvTnFUWTByb0hSay9qQk45dTZ6TkE9PSIsInZhbHVlIjoiakNLQms2M1JTSkJtTExvaDc4R2ppUT09IiwibWFjIjoiM2Y5N2M5YWQwZGQ2ZDhjYmUxNTE0MDRkOTFiOWQ2ZTQ3Yjc0ZjRlNGVlMDM3NWM2NWZhNWM5ZTcyMTZmMzJjYyIsInRhZyI6IiJ9"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Reset Password"
                             >
-                              <i class="ti ti-adjustments"></i>
+                              <i className="ti ti-adjustments"></i>
                               <span> Reset Password</span>
                             </a>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="card-body full-card">
-                      <div class="img-fluid rounded-circle card-avatar">
+                    <div className="card-body full-card">
+                      <div className="img-fluid rounded-circle card-avatar">
                         <img
                           src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-4.jpg"
                           alt="kal"
-                          class="img-user wid-80 rounded-circle"
+                          className="img-user wid-80 rounded-circle"
                         />
                       </div>
-                      <h4 class=" mt-2 text-primary">Mick Aston</h4>
+                      <h4 className=" mt-2 text-primary">Mick Aston</h4>
                       <p></p>
-                      <div class="row">
-                        <div class="col-12 col-sm-12">
-                          <div class="d-grid text-primary">
+                      <div className="row">
+                        <div className="col-12 col-sm-12">
+                          <div className="d-grid text-primary">
                             client@example.com
                           </div>
                         </div>
                       </div>
                       <div
-                        class="align-items-center h6 mt-2"
+                        className="align-items-center h6 mt-2"
                         data-bs-toggle="tooltip"
                         title=""
                         data-bs-original-title="Last Login"
@@ -385,42 +385,42 @@ export default function Users() {
                         2022-11-06 19:54:56
                       </div>
                     </div>
-                    <div class="card-footer p-3">
-                      <div class="row">
-                        <div class="col-6">
-                          <h6 class="mb-0"> 2</h6>
-                          <p class="text-muted text-sm mb-0">Deals</p>
+                    <div className="card-footer p-3">
+                      <div className="row">
+                        <div className="col-6">
+                          <h6 className="mb-0"> 2</h6>
+                          <p className="text-muted text-sm mb-0">Deals</p>
                         </div>
-                        <div class="col-6">
-                          <h6 class="mb-0"> 4</h6>
-                          <p class="text-muted text-sm mb-0">Projects</p>
+                        <div className="col-6">
+                          <h6 className="mb-0"> 4</h6>
+                          <p className="text-muted text-sm mb-0">Projects</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="card text-center">
-                    <div class="card-header border-0 pb-0">
-                      <div class="card-header-right">
-                        <div class="btn-group card-option">
+                <div className="col-md-3">
+                  <div className="card text-center">
+                    <div className="card-header border-0 pb-0">
+                      <div className="card-header-right">
+                        <div className="btn-group card-option">
                           <button
                             type="button"
-                            class="btn dropdown-toggle"
+                            className="btn dropdown-toggle"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
                           >
-                            <i class="ti ti-dots-vertical"></i>
+                            <i className="ti ti-dots-vertical"></i>
                           </button>
 
-                          <div class="dropdown-menu dropdown-menu-end">
+                          <div className="dropdown-menu dropdown-menu-end">
                             <a
                               href="https://demo.rajodiya.com/erpgo-saas/clients/4"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="View"
                             >
-                              <i class="ti ti-eye"></i>
+                              <i className="ti ti-eye"></i>
                               <span>Show</span>
                             </a>
 
@@ -429,10 +429,10 @@ export default function Users() {
                               data-size="md"
                               data-url="https://demo.rajodiya.com/erpgo-saas/clients/4/edit"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Edit User"
                             >
-                              <i class="ti ti-pencil"></i>
+                              <i className="ti ti-pencil"></i>
                               <span>Edit</span>
                             </a>
 
@@ -447,8 +447,8 @@ export default function Users() {
                                 type="hidden"
                                 value="DELETE"
                               />
-                              <a href="#!" class="dropdown-item bs-pass-para">
-                                <i class="ti ti-archive"></i>
+                              <a href="#!" className="dropdown-item bs-pass-para">
+                                <i className="ti ti-archive"></i>
                                 <span> Delete </span>
                               </a>
                             </form>
@@ -457,35 +457,35 @@ export default function Users() {
                               href="#!"
                               data-url="https://demo.rajodiya.com/erpgo-saas/client-reset-password/eyJpdiI6IjEvTnFUWTByb0hSay9qQk45dTZ6TkE9PSIsInZhbHVlIjoiakNLQms2M1JTSkJtTExvaDc4R2ppUT09IiwibWFjIjoiM2Y5N2M5YWQwZGQ2ZDhjYmUxNTE0MDRkOTFiOWQ2ZTQ3Yjc0ZjRlNGVlMDM3NWM2NWZhNWM5ZTcyMTZmMzJjYyIsInRhZyI6IiJ9"
                               data-ajax-popup="true"
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-original-title="Reset Password"
                             >
-                              <i class="ti ti-adjustments"></i>
+                              <i className="ti ti-adjustments"></i>
                               <span> Reset Password</span>
                             </a>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="card-body full-card">
-                      <div class="img-fluid rounded-circle card-avatar">
+                    <div className="card-body full-card">
+                      <div className="img-fluid rounded-circle card-avatar">
                         <img
                           src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-4.jpg"
                           alt="kal"
-                          class="img-user wid-80 rounded-circle"
+                          className="img-user wid-80 rounded-circle"
                         />
                       </div>
-                      <h4 class=" mt-2 text-primary">Mick Aston</h4>
+                      <h4 className=" mt-2 text-primary">Mick Aston</h4>
                       <p></p>
-                      <div class="row">
-                        <div class="col-12 col-sm-12">
-                          <div class="d-grid text-primary">
+                      <div className="row">
+                        <div className="col-12 col-sm-12">
+                          <div className="d-grid text-primary">
                             client@example.com
                           </div>
                         </div>
                       </div>
                       <div
-                        class="align-items-center h6 mt-2"
+                        className="align-items-center h6 mt-2"
                         data-bs-toggle="tooltip"
                         title=""
                         data-bs-original-title="Last Login"
@@ -493,15 +493,15 @@ export default function Users() {
                         2022-11-06 19:54:56
                       </div>
                     </div>
-                    <div class="card-footer p-3">
-                      <div class="row">
-                        <div class="col-6">
-                          <h6 class="mb-0"> 2</h6>
-                          <p class="text-muted text-sm mb-0">Deals</p>
+                    <div className="card-footer p-3">
+                      <div className="row">
+                        <div className="col-6">
+                          <h6 className="mb-0"> 2</h6>
+                          <p className="text-muted text-sm mb-0">Deals</p>
                         </div>
-                        <div class="col-6">
-                          <h6 class="mb-0"> 4</h6>
-                          <p class="text-muted text-sm mb-0">Projects</p>
+                        <div className="col-6">
+                          <h6 className="mb-0"> 4</h6>
+                          <p className="text-muted text-sm mb-0">Projects</p>
                         </div>
                       </div>
                     </div>

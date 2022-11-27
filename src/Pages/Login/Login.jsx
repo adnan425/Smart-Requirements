@@ -53,7 +53,7 @@ class Login extends Form {
     // call server
     axios
       .post(
-        "http://localhost:3001/api/auth",
+        "http://localhost:3004/api/auth",
         this.state.data,
         {
           headers: {
@@ -76,9 +76,9 @@ class Login extends Form {
           if (user.role === "manager") {
 
             this.setState({ manager: true });
-          } else if (user.role == "admin") {
+          } else if (user.role === "admin") {
             this.setState({ admin: true });
-          } else if (user.role == "stakeholder") {
+          } else if (user.role === "stakeholder") {
             this.setState({ stakeholder: true });
           }
         }
@@ -112,11 +112,11 @@ class Login extends Form {
                     <div className="row justify-content-center ">
                       <div className="col-12 ">
                         <Link className="navbar-brand" to="/">
-                          <img
-                            src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
+                          {/* <img
+                            // src={Logo} style={{'height': '100px'}}
                             className="mx-2 my-3 auth-logo navbar-logo"
                             alt="logo"
-                          />
+                          /> */}
                         </Link>
                       </div>
                       <div className="col-9 d-flex d-none d-md-block d-lg-block d-xl-block">

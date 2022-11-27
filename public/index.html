@@ -17,38 +17,53 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <title>Smart Requirements</title>
+    <!-- For Landing Page -->
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css/css-style.css"
+      id="main-style-link"
+    /> -->
+    <!-- X --- For Landing Page -- X -->
 
-    <!-- Landing Page -->
-    <!-- <link rel="stylesheet" href="assets/css/animate.css-animate.min.css">   -->
-    <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-slick.css"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-swiper.css"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="assets/css/css-select2.min.css"> -->
-    <!-- //adding extra scrollbar  -->
-
-    <link rel="stylesheet" type="text/css" href="assets/css/css-style.css" id="main-style-link"/>
-    <link rel="stylesheet" type="text/css" href="assets/css/css-responsive.css" />
-
-    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/erpgo-saas/css/custom.css" id="main-style-link"> -->
-
-    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/main.css"> -->
-
-    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/animate.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/style.css"> -->
-    <!-- vendor css -->
-
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css/css-responsive.css"
+    />
     <!-- Login Page -->
-    <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/style.css"/> 
-    <link rel="stylesheet"  href="https://demo.rajodiya.com/cmmsgo/assets/css/customizer.css" />  
-    <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/public/custom/css/custom.css">
-    <!-- Login Page -->
+    <link
+      rel="stylesheet"
+      href="https://demo.rajodiya.com/cmmsgo/assets/css/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://demo.rajodiya.com/cmmsgo/assets/css/customizer.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://demo.rajodiya.com/cmmsgo/public/custom/css/custom.css"
+    />
+    <!-- some propertites of project   -->
 
-
-    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/dropzone.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/animate.min.css" /> -->
-    <!--bootstrap switch-->
-    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/cmmsgo/assets/css/plugins/bootstrap-switch-button.min.css"> -->
-     
+    <link rel="stylesheet" href="https://demo.rajodiya.com/erpgo-saas/css/custom.css
+    ">
+    <!-- some propertites of project grid memebers  -->
+    <link rel="stylesheet" href="https://demo.rajodiya.com/crmgo-saas/public/custom_assets/css/custom.css">
+    <!-- <link
+      rel="stylesheet"
+      href="https://demo.rajodiya.com/erpgo-saas/assets/fonts/tabler-icons.min.css"
+    /> -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
+    <style>
+      .topba {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 39px;
+      }
+    </style>
   </head>
 
   <body class="theme-3">
@@ -65,11 +80,12 @@
     <script src="assets/js/js-custom.js"></script>
     <!--   final  -->
 
+    <script src="https://demo.rajodiya.com/cmmsgo/assets/js/dash.js"></script>
     <!-- <script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/popper.min.js"></script>
     <script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="https://demo.rajodiya.com/cmmsgo/assets/js/dash.js"></script> 
     <script src="https://demo.rajodiya.com/cmmsgo/assets/js/plugins/main.min.js"></script>
 <script src="https://demo.rajodiya.com/whatsstore-saas/assets/js/plugins/simple-datatables.js"></script> -->
+
     <!-- project tables -->
     <script type="text/javascript">
       $(".custom-navbar-toggler").click(function () {
@@ -82,5 +98,175 @@
         }
       });
     </script>
+    <script>
+      // feather.replace();
+      var pctoggle = document.querySelector("#pct-toggler");
+      if (pctoggle) {
+        pctoggle.addEventListener("click", function () {
+          if (
+            !document
+              .querySelector(".pct-customizer")
+              .classList.contains("active")
+          ) {
+            document.querySelector(".pct-customizer").classList.add("active");
+          } else {
+            document
+              .querySelector(".pct-customizer")
+              .classList.remove("active");
+          }
+        });
+      }
+    </script>
+
+    <script src="https://demo.rajodiya.com/crmgo-saas/assets/js/plugins/apexcharts.min.js"></script>
+    <script>
+      (function () {
+        var options = {
+          series: ["43"],
+          chart: {
+            height: 475,
+            type: "radialBar",
+            offsetY: -20,
+            sparkline: {
+              enabled: true,
+            },
+          },
+          plotOptions: {
+            radialBar: {
+              startAngle: -90,
+              endAngle: 90,
+              track: {
+                background: "#e7e7e7",
+                strokeWidth: "97%",
+                margin: 5, // margin is in pixels
+              },
+              dataLabels: {
+                name: {
+                  show: true,
+                },
+                value: {
+                  offsetY: -50,
+                  fontSize: "20px",
+                },
+              },
+            },
+          },
+          grid: {
+            padding: {
+              top: -10,
+            },
+          },
+          colors: ["#51459d"],
+          labels: ["Progress"],
+        };
+        var chart = new ApexCharts(
+          document.querySelector("#milestone-chart"),
+          options
+        );
+        chart.render();
+      })();
+
+      var options = {
+        series: [
+          {
+            data: [16.67, 66.67, 16.67],
+          },
+        ],
+        chart: {
+          height: 210,
+          type: "bar",
+        },
+        colors: ["#6fd943", "#ff3a6e", "#3ec9d6"],
+        plotOptions: {
+          bar: {
+            columnWidth: "50%",
+            distributed: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        legend: {
+          show: true,
+        },
+        xaxis: {
+          categories: ["high", "low", "medium"],
+          labels: {
+            style: {
+              colors: [],
+            },
+          },
+        },
+      };
+
+      var chart = new ApexCharts(
+        document.querySelector("#chart_priority"),
+        options
+      );
+      chart.render();
+
+      var options = {
+        series: [33.33, 33.33, 16.67, 16.67],
+        chart: {
+          width: 380,
+          type: "pie",
+        },
+        color: [],
+        labels: ["Bug", "Done", "In Progress", "To Do"],
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 100,
+              },
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        ],
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+
+      ///===================== Hour Chart =============================================================///
+      var options = {
+        series: [
+          {
+            data: ["114", "44.70"],
+          },
+        ],
+        chart: {
+          height: 210,
+          type: "bar",
+        },
+        colors: ["#963aff", "#ffa21d"],
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            columnWidth: "30%",
+            distributed: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        legend: {
+          show: true,
+        },
+        xaxis: {
+          categories: ["Estimated Hours", "Logged Hours "],
+        },
+      };
+
+      var chart = new ApexCharts(
+        document.querySelector("#chart-hours"),
+        options
+      );
+      chart.render();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons-react/dist/index.umd.min.js"></script>
   </body>
 </html>

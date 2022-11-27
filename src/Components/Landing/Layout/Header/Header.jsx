@@ -13,17 +13,13 @@ export default function Header() {
                   <div className="main_content_wrap">
                     <div className="title_wrapper">
                       <h1 className="main_title">
-                        <span>CONTROL</span> ALL{" "}
-                        <span>BUSINESS MAINTENANCE OPERATIONS FROM INSIDE</span>{" "}
-                        ONE <span>TOOL</span>
+                        <span>Smart</span> Requirement{" "}
+                        <span>System </span>{" "} 
                       </h1>
                     </div> 
                     <div className="description">
                       <p>
-                        Need an efficient way to manage your business
-                        operations? Look no more! CMMSGo will keep you up to
-                        date with your assets, sales, and purchases. Use an
-                        automated tool to streamline your business maintenance.
+                        It'll provide a unified environment to the Developers, Project Managers and Stakeholders to perform all the requiremetns engineering phases 
                       </p>
                     </div>
                     <div className="btn_wrapper">
@@ -37,7 +33,7 @@ export default function Header() {
                     </div>
                   </div>
                 </div>
-                <div className="right_side">
+                <div className="">
                   <div className="main_image_wrap">
                     <div className="single_image">
                       <img src={banner} alt="banner" />

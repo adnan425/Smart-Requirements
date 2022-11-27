@@ -1,53 +1,57 @@
+import React from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
 import pic1 from "./../assets/banners/svg/login1.svg";
 import pic2 from "./../assets/banners/svg/login2.svg";
-import pic3 from "./../assets/banners/svg/login3.svg";
-import { Link } from "react-router-dom";
-import Joi from "joi-browser"; 
-import Input from "../Components/Utllils/Input"; 
-import React, { Component } from 'react'
-
-export default class Signup extends Component {
+import pic3 from "./../assets/banners/svg/login3.svg"; 
+import { Carousel } from "react-responsive-carousel";
+import Joi from "joi-browser";  
+import axios from "axios";
+import Form from "../Components/Utllils/Form";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import { Link, Navigate } from "react-router-dom";
+import Logo from '../Components/Utllils/Logo';
+const MySwal = withReactContent(Swal);
+export default class Signup extends Form {
   state  = {
-    account: { firstname: "", lastname:"", email:"", password:""},
+    data: { name:"", email:"", password:""},
     errors : {}
   }
   schema = {
-    firstname: Joi.string().required().label("First Name"),
-    lastname: Joi.string().required().label("Last Name"),
+    name: Joi.string().required().label("Name"), 
     email: Joi.string().required().email().label("Email"),
     password: Joi.string().min(5).required().label("Password"),
   }
-  handleChange = ({currentTarget : input}) =>{
-    const account = {...this.state.account};
-    account[input.name] = input.value;
-    this.setState({account});
-  } 
-  validate = () => {
-    const { error } = Joi.validate(this.state.account, this.schema, {
-      abortEarly: false,
-    });
-    console.log(error);
-
-    // if no errors
-    if (!error) return null;
-
-    const errors = {};
-    for (let item of error.details) errors[item.path[0]] = item.message;
-    console.log(errors);
-    return errors;
-  };
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return false;
-
+  doSubmit = async () => {
     // call server
-    console.log("handle submit");
+    axios
+      .post(
+        "http://localhost:3004/api/users",
+        this.state.data
+        // {
+        //   headers: {
+        //     "Access-Control-Allow-Origin": "*",
+        //     "Access-Control-Allow-Headers": "*",
+        //     "Access-Control-Allow-Credentials": "true",
+        //   },
+        // },
+        // {
+        //   withCredentials: true,
+        // }
+      )
+      .then((response) => {
+        console.log(response);
+        if (response?.status === 200) {
+          MySwal.fire("Success!", "Successfully Registerd...!", "success"); 
+          // redirect to login 
+          <Navigate to="/login" replace={true}/>
+        }
+      })
+      .catch((response) => {
+        MySwal.fire("Error!", response?.response?.data, "error");
+      });
   };
+
   render() {
     const keyPoints = [
       {
@@ -68,8 +72,7 @@ export default class Signup extends Component {
         text: "The more effortless the writing looks, the more effort the writer actually put into the process.",
         pic: pic3,
       },
-    ];
-    const { account, errors , handleChange } = this.state;
+    ]; 
     return (
       <>
         <link
@@ -84,13 +87,7 @@ export default class Signup extends Component {
   
               <div className="col-md-7">
                 <div className="col-12 pt-4 pl-4">
-                  <Link class="navbar-bran" to="/">
-                    <img
-                      src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
-                      class="mx-2 my-3 auth-logo navbar-logo"
-                      alt="logo"
-                    />
-                  </Link>
+                  <Logo/>
                 </div>
                 <div
                   class="row d-flex justify-content-center align-items-center"
@@ -135,24 +132,17 @@ export default class Signup extends Component {
                     </div> */}
                     <hr data-content="AND" class="hr-text" />
                     <form
+                    onSubmit={this.handleSubmit}
                       method="POST"
-                      accept-charset="UTF-8"
+                      acceptCharset="UTF-8"
                       id="loginForm"
-                      class="login-form"
+                      class="login-form" 
                     >
                       <div class="">
-                      <Input name={"firstname"} value={account.firstname} label={"First Name"} onChange={handleChange}   error={errors.firstname} />
-                      <Input name={"lastname"} value={account.lasttname} label={"Last Name"}   error={errors.lastname} />
-                      <Input name={"email"} value={account.email} label={"Email"} type={"email"}   error={errors.email} />
-                      <Input name={"password"} value={account.password} label={"Password"} type={"password"} error={errors.password}
-                          />  
-  
-                        <div class="d-grid">
-                          <button
-                            class="btn btn-primary btn-block mt-2"
-                            onClick={this.handleSubmit}
-                          >Sign in</button>
-                        </div>
+                      {this.renderInput("name", "Name")}
+                      {this.renderInput("email", "Email", "email")} 
+                      {this.renderInput("password", "Password", "password")}
+                      {this.renderButton("Sign up")} 
                       </div>
                     </form>
                     <p class="">Copyright © 2022 </p>

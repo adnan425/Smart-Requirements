@@ -42,7 +42,7 @@ router.post('/', auth, async (req, res, next) => {
         try { 
             new Fawn.Task()
                 .save('users', stakeholder)
-                .update('projects', { _id: req.body.projectId },
+               project.update( { _id: req.body.projectId },
                     {
                         $set:
                             {  name: "khan" , _id: "638123380b27d0210d2af933"}

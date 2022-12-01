@@ -35,9 +35,9 @@ export default function PageHeader({ handleView="" , title = "Dashboard", icon =
               <li className="breadcrumb-item"> 
               <Link to="/">Dashboard</Link></li>
               <li className="breadcrumb-item">
-                <a href="">
+                <Link to="">
                   {title}
-                </a>
+                </Link>
               </li>
                
             </ul>

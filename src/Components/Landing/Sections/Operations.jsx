@@ -20,18 +20,18 @@ export default function operations() {
         }
     ]
     return (
-        <section class="features_card_sec pb-76px">
-            <div class="container">
-                <div class="section_title_wrapper extra_section_title_wrapper">
-                    <h1 class="main_title extra_features">
+        <section className="features_card_sec pb-76px">
+            <div className="container">
+                <div className="section_title_wrapper extra_section_title_wrapper">
+                    <h1 className="main_title extra_features">
                         Major Functionalities
                     </h1>
                 </div>
-                <div class="row">
+                <div className="row">
                    <Card lists={operationsList} />
                 </div>
-                <div class="btn_wrapper d-flex justify-content-center">
-                    <a target="_blank" href="h" class="demo-btn">
+                <div className="btn_wrapper d-flex justify-content-center">
+                    <a target="_blank" href="h" className="demo-btn">
                         <span>TRY SR FOR FREE!</span></a>
                 </div>
             </div>

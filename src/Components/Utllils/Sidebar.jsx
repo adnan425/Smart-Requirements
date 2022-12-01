@@ -2,7 +2,7 @@ import React from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import Logo from "./Logo";
 import SingleList from "./SingleList";
-const Sidebar = ({ items }) => {
+const Sidebar = ({ items  }) => {
   return (
     <nav className="dash-sidebar light-sidebar transprent-bg active dash-trigger">
       <div className="navbar-wrapper">

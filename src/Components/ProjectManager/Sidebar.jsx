@@ -11,7 +11,7 @@ export default function Sidebar({items : projects , onProjectSelect}) {
       {
         _id: 10,
         icon: "ti ti-plus",
-        title: "New Project", 
+        title: "New Project",  
       }
       ]
 

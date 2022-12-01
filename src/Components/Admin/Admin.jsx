@@ -7,7 +7,7 @@ export default function Admin() {
   return (
     <>
       <Leftbar />
-      <div class="main-content position-relative">
+      <div className="main-content position-relative">
         <Header />
         <Outlet />
         {/* render components */}

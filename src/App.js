@@ -1,14 +1,10 @@
 import Home from "./Pages/Home";
-import "./App.css";
-import Admin from "./Components/Admin/Admin"; 
-import Input from './Components/Utllils/Input';
+import "./App.css"; 
+ 
 function App() {
   return (
-    <>   
-      {/* <Admin /> */}
-      <Home />
-      {/* <Login/> */}
-
+    <>     
+      <Home />  
       <script src="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons-react/dist/index.umd.min.js"></script>
 
     </>

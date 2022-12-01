@@ -17,7 +17,8 @@ router.post('/', auth, async (req, res, next) => {
 
         const projectObj = {
             "managerId": managetId,
-            "title": req.body.title
+            "title": req.body.title,
+            "description": req.body.description
         };
         // validating all req body data
         const { error } = validateProject(projectObj);
@@ -27,15 +28,22 @@ router.post('/', auth, async (req, res, next) => {
         const manager = await User.findById(managetId);
         if (!manager) return res.status(400).send("Invalid Manager Id!");
 
+
         let project = new Project({
             title: req.body.title,
+            description: req.body.description,
             manager: {
                 _id: manager._id,
                 name: manager.name
-            }
+            },
+            status: "started"
         });
+        
+
         await project.save();
-        res.status(200).send(_.pick(project, ['_id', 'title', 'date', 'manager.name']));
+        res.status(200).send(project);
+
+        res.status(200).send(_.pick(project, ['_id', 'title', 'description','date', 'manager.name']));
 
     } catch (err) {
         next();
@@ -46,7 +54,7 @@ router.post('/', auth, async (req, res, next) => {
 //  GET | All Projects | ONLY ADMIN | USE ADMIN MIDDLEWARE FOR VERIFY 
 router.get('/', auth , async (req, res, next) => {
     try {
-        const projects = await Project.find().select('id title isCompleted date');
+        const projects = await Project.find().select('id title status date description');
         return res.status(200).send(projects);
     } catch (err) {
         next();
@@ -55,7 +63,7 @@ router.get('/', auth , async (req, res, next) => {
 //  GET | MY Projects | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.get('/me', auth, async (req, res, next) => {
     try {
-        const projects = await Project.find({_id : req.user._id}).select('id title isCompleted date');
+        const projects = await Project.find({_id : req.user._id}).select('id title status date');
         return res.status(200).send(projects);
     } catch (err) {
         next();

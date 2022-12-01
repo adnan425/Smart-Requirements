@@ -9,10 +9,14 @@ import axios from "axios";
 import Form from "../Components/Utllils/Form";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from '../Components/Utllils/Logo';
 const MySwal = withReactContent(Swal);
+
+
 export default class Signup extends Form {
+ redirect = useNavigate();
+
   state  = {
     data: { name:"", email:"", password:""},
     errors : {}
@@ -24,8 +28,7 @@ export default class Signup extends Form {
   }
   doSubmit = async () => {
     // call server
-    axios
-      .post(
+    axios.post(
         "http://localhost:3004/api/users",
         this.state.data
         // {
@@ -44,14 +47,13 @@ export default class Signup extends Form {
         if (response?.status === 200) {
           MySwal.fire("Success!", "Successfully Registerd...!", "success"); 
           // redirect to login 
-          <Navigate to="/login" replace={true}/>
+          this.redirect("/login");
         }
       })
       .catch((response) => {
         MySwal.fire("Error!", response?.response?.data, "error");
       });
   };
-
   render() {
     const keyPoints = [
       {
@@ -90,23 +92,23 @@ export default class Signup extends Form {
                   <Logo/>
                 </div>
                 <div
-                  class="row d-flex justify-content-center align-items-center"
+                  className="row d-flex justify-content-center align-items-center"
                   style={{
                     height: "80%",
                   }}
                 >
                   <div className="col-md-7 my-4">
-                    <div class="text-center">
-                      <h2 class="mb-3 f-w-600">Sign up to Smart Requirement</h2>
+                    <div className="text-center">
+                      <h2 className="mb-3 f-w-600">Sign up to Smart Requirement</h2>
                       <p className="lead text-center">
                         Sent, spend and save smarter
                       </p>
                     </div>
-                    {/* <div class="row ">
-                      <div class="col-6">
-                        <div class="d-grid">
-                          <a href="#" class="btn btn-danger btn-block mt-2">
-                            <i class="mx-3 fa fa-google"></i>{" "}
+                    {/* <div className="row ">
+                      <div className="col-6">
+                        <div className="d-grid">
+                          <a href="#" className="btn btn-danger btn-block mt-2">
+                            <i className="mx-3 fa fa-google"></i>{" "}
                             <span
                               className="d-none 
                              d-lg-inline-block d-xl-inline-block"
@@ -116,10 +118,10 @@ export default class Signup extends Form {
                           </a>
                         </div>
                       </div>
-                      <div class="col-6">
-                        <div class="d-grid">
-                          <a href="#" class="btn btn-danger btn-block mt-2">
-                            <i class="mx-3 fa fa-google"></i>{" "}
+                      <div className="col-6">
+                        <div className="d-grid">
+                          <a href="#" className="btn btn-danger btn-block mt-2">
+                            <i className="mx-3 fa fa-google"></i>{" "}
                             <span
                               className="d-none 
                              d-lg-inline-block d-xl-inline-block"
@@ -130,22 +132,22 @@ export default class Signup extends Form {
                         </div>
                       </div>
                     </div> */}
-                    <hr data-content="AND" class="hr-text" />
+                    <hr data-content="AND" className="hr-text" />
                     <form
                     onSubmit={this.handleSubmit}
                       method="POST"
                       acceptCharset="UTF-8"
                       id="loginForm"
-                      class="login-form" 
+                      className="login-form" 
                     >
-                      <div class="">
+                      <div className="">
                       {this.renderInput("name", "Name")}
                       {this.renderInput("email", "Email", "email")} 
                       {this.renderInput("password", "Password", "password")}
                       {this.renderButton("Sign up")} 
                       </div>
                     </form>
-                    <p class="">Copyright © 2022 </p>
+                    <p className="">Copyright © 2022 </p>
                   </div>
                 </div>
               </div>
@@ -159,15 +161,15 @@ export default class Signup extends Form {
                       {keyPoints.map((point) => {
                         return (
                           <div key={point.id}>
-                            <img src={point.pic} alt="banner" class="img-fluid" />
+                            <img src={point.pic} alt="banner" className="img-fluid" />
                             <div className="text-center">
-                              <h3 class="text-white mb-2 mt-5">
+                              <h3 className="text-white mb-2 mt-5">
                                 “{point.heading}”
                               </h3>
-                              <p class="text-white text-center">{point.text}</p>
-                              <div class="d-grid mb-4">
+                              <p className="text-white text-center">{point.text}</p>
+                              <div className="d-grid mb-4">
                                 <Link
-                                  class="btn btn-primary btn-block mt-2 mb-4"
+                                  className="btn btn-primary btn-block mt-2 mb-4"
                                   to={"/login"}
                                 >
                                   Sign In

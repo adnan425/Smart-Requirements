@@ -18,7 +18,6 @@ import Futures1 from "../Sections/Futures1";
 import Manage from "../Sections/Manage";
 import Contact from "../Sections/Contact";
 import Footer from "../Sections/Footer";
-
 export default function Layout({ children }) {
   return (
     <>

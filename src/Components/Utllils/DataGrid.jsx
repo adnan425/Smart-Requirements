@@ -7,23 +7,23 @@ export default function DataGrid({ list }) {
       {list.map((project) => {
         return (
           <>
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="card hover-shadow-lg">
-                <div class="card-header border-0 pb-0">
-                  <div class="d-flex justify-content-between align-items-center">
+            <div classname="col-xl-3 col-lg-4 col-sm-6">
+              <div classname="card hover-shadow-lg">
+                <div classname="card-header border-0 pb-0">
+                  <div classname="d-flex justify-content-between align-items-center">
                     <div>
                       <h6
-                        class="mb-0"
+                        classname="mb-0"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Start Date "
                       >
                         {project.start_date}
                       </h6>
                     </div>
-                    <div class="text-right">
-                      <div class="actions">
+                    <div classname="text-right">
+                      <div classname="actions">
                         <h6
-                          class="mb-0"
+                          classname="mb-0"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Due Date "
                         >
@@ -33,37 +33,37 @@ export default function DataGrid({ list }) {
                     </div>
                   </div>
                 </div>
-                <div class="card-body text-center">
-                  <h5 class=" my-4">
-                    <Link to={"project/" + project.id} class="text-dark">
+                <div classname="card-body text-center">
+                  <h5 classname=" my-4">
+                    <Link to={"project/" + project.id} classname="text-dark">
                       {project.name}
                     </Link>
                   </h5>
-                  <div class="avatar-group hover-avatar-ungroup mb-3">
-                    <a href="#" class="user-group1">
+                  <div classname="avatar-group hover-avatar-ungroup mb-3">
+                    <a href="#" classname="user-group1">
                       <img
                         src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-4.jpg"
-                        class=""
+                        classname=""
                         data-bs-toggle="tooltip"
                         title=""
                         data-bs-original-title="Anthony B Renfroe"
                         aria-label="Anthony B Renfroe"
                       />
                     </a>
-                    <a href="#" class="user-group1">
+                    <a href="#" classname="user-group1">
                       <img
                         src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-3_1663328248_1663672251.jpg"
-                        class=""
+                        classname=""
                         data-bs-toggle="tooltip"
                         title=""
                         data-bs-original-title="Keire"
                         aria-label="Keire"
                       />
                     </a>
-                    <a href="#" class="user-group1">
+                    <a href="#" classname="user-group1">
                       <img
                         src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-5.jpg"
-                        class=""
+                        classname=""
                         data-bs-toggle="tooltip"
                         title=""
                         data-bs-original-title="Adrienne J Reed"
@@ -71,7 +71,7 @@ export default function DataGrid({ list }) {
                       />
                     </a>
                   </div>
-                  <span class="clearfix"></span>
+                  <span classname="clearfix"></span>
                   <span
                     className={
                       "badge fix_badges bg-success p-2 px-3 rounded " +
@@ -81,42 +81,42 @@ export default function DataGrid({ list }) {
                     {project.status}
                   </span>
                 </div>
-                <div class="card-footer">
-                  <div class="actions d-flex justify-content-between px-4">
-                    <div class="action-btn bg-info ms-2">
+                <div classname="card-footer">
+                  <div classname="actions d-flex justify-content-between px-4">
+                    <div classname="action-btn bg-info ms-2">
                       <Link
                         to="edit"
-                        class="mx-3 btn btn-sm d-inline-flex align-items-center"
+                        classname="mx-3 btn btn-sm d-inline-flex align-items-center"
                         data-bs-whatever="Edit Project"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit"
                       >
                         {" "}
-                        <span class="text-white">
+                        <span classname="text-white">
                           {" "}
-                          <i class="ti ti-edit"></i>
+                          <i classname="ti ti-edit"></i>
                         </span>
                       </Link>
                     </div>
-                    <div class="action-btn bg-warning ms-2">
+                    <div classname="action-btn bg-warning ms-2">
                       <Link
                         to={"project/" + project.id}
-                        class="mx-3 btn btn-sm d-inline-flex align-items-center"
+                        classname="mx-3 btn btn-sm d-inline-flex align-items-center"
                         data-bs-whatever="View Project"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="View"
                       >
                         {" "}
-                        <span class="text-white">
+                        <span classname="text-white">
                           {" "}
-                          <i class="ti ti-eye"></i>
+                          <i classname="ti ti-eye"></i>
                         </span>
                       </Link>
                     </div>
-                    <div class="action-btn bg-danger ms-2">
-                      <button class="mx-3 btn btn-sm d-flex align-items-center show_confirm">
+                    <div classname="action-btn bg-danger ms-2">
+                      <button classname="mx-3 btn btn-sm d-flex align-items-center show_confirm">
                         <i
-                          class="ti ti-trash text-white"
+                          classname="ti ti-trash text-white"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Delete"
                         ></i>

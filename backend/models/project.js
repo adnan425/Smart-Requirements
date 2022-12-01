@@ -33,8 +33,18 @@ const projectSchema = new mongoose.Schema({
         trim: true,
         unique: true
     },
-    isCompleted: {
-        type: Boolean, default: false
+    description: {
+        type: String,
+        required: true,
+        minLength: 3,
+        maxLength: 255,
+        trim: true, 
+    },
+    status: {
+        type: String,
+        enum: ['started','pending','completed'],
+        lowercase: true,
+         default: 'started'
     },
     date: {
         type: Date, default: Date.now
@@ -44,7 +54,8 @@ const projectSchema = new mongoose.Schema({
 function validateProject(project) {
     const schema = Joi.object({
         managerId: Joi.objectId().required(),
-        title: Joi.string().min(3).max(255).required()
+        title: Joi.string().min(3).max(255).required(),
+        description: Joi.string().min(3).max(255).required()
     });
     return schema.validate(project);
 

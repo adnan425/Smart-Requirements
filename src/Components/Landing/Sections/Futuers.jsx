@@ -23,15 +23,15 @@ export default function Futuers() {
     },
   ];
   return (
-    <section class="features_card_sec pb-76px" id="content1">
-      <div class="container">
-        <div class="section_title_wrapper extra_section_title_wrapper">
-          <h1 class="main_title extra_features">
+    <section className="features_card_sec pb-76px" id="content1">
+      <div className="container">
+        <div className="section_title_wrapper extra_section_title_wrapper">
+          <h1 className="main_title extra_features">
             All The Maintenance Management Features You Need - In One Single
             Tool
           </h1>
         </div>
-        <div class="row">
+        <div className="row">
           <Card lists={futuersList} />
         </div>
       </div>

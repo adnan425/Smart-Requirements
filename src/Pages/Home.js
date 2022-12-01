@@ -12,6 +12,8 @@ import SrsTemplate from "../Components/Admin/Pages/SrsTemplate";
 import Suggesstion from "../Components/Admin/Pages/suggesstions";
 
 import Manager from '../Components/ProjectManager/Home';
+import NewProject from "../Components/ProjectManager/NewProject";
+import ManagerProject from '../Components/ProjectManager/Projects'
 import Stakeholder from '../Components/Stakeholder/Home';
 
 export default function Home() {
@@ -34,7 +36,8 @@ export default function Home() {
         </Route>
 
         <Route path="manager" element={<Manager />} >
-          <Route  index element={<Projects/>} />
+          <Route  index element={<ManagerProject/>} />
+          <Route  exact path="new" element={<NewProject/>} />
         </Route>
 
 

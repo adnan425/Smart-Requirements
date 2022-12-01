@@ -71,14 +71,14 @@ export default function Output() {
     },
   ];
   return (
-    <section class="slider-with-listing dark-back">
-      <div class="container">
-        <div class="title_wrapper">
-          <h1 class="main_title">
+    <section className="slider-with-listing dark-back">
+      <div className="container">
+        <div className="title_wrapper">
+          <h1 className="main_title">
             Smart Req<span> YOUR PRODUCTIVITY AND OUTPUT</span>
           </h1>
         </div>
-        <div class="listing-slider-one">
+        <div className="listing-slider-one">
           <Banner list={outputList} />
         </div>
       </div>

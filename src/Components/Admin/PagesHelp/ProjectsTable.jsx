@@ -2,9 +2,9 @@ import React from "react";
 
 export default function ProjectsTable() {
   return (
-    <div class="dash-container">
+    <div className="dash-container">
       <div
-        class="modal fade"
+        className="modal fade"
         id="commonModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
@@ -12,36 +12,36 @@ export default function ProjectsTable() {
         aria-modal="true"
         role="dialog"
       >
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog modal-lg" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Create New Project
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="body">
+            <div className="body">
               <form
                 method="POST"
                 action="https://demo.rajodiya.com/erpgo-saas/projects"
                 accept-charset="UTF-8"
                 enctype="multipart/form-data"
               >
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                      <div class="form-group">
-                        <label for="project_name" class="form-label">
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-12">
+                      <div className="form-group">
+                        <label for="project_name" className="form-label">
                           Project Name
                         </label>
-                        <span class="text-danger">*</span>
+                        <span className="text-danger">*</span>
                         <input
-                          class="form-control"
+                          className="form-control"
                           required="required"
                           name="project_name"
                           type="text"
@@ -50,27 +50,27 @@ export default function ProjectsTable() {
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                      <div class="form-group">
-                        <label for="start_date" class="form-label">
+                  <div className="row">
+                    <div className="col-sm-6 col-md-6">
+                      <div className="form-group">
+                        <label for="start_date" className="form-label">
                           Start Date
                         </label>
                         <input
-                          class="form-control"
+                          className="form-control"
                           name="start_date"
                           type="date"
                           id="start_date"
                         />
                       </div>
                     </div>
-                    <div class="col-sm-6 col-md-6">
-                      <div class="form-group">
-                        <label for="end_date" class="form-label">
+                    <div className="col-sm-6 col-md-6">
+                      <div className="form-group">
+                        <label for="end_date" className="form-label">
                           End Date
                         </label>
                         <input
-                          class="form-control"
+                          className="form-control"
                           name="end_date"
                           type="date"
                           id="end_date"
@@ -78,29 +78,29 @@ export default function ProjectsTable() {
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="form-group col-sm-12 col-md-12">
-                      <label for="project_image" class="form-label">
+                  <div className="row">
+                    <div className="form-group col-sm-12 col-md-12">
+                      <label for="project_image" className="form-label">
                         Project Image
                       </label>
-                      <span class="text-danger">*</span>
-                      <div class="form-file mb-3">
+                      <span className="text-danger">*</span>
+                      <div className="form-file mb-3">
                         <input
                           type="file"
-                          class="form-control"
+                          className="form-control"
                           name="project_image"
                           required=""
                         />
                       </div>
                     </div>
-                    <div class="col-sm-6 col-md-6">
-                      <div class="form-group">
-                        <label for="client" class="form-label">
+                    <div className="col-sm-6 col-md-6">
+                      <div className="form-group">
+                        <label for="client" className="form-label">
                           Client
                         </label>
-                        <span class="text-danger">*</span>
+                        <span className="text-danger">*</span>
                         <select
-                          class="form-control"
+                          className="form-control"
                           required="required"
                           id="client"
                           name="client"
@@ -121,14 +121,14 @@ export default function ProjectsTable() {
                         </select>
                       </div>
                     </div>
-                    <div class="col-sm-6 col-md-6">
-                      <div class="form-group">
-                        <label for="user" class="form-label">
+                    <div className="col-sm-6 col-md-6">
+                      <div className="form-group">
+                        <label for="user" className="form-label">
                           User
                         </label>
-                        <span class="text-danger">*</span>
+                        <span className="text-danger">*</span>
                         <select
-                          class="form-control"
+                          className="form-control"
                           required="required"
                           name="user[]"
                         >
@@ -148,26 +148,26 @@ export default function ProjectsTable() {
                         </select>
                       </div>
                     </div>
-                    <div class="col-sm-6 col-md-6">
-                      <div class="form-group">
-                        <label for="budget" class="form-label">
+                    <div className="col-sm-6 col-md-6">
+                      <div className="form-group">
+                        <label for="budget" className="form-label">
                           Budget
                         </label>
                         <input
-                          class="form-control"
+                          className="form-control"
                           name="budget"
                           type="number"
                           id="budget"
                         />
                       </div>
                     </div>
-                    <div class="col-6 col-md-6">
-                      <div class="form-group">
-                        <label for="estimated_hrs" class="form-label">
+                    <div className="col-6 col-md-6">
+                      <div className="form-group">
+                        <label for="estimated_hrs" className="form-label">
                           Estimated Hours
                         </label>
                         <input
-                          class="form-control"
+                          className="form-control"
                           min="0"
                           maxlength="8"
                           name="estimated_hrs"
@@ -177,14 +177,14 @@ export default function ProjectsTable() {
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                      <div class="form-group">
-                        <label for="description" class="form-label">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-12">
+                      <div className="form-group">
+                        <label for="description" className="form-label">
                           Description
                         </label>
                         <textarea
-                          class="form-control"
+                          className="form-control"
                           rows="4"
                           cols="50"
                           name="description"
@@ -193,14 +193,14 @@ export default function ProjectsTable() {
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                      <div class="form-group">
-                        <label for="tag" class="form-label">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-12">
+                      <div className="form-group">
+                        <label for="tag" className="form-label">
                           Tag
                         </label>
                         <input
-                          class="form-control"
+                          className="form-control"
                           data-toggle="tags"
                           name="tag"
                           type="text"
@@ -209,16 +209,16 @@ export default function ProjectsTable() {
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                      <div class="form-group">
-                        <label for="status" class="form-label">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-12">
+                      <div className="form-group">
+                        <label for="status" className="form-label">
                           Status
                         </label>
                         <select
                           name="status"
                           id="status"
-                          class="form-control main-element"
+                          className="form-control main-element"
                         >
                           <option value="in_progress">In Progress</option>
                           <option value="on_hold">On Hold</option>
@@ -229,17 +229,17 @@ export default function ProjectsTable() {
                     </div>
                   </div>
                 </div>
-                <div class="modal-footer">
+                <div className="modal-footer">
                   <input
                     type="button"
                     value="Cancel"
-                    class="btn  btn-light"
+                    className="btn  btn-light"
                     data-bs-dismiss="modal"
                   />
                   <input
                     type="submit"
                     value="Create"
-                    class="btn  btn-primary"
+                    className="btn  btn-primary"
                   />
                 </div>
               </form>
@@ -247,116 +247,116 @@ export default function ProjectsTable() {
           </div>
         </div>
       </div>
-      <div class="dash-content">
-        <div class="page-header">
-          <div class="page-block">
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <div class="page-header-title">
-                  <h4 class="m-b-10"> Manage Projects</h4>
+      <div className="dash-content">
+        <div className="page-header">
+          <div className="page-block">
+            <div className="row align-items-center">
+              <div className="col-auto">
+                <div className="page-header-title">
+                  <h4 className="m-b-10"> Manage Projects</h4>
                 </div>
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item">
+                <ul className="breadcrumb">
+                  <li className="breadcrumb-item">
                     <a href="https://demo.rajodiya.com/erpgo-saas/account-dashboard">
                       Dashboard
                     </a>
                   </li>
-                  <li class="breadcrumb-item">Projects</li>
+                  <li className="breadcrumb-item">Projects</li>
                 </ul>
               </div>
-              <div class="col">
-                <div class="float-end">
+              <div className="col">
+                <div className="float-end">
                   <a
                     href="https://demo.rajodiya.com/erpgo-saas/projects"
                     data-bs-toggle="tooltip"
                     title=""
-                    class="btn btn-sm btn-primary"
+                    className="btn btn-sm btn-primary"
                     data-bs-original-title="Grid View"
                   >
-                    <i class="ti ti-layout-grid"></i>
+                    <i className="ti ti-layout-grid"></i>
                   </a>
 
                   <a
                     href="#"
-                    class="btn btn-sm btn-primary action-item"
+                    className="btn btn-sm btn-primary action-item"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <i class="ti ti-filter"></i>
+                    <i className="ti ti-filter"></i>
                   </a>
-                  <div class="dropdown-menu  dropdown-steady" id="project_sort">
+                  <div className="dropdown-menu  dropdown-steady" id="project_sort">
                     <a
-                      class="dropdown-item active"
+                      className="dropdown-item active"
                       href="#"
                       data-val="created_at-desc"
                     >
-                      <i class="ti ti-sort-descending"></i>Newest
+                      <i className="ti ti-sort-descending"></i>Newest
                     </a>
-                    <a class="dropdown-item" href="#" data-val="created_at-asc">
-                      <i class="ti ti-sort-ascending"></i>Oldest
+                    <a className="dropdown-item" href="#" data-val="created_at-asc">
+                      <i className="ti ti-sort-ascending"></i>Oldest
                     </a>
 
                     <a
-                      class="dropdown-item"
+                      className="dropdown-item"
                       href="#"
                       data-val="project_name-desc"
                     >
-                      <i class="ti ti-sort-descending-letters"></i>From Z-A
+                      <i className="ti ti-sort-descending-letters"></i>From Z-A
                     </a>
                     <a
-                      class="dropdown-item"
+                      className="dropdown-item"
                       href="#"
                       data-val="project_name-asc"
                     >
-                      <i class="ti ti-sort-ascending-letters"></i>From A-Z
+                      <i className="ti ti-sort-ascending-letters"></i>From A-Z
                     </a>
                   </div>
 
                   <a
                     href="#"
-                    class="btn btn-sm btn-primary action-item"
+                    className="btn btn-sm btn-primary action-item"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <span class="btn-inner--icon">Status</span>
+                    <span className="btn-inner--icon">Status</span>
                   </a>
                   <div
-                    class="dropdown-menu project-filter-actions dropdown-steady"
+                    className="dropdown-menu project-filter-actions dropdown-steady"
                     id="project_status"
                   >
                     <a
-                      class="dropdown-item filter-action filter-show-all pl-4 active"
+                      className="dropdown-item filter-action filter-show-all pl-4 active"
                       href="#"
                     >
                       Show All
                     </a>
                     <a
-                      class="dropdown-item filter-action pl-4"
+                      className="dropdown-item filter-action pl-4"
                       href="#"
                       data-val="in_progress"
                     >
                       In Progress
                     </a>
                     <a
-                      class="dropdown-item filter-action pl-4"
+                      className="dropdown-item filter-action pl-4"
                       href="#"
                       data-val="on_hold"
                     >
                       On Hold
                     </a>
                     <a
-                      class="dropdown-item filter-action pl-4"
+                      className="dropdown-item filter-action pl-4"
                       href="#"
                       data-val="complete"
                     >
                       Complete
                     </a>
                     <a
-                      class="dropdown-item filter-action pl-4"
+                      className="dropdown-item filter-action pl-4"
                       href="#"
                       data-val="canceled"
                     >
@@ -371,18 +371,18 @@ export default function ProjectsTable() {
                     data-ajax-popup="true"
                     data-bs-toggle="tooltip"
                     title=""
-                    class="btn btn-sm btn-primary"
+                    className="btn btn-sm btn-primary"
                     data-bs-original-title="Create New Project"
                   >
-                    <i class="ti ti-plus"></i>
+                    <i className="ti ti-plus"></i>
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row min-750" id="project_view">
-          <div class="row">
+        <div className="row min-750" id="project_view">
+          <div className="row">
 
           </div>
         </div>

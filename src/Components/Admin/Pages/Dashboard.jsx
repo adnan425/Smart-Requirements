@@ -159,7 +159,7 @@ export default function Dashboard() {
                                               Target
                                             </span>
                                             <h6 className="mb-3 mb-sm-0">
-                                            <a href="#" class="avatar rounded-circle">
+                                            <a href="#" className="avatar rounded-circle">
                                             <img src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-8.jpg"
                                              title="Rajodiya Infotech" style={{height:"36px",width:"36px"}}/>
                                                         </a>

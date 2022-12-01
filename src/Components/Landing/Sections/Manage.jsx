@@ -28,9 +28,9 @@ export default function Manage() {
     },
   ];
   return (
-    <section class="managing-buss-section">
-      <div class="container">
-        <div class="section_title_wrapper text-center">
+    <section className="managing-buss-section">
+      <div className="container">
+        <div className="section_title_wrapper text-center">
           <h2>
             KEEP YOUR BUSINESS <span>RUNNING</span> LIKE A WELL OILED MACHINE
           </h2>
@@ -39,13 +39,13 @@ export default function Manage() {
             maintenance.
           </h4>
         </div>
-        <div class="managing-staff-slider">
-          <div class="managing-staff-item">
-            <div class="row">
+        <div className="managing-staff-slider">
+          <div className="managing-staff-item">
+            <div className="row">
               {keyFutures.map((futuers) => {
                 return (
-                  <div class="col-md-4 col-sm-6 col-12 staff-manage-box mb-2" key={futuers.id}>
-                    <div class="staff-manage-box-inner">
+                  <div className="col-md-4 col-sm-6 col-12 staff-manage-box mb-2" key={futuers.id}>
+                    <div className="staff-manage-box-inner">
                       <h3>{futuers.heading}</h3>
                       <p> {futuers.description}  </p>
                     </div>

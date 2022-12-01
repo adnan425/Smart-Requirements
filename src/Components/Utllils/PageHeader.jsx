@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
-export default function PageHeader({handleView = ""}) {
+export default function PageHeader({ handleView="" , title = "Dashboard", icon = ""}) {
+  
   return (
     <div className="page-header">
       <div className="page-block">
@@ -12,48 +14,32 @@ export default function PageHeader({handleView = ""}) {
                   {" "}
                   <div className="d-inline-block">
                     <h5 className="h4 d-inline-block font-weight-400 mb-0">
-                      Project Reports
+                      {title}
                     </h5>
                   </div>
                 </h4>
               </div>
               <div className="col-auto">
+
                 <button
-                  onClick={handleView}
+                  onClick={(handleView==="") ? "{JavaScript:Void(0)}" : handleView}
                   className="btn btn-sm btn-primary btn-icon m-1"
                   data-bs-toggle="tooltip"
                   data-bs-original-title="Grid View"
                 >
-                  <i className="ti ti-layout-grid text-white"></i>
-                </button>
-                <a
-                  href="https://demo.rajodiya.com/crmgo-saas/project/create"
-                  className="btn btn-sm btn-primary btn-icon m-1"
-                  data-bs-whatever="Create New Project"
-                  data-bs-toggle="tooltip"
-                  data-bs-original-title="Create"
-                >
-                  {" "}
-                  <i className="ti ti-plus text-white"></i>
-                </a>
+                  <i className={icon}></i>
+                </button> 
               </div>
             </div>
             <ul className="breadcrumb">
-              <li className="breadcrumb-item"> </li>
-              <a href=""></a>
+              <li className="breadcrumb-item"> 
+              <Link to="/">Dashboard</Link></li>
               <li className="breadcrumb-item">
                 <a href="">
-                  Dashboard
+                  {title}
                 </a>
               </li>
-              <li className="breadcrumb-item">
-                <a href="https://demo.rajodiya.com/crmgo-saas/project_report">
-                  Project Report
-                </a>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Project Details
-              </li>
+               
             </ul>
           </div>
         </div>

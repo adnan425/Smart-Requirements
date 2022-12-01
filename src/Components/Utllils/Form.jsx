@@ -43,6 +43,8 @@ export default class Form extends Component {
     const data = { ...this.state.data };
     data[input.name] = input.value;
     this.setState({ errors, data });
+    
+
   };
   renderButton(label) {
     return (

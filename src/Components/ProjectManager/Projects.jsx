@@ -5,11 +5,11 @@ import PageHeader from "../Utllils/PageHeader";
 export default class Projects extends Component {
 
   state = {
-    listView : true
+    gridView : true
   }
   // For change the view  | GRID VIEW | LIST VIEW
   handleClick = () => {
-    this.state.listView === true ? (this.setState({listView : false})) : (this.setState({listView : true}));
+    this.state.gridView === true ? (this.setState({gridView : false})) : (this.setState({gridView : true}));
   };
   render(){
     const projectsList = [
@@ -79,16 +79,17 @@ export default class Projects extends Component {
         classes: "bg-primary",
       },
     ];
+    const { gridView } = this.state;
     return (
       <>
         <div className="page-content">
           <div className="dash-container">
             <div className="dash-content">
-            <PageHeader handleView={this.handleClick} />
+            <PageHeader handleView={this.handleClick}  title="All Projects" icon={(gridView) ? "ti ti-layout-grid" : "ti ti-list" } />
               <div className="row min-750" id="project_view">
                 <div className="row">
-                   { this.state.listView && <DataList list={projectsList} /> }
-                   { !this.state.listView && <DataGrid list={projectsList} /> }
+                   { !gridView && <DataList list={projectsList} /> }
+                   { gridView && <DataGrid list={projectsList} /> }
                 </div>
               </div>
               {/* <!-- [ Main Content ] end --> */}

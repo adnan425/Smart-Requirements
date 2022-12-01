@@ -2,78 +2,78 @@ import React from 'react'
 
 export default function Details() {
     return (
-        <section class="product_detail_main">
-            <div class="container">
-                <div class="heading extra_heading mt-3">
+        <section className="product_detail_main">
+            <div className="container">
+                <div className="heading extra_heading mt-3">
                     <h1>
                         Run Your Business <span>Smoothly</span> With a Tool That <span>Saves</span> You Time &amp;
                         Money
                     </h1>
                 </div>
-                <div class="row product_main_details mt-0">
-                    <div class="col-xl-7 col-lg-7 col-md-12">
-                        <div class="main_product_img desktop_view">
-                            <div class="product_preview">
+                <div className="row product_main_details mt-0">
+                    <div className="col-xl-7 col-lg-7 col-md-12">
+                        <div className="main_product_img desktop_view">
+                            <div className="product_preview">
                                 <a target="_blank" href="https://demo.rajodiya.com/cmmsgo/login"
-                                    class="custome_btn">Live
+                                    className="custome_btn">Live
                                     preview</a>
 
                             </div>
-                            <div class="product_img">
+                            <div className="product_img">
                                 <img src="images/cmmsgo-image2.png" alt="" />
                             </div>
 
                         </div>
                     </div>
-                    <div class="col-xl-5 col-lg-5 col-md-12">
-                        <div class="product_info">
-                            <div class="title_desc">
+                    <div className="col-xl-5 col-lg-5 col-md-12">
+                        <div className="product_info">
+                            <div className="title_desc">
 
-                                <h1 class="title">CMMSGo is the most effective way to manage your maintenance
+                                <h1 className="title">CMMSGo is the most effective way to manage your maintenance
                                     operations.</h1>
-                                <div class="description">
+                                <div className="description">
                                     <p>With CMMSGo, you can maximize production and solve maintenance issues in a
                                         breeze. CMMSGo is equipped with tons of customizable features, and
                                         everything you need is at your fingertips.</p>
                                 </div>
                             </div>
                             {/* <!-- mobile_view_product_image start --> */}
-                            <div class="main_product_img mobile_view">
-                                <div class="product_img">
+                            <div className="main_product_img mobile_view">
+                                <div className="product_img">
                                     <img src="assets/images/cmmsgo-image2.png" alt="" />
                                 </div>
-                                <div class="product_preview">NDE
+                                <div className="product_preview">NDE
                                     <a target="_blank" href="https://demo.rajodiya.com/cmmsgo/login"
-                                        class="custome_btn">Live preview</a>
+                                        className="custome_btn">Live preview</a>
 
                                 </div>
                             </div>
                             {/* <!-- mobile_view_product_image end--> */}
 
-                            <div class="price_rate">
-                                <div class="users_rating">
-                                    <div class="tag_lines">
+                            <div className="price_rate">
+                                <div className="users_rating">
+                                    <div className="tag_lines">
                                         <p>Fully Verified Ratings <br /> Trusted by Hundreds of Happy Users.</p>
-                                        <ul class="rating_star">
-                                            <li class="star">
+                                        <ul className="rating_star">
+                                            <li className="star">
                                             </li>
-                                            <li class="star">
+                                            <li className="star">
                                             </li>
-                                            <li class="star">
+                                            <li className="star">
                                             </li>
-                                            <li class="star">
+                                            <li className="star">
                                             </li>
-                                            <li class="star">
+                                            <li className="star">
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="price_cartbtn unbeatable-btns">
-                                    <span class="price"><span class="f-size">Only</span>
+                                <div className="price_cartbtn unbeatable-btns">
+                                    <span className="price"><span className="f-size">Only</span>
                                         $19</span>
                                     <a target="_blank"
                                         href="https://codecanyon.net/checkout/from_item/36662539?license=regular&amp;support=bundle_6month"
-                                        class="custome_btn extend-license-btn">
+                                        className="custome_btn extend-license-btn">
                                         <span>Get Access Now!</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="28"
                                             viewbox="0 0 27 28" fill="none">

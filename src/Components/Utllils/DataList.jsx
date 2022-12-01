@@ -80,7 +80,7 @@ export default function DataList({ list }) {
                         </td> */}
                         <td>
             
-                         <div class="user-group"> 
+                         <div className="user-group"> 
                                <img src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-1.jpg" 
                                 data-bs-toggle="tooltip" title="" data-bs-original-title="Rajodiya Infotech"
                                  aria-label="Rajodiya Infotech"/> 
@@ -112,31 +112,31 @@ export default function DataList({ list }) {
                             {project.status}
                           </span>
                         </td>
-                        <td class="text-right"> 
-                          <div class="action-btn bg-warning ms-2">
+                        <td className="text-right"> 
+                          <div className="action-btn bg-warning ms-2">
                             <button
                               href="#"
-                              class="mx-3 btn btn-sm d-inline-flex align-items-center"
+                              className="mx-3 btn btn-sm d-inline-flex align-items-center"
                               data-bs-whatever="View Project"
                               data-bs-toggle="tooltip"
                               data-bs-original-title="View"
                             >
                               {" "}
-                              <span class="text-white">
+                              <span className="text-white">
                                 {" "}
-                                <i class="ti ti-eye"></i>
+                                <i className="ti ti-eye"></i>
                               </span>
                             </button>
                           </div>
 
-                          <div class="action-btn bg-danger ms-2">
+                          <div className="action-btn bg-danger ms-2">
                             
                               <button
                                 href="#!"
-                                class="mx-3 btn btn-sm d-flex align-items-center show_confirm"
+                                className="mx-3 btn btn-sm d-flex align-items-center show_confirm"
                               >
                                 <i
-                                  class="ti ti-trash text-white"
+                                  className="ti ti-trash text-white"
                                   data-bs-toggle="tooltip"
                                   data-bs-original-title="Delete"
                                 ></i>

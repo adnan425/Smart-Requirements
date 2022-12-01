@@ -40,7 +40,7 @@ export default function SingleProject() {
                                     <div
                                       className="progress-bar bg-info"
                                       role="progressbar"
-                                      ariaValuenow="60%"
+                                      aria-valuenow="60%"
                                       aria-valuemin="0"
                                       aria-valuemax="100"
                                       style={{ width: "60%" }}
@@ -151,7 +151,7 @@ export default function SingleProject() {
                                       ></path>
                                       <path
                                         className="circle"
-                                        stroke-dasharray="33, 100"
+                                        strokeDasharray="33, 100"
                                         d="M18 2.0845 
                                                         a 15.9155 15.9155 0 0 1 0 31.831
                                                         a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -199,7 +199,7 @@ export default function SingleProject() {
                               id="milestone-chart"
                               className="chart-canvas chartjs-render-monitor"
                               height="150"
-                              style={{ minHeight: "228.5px;" }}
+                              style={{ minHeight: "228.5px" }}
                             >
                               <div
                                 id="apexchartsk274h63a"
@@ -235,9 +235,9 @@ export default function SingleProject() {
                                           rx="0"
                                           ry="0"
                                           opacity="1"
-                                          stroke-width="0"
+                                          strokeWidth="0"
                                           stroke="none"
-                                          stroke-dasharray="0"
+                                          strokeDasharray="0"
                                           fill="#fff"
                                         ></rect>
                                       </clipPath>
@@ -253,9 +253,9 @@ export default function SingleProject() {
                                           rx="0"
                                           ry="0"
                                           opacity="1"
-                                          stroke-width="0"
+                                          strokeWidth="0"
                                           stroke="none"
-                                          stroke-dasharray="0"
+                                          strokeDasharray="0"
                                           fill="#fff"
                                         ></rect>
                                       </clipPath>
@@ -278,14 +278,14 @@ export default function SingleProject() {
                                               id="apexcharts-radialbarTrack-0"
                                               d="M 90.1829268292683 237.49999999999997 A 147.3170731707317 147.3170731707317 0 0 1 384.8170731707317 237.5"
                                               fill="none"
-                                              fill-opacity="1"
+                                              fillOpacity="1"
                                               stroke="rgba(231,231,231,0.85)"
-                                              stroke-opacity="1"
-                                              stroke-linecap="butt"
-                                              stroke-width="51.33902439024391"
-                                              stroke-dasharray="0"
+                                              strokeOpacity="1"
+                                              strokeLinecap="butt"
+                                              strokeWidth="51.33902439024391"
+                                              strokeDasharray="0"
                                               className="apexcharts-radialbar-area"
-                                              pathOrig="M 90.1829268292683 237.49999999999997 A 147.3170731707317 147.3170731707317 0 0 1 384.8170731707317 237.5"
+                                              pathorig="M 90.1829268292683 237.49999999999997 A 147.3170731707317 147.3170731707317 0 0 1 384.8170731707317 237.5"
                                             ></path>
                                           </g>
                                         </g>
@@ -293,26 +293,26 @@ export default function SingleProject() {
                                           <g
                                             id="SvgjsG5104"
                                             className="apexcharts-series apexcharts-radial-series"
-                                            seriesName="Progress"
+                                            seriesname="Progress"
                                             rel="1"
-                                            realIndex="0"
+                                            realindex="0"
                                           >
                                             <path
                                               id="SvgjsPath5105"
                                               d="M 90.1829268292683 237.49999999999997 A 147.3170731707317 147.3170731707317 0 0 1 204.36086906739163 93.95865387066291"
                                               fill="none"
-                                              fill-opacity="0.85"
+                                              fillOpacity="0.85"
                                               stroke="rgba(81,69,157,0.85)"
-                                              stroke-opacity="1"
-                                              stroke-linecap="butt"
-                                              stroke-width="52.926829268292686"
-                                              stroke-dasharray="0"
+                                              strokeOpacity="1"
+                                              strokeLinecap="butt"
+                                              strokeWidth="52.926829268292686"
+                                              strokeDasharray="0"
                                               className="apexcharts-radialbar-area apexcharts-radialbar-slice-0"
                                               angle="77"
                                               value="43"
                                               index="0"
                                               j="0"
-                                              pathOrig="M 90.1829268292683 237.49999999999997 A 147.3170731707317 147.3170731707317 0 0 1 204.36086906739163 93.95865387066291"
+                                              pathorig="M 90.1829268292683 237.49999999999997 A 147.3170731707317 147.3170731707317 0 0 1 204.36086906739163 93.95865387066291"
                                             ></path>
                                           </g>
                                           <circle
@@ -331,11 +331,11 @@ export default function SingleProject() {
                                           >
                                             <text
                                               id="SvgjsText5102"
-                                              font-family="Helvetica, Arial, sans-serif"
+                                              fontFamily="Helvetica, Arial, sans-serif"
                                               x="237.5"
                                               y="237.5"
-                                              text-anchor="middle"
-                                              dominant-baseline="auto"
+                                              textAnchor="middle"
+                                              dominantBaseline="auto"
                                               fontSize="16px"
                                               fontWeight="600"
                                               fill="#51459d"
@@ -349,13 +349,13 @@ export default function SingleProject() {
                                             </text>
                                             <text
                                               id="SvgjsText5103"
-                                              font-family="Helvetica, Arial, sans-serif"
+                                              fontFamily="Helvetica, Arial, sans-serif"
                                               x="237.5"
                                               y="203.5"
-                                              text-anchor="middle"
-                                              dominant-baseline="auto"
-                                              font-size="20px"
-                                              font-weight="400"
+                                              textAnchor="middle"
+                                              dominantBaseline="auto"
+                                              fontSize="20px"
+                                              fontWeight="400"
                                               fill="#373d3f"
                                               className="apexcharts-text apexcharts-datalabel-value"
                                               style={{
@@ -376,9 +376,9 @@ export default function SingleProject() {
                                       x2="475"
                                       y2="0"
                                       stroke="#b6b6b6"
-                                      stroke-dasharray="0"
-                                      stroke-width="1"
-                                      stroke-linecap="butt"
+                                      strokeDasharray="0"
+                                      strokeWidth="1"
+                                      strokeLinecap="butt"
                                       className="apexcharts-ycrosshairs"
                                     ></line>
                                     <line
@@ -387,9 +387,9 @@ export default function SingleProject() {
                                       y1="0"
                                       x2="475"
                                       y2="0"
-                                      stroke-dasharray="0"
-                                      stroke-width="0"
-                                      stroke-linecap="butt"
+                                      strokeDasharray="0"
+                                      strokeWidth="0"
+                                      strokeLinecap="butt"
                                       className="apexcharts-ycrosshairs-hidden"
                                     ></line>
                                   </g>
@@ -461,7 +461,7 @@ export default function SingleProject() {
                                     <form
                                       method="POST"
                                       action="https://demo.rajodiya.com/erpgo-saas/projects/21/users/2"
-                                      accept-charset="UTF-8"
+                                      acceptCharset="UTF-8"
                                     >
                                       <input
                                         name="_method"
@@ -532,7 +532,7 @@ export default function SingleProject() {
                                     <form
                                       method="POST"
                                       action="https://demo.rajodiya.com/erpgo-saas/projects/milestone/17"
-                                      accept-charset="UTF-8"
+                                      acceptCharset="UTF-8"
                                     >
                                       <input
                                         name="_method"

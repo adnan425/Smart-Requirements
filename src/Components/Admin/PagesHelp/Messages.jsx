@@ -2,53 +2,53 @@ import React from "react";
 
 export default function Messages() {
   return (
-    <div class="dash-container">
-      <div class="dash-content">
-        <div class="page-header">
-          <div class="page-block">
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <div class="page-header-title">
-                  <h4 class="m-b-10"> Messenger</h4>
+    <div className="dash-container">
+      <div className="dash-content">
+        <div className="page-header">
+          <div className="page-block">
+            <div className="row align-items-center">
+              <div className="col-auto">
+                <div className="page-header-title">
+                  <h4 className="m-b-10"> Messenger</h4>
                 </div>
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item">
+                <ul className="breadcrumb">
+                  <li className="breadcrumb-item">
                     <a href="https://demo.rajodiya.com/erpgo-saas/account-dashboard">
                       Dashboard
                     </a>
                   </li>
-                  <li class="breadcrumb-item">Messenger</li>
+                  <li className="breadcrumb-item">Messenger</li>
                 </ul>
               </div>
-              <div class="col"></div>
+              <div className="col"></div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="messenger">
-                  <div class="messenger-listView">
-                    <div class="m-header">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="card">
+              <div className="card-body">
+                <div className="messenger">
+                  <div className="messenger-listView">
+                    <div className="m-header">
                       <nav>
-                        <nav class="m-header-right">
-                          <a href="#" class="listView-x">
-                            <i class="fas fa-times"></i>
+                        <nav className="m-header-right">
+                          <a href="#" className="listView-x">
+                            <i className="fas fa-times"></i>
                           </a>
                         </nav>
                       </nav>
 
                       <input
                         type="text"
-                        class="messenger-search"
+                        className="messenger-search"
                         placeholder="Search"
                       />
 
-                      <div class="messenger-listView-tabs">
-                        <a href="#" class="active-tab" data-view="users">
+                      <div className="messenger-listView-tabs">
+                        <a href="#" className="active-tab" data-view="users">
                           {/* <svg
-                            class="svg-inline--fa fa-clock fa-w-16"
+                            className="svg-inline--fa fa-clock fa-w-16"
                             title="Recent"
                             aria-labelledby="svg-inline--fa-title-JoqPdtylaC0E"
                             data-prefix="fas"
@@ -69,7 +69,7 @@ export default function Messages() {
                         </a>
                         <a href="#" data-view="groups">
                           {/* <svg
-                            class="svg-inline--fa fa-users fa-w-20"
+                            className="svg-inline--fa fa-users fa-w-20"
                             title="Members"
                             aria-labelledby="svg-inline--fa-title-uU5Ic3YEEZcH"
                             data-prefix="fas"
@@ -91,38 +91,38 @@ export default function Messages() {
                       </div>
                     </div>
 
-                    <div class="m-body">
+                    <div className="m-body">
                       <div
-                        class=" show  messenger-tab app-scroll"
+                        className=" show  messenger-tab app-scroll"
                         data-view="users"
                       >
-                        <div class="favorites-section">
-                          <p class="messenger-title">Favorites</p>
-                          <div class="messenger-favorites app-scroll-thin">
-                            <div class="favorite-list-item">
+                        <div className="favorites-section">
+                          <p className="messenger-title">Favorites</p>
+                          <div className="messenger-favorites app-scroll-thin">
+                            <div className="favorite-list-item">
                               <div 
-                                class="avatar av-m"
+                                className="avatar av-m"
                                 // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-7.jpg');"
                               ></div>
                               <p>Rana B..</p>
                             </div>
-                            <div class="favorite-list-item">
+                            <div className="favorite-list-item">
                               <div 
-                                class="avatar av-m"
+                                className="avatar av-m"
                                 style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-1.jpg');"
                               ></div>
                               <p>Richar..</p>
                             </div>
-                            <div class="favorite-list-item">
+                            <div className="favorite-list-item">
                               <div 
-                                class="avatar av-m"
+                                className="avatar av-m"
                                 // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-3.jpg');"
                               ></div>
                               <p>Buffy ..</p>
                             </div>
-                            <div class="favorite-list-item">
+                            <div className="favorite-list-item">
                               <div 
-                                class="avatar av-m"
+                                className="avatar av-m"
                                 // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-6.jpg');"
                               ></div>
                               <p>Maia</p>
@@ -130,16 +130,16 @@ export default function Messages() {
                           </div>
                         </div>
 
-                        <table class="messenger-list-item m-li-divider">
+                        <table className="messenger-list-item m-li-divider">
                           <tbody>
                             <tr data-action="0">
                               <td>
                                 <div
-                                  class="avatar av-m"
+                                  className="avatar av-m"
                                 //   style="background-color: #D9EFFF; text-align: center;"
                                 >
                                   <span
-                                    class="ti ti-bookmark"
+                                    className="ti ti-bookmark"
                                     // style="font-size: 22px; color: #6FD943;"
                                   ></span>
                                 </div>
@@ -156,15 +156,15 @@ export default function Messages() {
                         </table>
 
                         <div
-                          class="listOfContacts"
+                          className="listOfContacts"
                         //   style="width: 100%;height: calc(100% - 200px);position: relative;"
                         >
-                          <table class="messenger-list-item" data-contact="54">
+                          <table className="messenger-list-item" data-contact="54">
                             <tbody>
                               <tr data-action="0">
                                 <td style="position: relative">
                                   <div
-                                    class="avatar av-m"
+                                    className="avatar av-m"
                                     // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-2.jpg');"
                                   ></div>
                                 </td>
@@ -172,10 +172,10 @@ export default function Messages() {
                                 <td>
                                   <p data-id="user_54">
                                     Sonya Sims
-                                    <span class="chat-time">6 hours ago</span>
+                                    <span className="chat-time">6 hours ago</span>
                                   </p>
-                                  <span class="chat-msg">
-                                    <span class="lastMessageIndicator">
+                                  <span className="chat-msg">
+                                    <span className="lastMessageIndicator">
                                       You :
                                     </span>
                                     Hi
@@ -186,14 +186,14 @@ export default function Messages() {
                           </table>
 
                           <table
-                            class="messenger-list-item m-list-active"
+                            className="messenger-list-item m-list-active"
                             // data-contact="58"
                           >
                             <tbody>
                               <tr data-action="0">
                                 <td style="position: relative">
                                   <div
-                                    class="avatar av-m"
+                                    className="avatar av-m"
                                     // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-3.jpg');"
                                   ></div>
                                 </td>
@@ -201,25 +201,25 @@ export default function Messages() {
                                 <td>
                                   <p data-id="user_58">
                                     Buffy Walter
-                                    <span class="chat-time">1 month ago</span>
+                                    <span className="chat-time">1 month ago</span>
                                   </p>
-                                  <span class="chat-msg">
-                                    <span class="lastMessageIndicator">
+                                  <span className="chat-msg">
+                                    <span className="lastMessageIndicator">
                                       You :
                                     </span>
-                                    <span class="ti ti-file"></span> Attachment
+                                    <span className="ti ti-file"></span> Attachment
                                   </span>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
 
-                          <table class="messenger-list-item" data-contact="66">
+                          <table className="messenger-list-item" data-contact="66">
                             <tbody>
                               <tr data-action="0">
                                 <td style="position: relative">
                                   <div
-                                    class="avatar av-m"
+                                    className="avatar av-m"
                                     // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-7.jpg');"
                                   ></div>
                                 </td>
@@ -227,26 +227,26 @@ export default function Messages() {
                                 <td>
                                   <p data-id="user_66">
                                     Rana Blanken..
-                                    <span class="chat-time">2 months ago</span>
+                                    <span className="chat-time">2 months ago</span>
                                   </p>
-                                  <span class="chat-msg">
-                                    <span class="lastMessageIndicator">
+                                  <span className="chat-msg">
+                                    <span className="lastMessageIndicator">
                                       You :
                                     </span>
-                                    <span class="ti ti-file"></span> Attachment
+                                    <span className="ti ti-file"></span> Attachment
                                   </span>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
 
-                          <table class="messenger-list-item" data-contact="8">
+                          <table className="messenger-list-item" data-contact="8">
                             <tbody>
                               <tr data-action="0">
                                 <td style="position: relative">
-                                  <span class="activeStatus"></span>
+                                  <span className="activeStatus"></span>
                                   <div
-                                    class="avatar av-m"
+                                    className="avatar av-m"
                                     // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-1.jpg');"
                                   ></div>
                                 </td>
@@ -254,25 +254,25 @@ export default function Messages() {
                                 <td>
                                   <p data-id="user_8">
                                     Richard Atki..
-                                    <span class="chat-time">2 months ago</span>
+                                    <span className="chat-time">2 months ago</span>
                                   </p>
-                                  <span class="chat-msg">
-                                    <span class="lastMessageIndicator">
+                                  <span className="chat-msg">
+                                    <span className="lastMessageIndicator">
                                       You :
                                     </span>
-                                    <span class="ti ti-file"></span> Attachment
+                                    <span className="ti ti-file"></span> Attachment
                                   </span>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
 
-                          <table class="messenger-list-item" data-contact="67">
+                          <table className="messenger-list-item" data-contact="67">
                             <tbody>
                               <tr data-action="0">
                                 <td style="position: relative">
                                   <div
-                                    class="avatar av-m"
+                                    className="avatar av-m"
                                     // style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-6.jpg');"
                                   ></div>
                                 </td>
@@ -280,10 +280,10 @@ export default function Messages() {
                                 <td>
                                   <p data-id="user_67">
                                     Maia
-                                    <span class="chat-time">2 months ago</span>
+                                    <span className="chat-time">2 months ago</span>
                                   </p>
-                                  <span class="chat-msg">
-                                    <span class="lastMessageIndicator">
+                                  <span className="chat-msg">
+                                    <span className="lastMessageIndicator">
                                       You :
                                     </span>
                                     &amp;ldquo;Let me put you on hold..
@@ -296,16 +296,16 @@ export default function Messages() {
                       </div>
 
                       <div
-                        class="all_members  messenger-tab app-scroll"
+                        className="all_members  messenger-tab app-scroll"
                         data-view="groups"
                       >
-                        <table class="messenger-list-item" data-contact="8">
+                        <table className="messenger-list-item" data-contact="8">
                           <tbody>
                             <tr data-action="0">
                               <td >
-                                <span class="activeStatus"></span>
+                                <span className="activeStatus"></span>
                                 <div
-                                  class="avatar av-m"
+                                  className="avatar av-m"
                                 //   style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-1.jpg');"
                                 ></div>
                               </td>
@@ -317,12 +317,12 @@ export default function Messages() {
                           </tbody>
                         </table>
 
-                        <table class="messenger-list-item" data-contact="54">
+                        <table className="messenger-list-item" data-contact="54">
                           <tbody>
                             <tr data-action="0">
                               <td  >
                                 <div
-                                  class="avatar av-m"
+                                  className="avatar av-m"
                                 //   style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-2.jpg');"
                                 ></div>
                               </td>
@@ -334,12 +334,12 @@ export default function Messages() {
                           </tbody>
                         </table>
 
-                        <table class="messenger-list-item" data-contact="58">
+                        <table className="messenger-list-item" data-contact="58">
                           <tbody>
                             <tr data-action="0">
                               <td  >
                                 <div
-                                  class="avatar av-m"
+                                  className="avatar av-m"
                                 //   style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-3.jpg');"
                                 ></div>
                               </td>
@@ -351,12 +351,12 @@ export default function Messages() {
                           </tbody>
                         </table>
 
-                        <table class="messenger-list-item" data-contact="64">
+                        <table className="messenger-list-item" data-contact="64">
                           <tbody>
                             <tr data-action="0">
                               <td style="position: relative">
                                 <div
-                                  class="avatar av-m"
+                                  className="avatar av-m"
                                 //   style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-4.jpg');"
                                 ></div>
                               </td>
@@ -368,13 +368,13 @@ export default function Messages() {
                           </tbody>
                         </table>
 
-                        <table class="messenger-list-item" data-contact="65">
+                        <table className="messenger-list-item" data-contact="65">
                           <tbody>
                             <tr data-action="0">
                               <td style="position: relative">
-                                <span class="activeStatus"></span>
+                                <span className="activeStatus"></span>
                                 <div
-                                  class="avatar av-m"
+                                  className="avatar av-m"
                                   style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-5.jpg');"
                                 ></div>
                               </td>
@@ -388,10 +388,10 @@ export default function Messages() {
  
                       </div>
 
-                      <div class=" messenger-tab app-scroll" data-view="search">
-                        <p class="messenger-title">Search</p>
-                        <div class="search-records">
-                          <p class="message-hint center-el">
+                      <div className=" messenger-tab app-scroll" data-view="search">
+                        <p className="messenger-title">Search</p>
+                        <div className="search-records">
+                          <p className="message-hint center-el">
                             <span>Type to search..</span>
                           </p>
                         </div>
@@ -399,34 +399,34 @@ export default function Messages() {
                     </div>
                   </div>
 
-                  <div class="messenger-messagingView">
-                    <div class="m-header m-header-messaging">
+                  <div className="messenger-messagingView">
+                    <div className="m-header m-header-messaging">
                       <nav>
                         <div style="display: inline-flex;">
-                          <a href="#" class="show-listView">
-                            <i class="ti ti-arrow-left"></i>
+                          <a href="#" className="show-listView">
+                            <i className="ti ti-arrow-left"></i>
                           </a>
                           <div
-                            class="avatar av-s header-avatar"
+                            className="avatar av-s header-avatar"
                             // style='margin: -5px 10px; background-image: url("https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-3.jpg");'
                           ></div>
-                          <a href="#" class="user-name">
+                          <a href="#" className="user-name">
                             Buffy Walter
                           </a>
                         </div>
 
-                        <nav class="m-header-right">
+                        <nav className="m-header-right">
                           <a
                             href="#"
                             id="image"
-                            class="add-to-favorite favorite"
+                            className="add-to-favorite favorite"
                             // style="display: inline;"
                           >
-                            <i id="foo" class="fa fa-star"></i>
+                            <i id="foo" className="fa fa-star"></i>
                           </a>
-                          <a href="#" class="show-infoSide header-icon">
+                          <a href="#" className="show-infoSide header-icon">
                             {/* <svg
-                              class="svg-inline--fa fa-info-circle fa-w-16"
+                              className="svg-inline--fa fa-info-circle fa-w-16"
                               aria-hidden="true"
                               focusable="false"
                               data-prefix="fas"
@@ -447,46 +447,46 @@ export default function Messages() {
                     </div>
 
                     <div
-                      class="internet-connection successBG-rgba"
+                      className="internet-connection successBG-rgba"
                       style="display: none;"
                     >
-                      <span class="ic-connected" style="display: inline;">
+                      <span className="ic-connected" style="display: inline;">
                         Connected
                       </span>
-                      <span class="ic-connecting" style="display: none;">
+                      <span className="ic-connecting" style="display: none;">
                         Connecting...
                       </span>
-                      <span class="ic-noInternet" style="display: none;">
+                      <span className="ic-noInternet" style="display: none;">
                         Please add pusher settings for using messenger.
                       </span>
                     </div>
 
-                    <div class="m-body app-scroll" style="opacity: 1;">
-                      <div class="messages">
+                    <div className="m-body app-scroll" style="opacity: 1;">
+                      <div className="messages">
                         <div
-                          class="message-card mc-sender"
+                          className="message-card mc-sender"
                           data-id="2468784652"
                         >
                           <p>
                             Hello
                             <sub
                               title="2022-08-10 05:23:11"
-                              class="message-time"
+                              className="message-time"
                             >
-                              <span class="ti ti-check-double seen"></span> 2
+                              <span className="ti ti-check-double seen"></span> 2
                               months ago
                             </sub>
                           </p>
                         </div>
 
-                        <div class="message-card" data-id="1840160215">
+                        <div className="message-card" data-id="1840160215">
                           <p>
                             Hello ,
                             <sub title="2022-08-10 05:24:42">2 months ago</sub>
                           </p>
                         </div>
 
-                        <div class="message-card" data-id="2291244384">
+                        <div className="message-card" data-id="2291244384">
                           <p>
                             Fine, what about you.?
                             <sub title="2022-08-10 05:25:07">2 months ago</sub>
@@ -494,23 +494,23 @@ export default function Messages() {
                         </div>
 
                         <div
-                          class="message-card mc-sender"
+                          className="message-card mc-sender"
                           data-id="2540430012"
                         >
                           <p>
                             fine, i am busy right now, i'll talk you later..
                             <sub
                               title="2022-08-10 05:25:36"
-                              class="message-time"
+                              className="message-time"
                             >
-                              <span class="ti ti-check-double seen"></span> 2
+                              <span className="ti ti-check-double seen"></span> 2
                               months ago
                             </sub>
                           </p>
                         </div>
 
                         <div
-                          class="message-card mc-sender"
+                          className="message-card mc-sender"
                           data-id="2322152566"
                         >
                           <p>
@@ -526,52 +526,52 @@ export default function Messages() {
                             me to connect you with him?”
                             <sub
                               title="2022-08-10 05:25:47"
-                              class="message-time"
+                              className="message-time"
                             >
-                              <span class="ti ti-check-double seen"></span> 2
+                              <span className="ti ti-check-double seen"></span> 2
                               months ago
                             </sub>
                           </p>
                         </div>
 
                         <div
-                          class="message-card mc-sender"
+                          className="message-card mc-sender"
                           data-id="1678902113"
                         >
                           <p>
                             tv.jpg
                             <sub
                               title="2022-09-27 10:35:36"
-                              class="message-time"
+                              className="message-time"
                             >
-                              <span class="ti ti-check seen"></span> 1 month ago
+                              <span className="ti ti-check seen"></span> 1 month ago
                             </sub>
                           </p>
                         </div>
 
                         <div>
-                          <div class="message-card mc-sender">
+                          <div className="message-card mc-sender">
                             <div
-                              class="image-file chat-image"
+                              className="image-file chat-image"
                               style="width: 250px; height: 150px;background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/attachments/f9054179-cc5a-4427-a7c9-d6c5054329e0.jpg')"
                             ></div>
                           </div>
                         </div>
                       </div>
 
-                      <div class="typing-indicator">
-                        <div class="message-card typing">
+                      <div className="typing-indicator">
+                        <div className="message-card typing">
                           <p>
-                            <span class="typing-dots">
-                              <span class="dot dot-1"></span>
-                              <span class="dot dot-2"></span>
-                              <span class="dot dot-3"></span>
+                            <span className="typing-dots">
+                              <span className="dot dot-1"></span>
+                              <span className="dot dot-2"></span>
+                              <span className="dot dot-3"></span>
                             </span>
                           </p>
                         </div>
                       </div>
 
-                      <div class="messenger-sendCard" style="display: block;">
+                      <div className="messenger-sendCard" style="display: block;">
                         <form
                           id="message-form"
                           method="POST"
@@ -586,57 +586,57 @@ export default function Messages() {
                           <label>
                             <i
                               style="margin-top: 65%"
-                              class="fas fa-paperclip fa-sm"
+                              className="fas fa-paperclip fa-sm"
                             ></i>
                             <input
                               type="file"
-                              class="upload-attachment"
+                              className="upload-attachment"
                               name="file"
                             />
                           </label>
                           <textarea
                             style="height: 39px; width: 92%; padding: 9px;"
                             name="message"
-                            class="m-send app-scroll"
+                            className="m-send app-scroll"
                             placeholder="Type a message.."
                           ></textarea>
                           <button>
-                            <i class="fas fa-paper-plane fa-xs text-primary"></i>
+                            <i className="fas fa-paper-plane fa-xs text-primary"></i>
                           </button>
                         </form>
                       </div>
                     </div>
                   </div>
 
-                  <div class="messenger-infoView app-scroll text-center">
+                  <div className="messenger-infoView app-scroll text-center">
                     <nav>
                       <a href="#">
-                        <i class="fas fa-times"></i>
+                        <i className="fas fa-times"></i>
                       </a>
                     </nav>
                     <div
-                      class="avatar av-l"
+                      className="avatar av-l"
                       style='background-image: url("https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-3.jpg");'
                     ></div>
-                    <p class="info-name">Buffy Walter</p>
-                    <div class="messenger-infoView-btns">
+                    <p className="info-name">Buffy Walter</p>
+                    <div className="messenger-infoView-btns">
                       <a
                         href="#"
-                        class="danger delete-conversation"
+                        className="danger delete-conversation"
                         style="display: inline;"
                       >
-                        <i class="ti ti-trash"></i> Delete Conversation
+                        <i className="ti ti-trash"></i> Delete Conversation
                       </a>
                     </div>
 
                     <div
-                      class="messenger-infoView-shared"
+                      className="messenger-infoView-shared"
                       style="display: block;"
                     >
-                      <p class="messenger-title">shared photos</p>
-                      <div class="shared-photos-list">
+                      <p className="messenger-title">shared photos</p>
+                      <div className="shared-photos-list">
                         <div
-                          class="shared-photo chat-image"
+                          className="shared-photo chat-image"
                           style="background-image: url('https://demo.rajodiya.com/erpgo-saas/storage/attachments/f9054179-cc5a-4427-a7c9-d6c5054329e0.jpg')"
                         ></div>
                       </div>

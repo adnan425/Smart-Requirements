@@ -1,4 +1,5 @@
 const auth = require('../middleware/auth');
+const manager = require('../middleware/manager');
 const { User, validateUser } = require('../models/user');
 const { Project } = require('../models/project');
 const express = require('express');
@@ -10,7 +11,7 @@ const router = express.Router();
 
 
 //  POST | Add stakeholder | ProjectID | User details | Only Manager Can add | manager middleware for verify 
-router.post('/', auth, async (req, res, next) => {
+router.post('/', [auth, manager], async (req, res, next) => {
     try {
         // PROJECT ID IN WHICH STAKEHOLDER ADD
         // STORE NEW USER AND GET ID FROM THERE
@@ -41,13 +42,8 @@ router.post('/', auth, async (req, res, next) => {
         //  NOW ADD STAKEHOLDER INTO PROJECTS 
         try { 
             new Fawn.Task()
-                .save('users', stakeholder)
-               project.update( { _id: req.body.projectId },
-                    {
-                        $set:
-                            {  name: "khan" , _id: "638123380b27d0210d2af933"}
-                    })
-                // .update('projects', { _id: req.body.projectId }, { stakeholders: {  _id: stakeholder._id, name: stakeholder.name } }) 
+                .save('users', stakeholder) 
+                .update('projects', { _id: req.body.projectId }, { stakeholders: {  _id: stakeholder._id } }) 
                 .run()
                 .then(function (results) {
                     //task is complete 
@@ -68,5 +64,10 @@ router.post('/', auth, async (req, res, next) => {
     }
 
 });
+
+// DELETE | ONLY STAKEHOLDER CAN DELETE | 2 MIDDLWARE { AUTH , MANAGER } | ID OF STAKEHOLDER FOR DELETION 
+router.delete('/:id', [auth,manager], (req,res,next)=>{
+    res.status(200).send("Not implemented");
+})
 
 module.exports = router;

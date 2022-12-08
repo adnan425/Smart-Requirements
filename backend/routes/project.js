@@ -1,12 +1,14 @@
 const express = require('express');
 const _ = require('lodash');
 const auth = require('../middleware/auth');
+const manager = require('../middleware/manager');
+const admin = require('../middleware/admin');
 const { validateProject, Project } = require('../models/project');
 const { User } = require('../models/user');
 const router = express.Router();
 
-// POST | ADD PROJECT | TITLE | USER_ID FROM MIDDLEWARE | 
-router.post('/', auth, async (req, res, next) => {
+// POST | ADD PROJECT | TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
+router.post('/', [auth, manager ], async (req, res, next) => {
     try {
         const managetId = req.user._id;
         if (!managetId) return res.status(400).send("Invalid Manager Id!");
@@ -32,10 +34,7 @@ router.post('/', auth, async (req, res, next) => {
         let project = new Project({
             title: req.body.title,
             description: req.body.description,
-            manager: {
-                _id: manager._id,
-                name: manager.name
-            },
+            manager: manager._id, 
             status: "started"
         });
         
@@ -51,8 +50,8 @@ router.post('/', auth, async (req, res, next) => {
     }
 });
 
-//  GET | All Projects | ONLY ADMIN | USE ADMIN MIDDLEWARE FOR VERIFY 
-router.get('/', auth , async (req, res, next) => {
+//  GET | All Projects | TWO MIDDLWARE { AUTH, ADMIN } | ONLY ADMIN | USE ADMIN MIDDLEWARE FOR VERIFY 
+router.get('/', [auth,admin] , async (req, res, next) => {
     try {
         const projects = await Project.find().select('id title status date description');
         return res.status(200).send(projects);
@@ -61,7 +60,7 @@ router.get('/', auth , async (req, res, next) => {
     }
 }); 
 //  GET | MY Projects | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
-router.get('/me', auth, async (req, res, next) => {
+router.get('/me', [auth, manager], async (req, res, next) => {
     try {
         const projects = await Project.find({_id : req.user._id}).select('id title status date');
         return res.status(200).send(projects);

@@ -6,20 +6,16 @@ import pic3 from "./../assets/banners/svg/login3.svg";
 import { Carousel } from "react-responsive-carousel";
 import Joi from "joi-browser";  
 import axios from "axios";
-import Form from "../Components/Utllils/Form";
-import withReactContent from "sweetalert2-react-content";
+import Form from "../Components/Utllils/Form"; 
 import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router-dom";
-import Logo from '../Components/Utllils/Logo';
-const MySwal = withReactContent(Swal);
+import { Link } from "react-router-dom";
+import Logo from '../Components/Utllils/Logo';  
 
 
 export default class Signup extends Form {
- redirect = useNavigate();
-
   state  = {
     data: { name:"", email:"", password:""},
-    errors : {}
+    errors : {},
   }
   schema = {
     name: Joi.string().required().label("Name"), 
@@ -29,29 +25,19 @@ export default class Signup extends Form {
   doSubmit = async () => {
     // call server
     axios.post(
-        "http://localhost:3004/api/users",
-        this.state.data
-        // {
-        //   headers: {
-        //     "Access-Control-Allow-Origin": "*",
-        //     "Access-Control-Allow-Headers": "*",
-        //     "Access-Control-Allow-Credentials": "true",
-        //   },
-        // },
-        // {
-        //   withCredentials: true,
-        // }
+        "http://localhost:3004/api/users", this.state.data
       )
-      .then((response) => {
-        console.log(response);
+      .then((response) => { 
         if (response?.status === 200) {
-          MySwal.fire("Success!", "Successfully Registerd...!", "success"); 
-          // redirect to login 
-          this.redirect("/login");
+          Swal.fire("Success!", response?.data, "success").then(()=>{
+          // redirect to login  
+          window.location = '/login';
+          }); 
+
         }
       })
-      .catch((response) => {
-        MySwal.fire("Error!", response?.response?.data, "error");
+      .catch((response) => { 
+        Swal.fire("Failed!", response?.response?.data, "info"); 
       });
   };
   render() {
@@ -104,34 +90,7 @@ export default class Signup extends Form {
                         Sent, spend and save smarter
                       </p>
                     </div>
-                    {/* <div className="row ">
-                      <div className="col-6">
-                        <div className="d-grid">
-                          <a href="#" className="btn btn-danger btn-block mt-2">
-                            <i className="mx-3 fa fa-google"></i>{" "}
-                            <span
-                              className="d-none 
-                             d-lg-inline-block d-xl-inline-block"
-                            >
-                              Sign in with <b>Google</b>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <div className="d-grid">
-                          <a href="#" className="btn btn-danger btn-block mt-2">
-                            <i className="mx-3 fa fa-google"></i>{" "}
-                            <span
-                              className="d-none 
-                             d-lg-inline-block d-xl-inline-block"
-                            >
-                              Sign in with <b>Google</b>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div> */}
+                  
                     <hr data-content="AND" className="hr-text" />
                     <form
                     onSubmit={this.handleSubmit}

@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const router = express.Router();
 
-
+// GET CURRENT USER DETAILS | AUTH MIDDLEWARE | GET ID FROM MIDDLEWARE | GET INFO USING ID
 router.get('/me', auth, async (req, res, next) => {
     try {
         const user = await User.findById(req.user._id).select('-password');
@@ -17,7 +17,7 @@ router.get('/me', auth, async (req, res, next) => {
     }
 })
 
-// storing new user
+// STORING NEW USER | NO NEED AUTH
 router.post('/', async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -34,8 +34,8 @@ router.post('/', async (req, res) => {
     res.status(200).send("Successfully registered.");
 })
 
-//get all managers
-router.get('/', async (req, res) => {
+//GER ALL MANAGER | ONLY ADMIN CAN GET ALL MANAGER LIST | 2 MIDDLEWARE | AUTH | CHECK IS_ADMIN
+router.get('/', [auth, admin], async (req, res) => {
     const users = await User.find({role: 'manager'})
         .select('id name email');
 

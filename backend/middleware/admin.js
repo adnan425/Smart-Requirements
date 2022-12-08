@@ -4,4 +4,4 @@
     if(req.user.role !== "admin") return res.status(403).send("Access denied.");
     next();
 }
-exports.module = admin;
+module.exports = admin;

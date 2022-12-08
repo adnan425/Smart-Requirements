@@ -125,10 +125,10 @@ export default function Dashboard() {
                               return(
                                 <div className="card border-success border-2 border-bottom-0 border-start-0 border-end-0">
                                 <div className="card-body">
-                                  <div className="form-check">
+                                  <div className="form-che ck">
                                     <label
                                       className="form-check-label d-block"
-                                      for="customCheckdef1"
+                                      htmlFor="customCheckdef1"
                                     >
                                       <span>
                                         <span className="row align-items-center">

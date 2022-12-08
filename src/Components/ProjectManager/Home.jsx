@@ -1,19 +1,20 @@
-import { useContext } from "react";
-import React, { useState, useEffect,  } from "react";
+import React, { useState, useEffect,useContext  } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "../Utllils/Header"; 
-import SelectedProject from "./SelectedProject";
-import ProjectContext from "../Context/ProjectState"; 
+import SelectedProject from "./SelectedProject"; 
+import projectContext from '../Context/ProjectContext';
 import SingleProject from './SingleProject';
-
+import auth from "../Services/authService";
 export default function Home() {
 
   const redirect = useNavigate();
 
-  const context = useContext(ProjectContext);
+  const context = useContext(projectContext);
   console.log("context : ", context);
 
+  const [user, setUser] = useState(auth.getCurrentUser);
+  console.log("Home", user);
   // const { projects, setProjects } = context;
   const projects = [
     {
@@ -122,10 +123,10 @@ export default function Home() {
     <>
       <Sidebar items={projects} onProjectSelect={handleSelectProject} />
       <div className="main-content position-relative">
-        <Header />
+        <Header user={user} />
         {!isSelect && <Outlet /> } 
 
-      {!isSelect && <SingleProject/> }
+      {/* {!isSelect && <SingleProject/> } */}
         {isSelect && <SelectedProject project={{selectedProject}} />}
         
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
-
-export default function Header() {
+import { Link } from "react-router-dom";
+export default function Header(user) {
+  console.log('User',user.email);
   return (
     <header className="dash-header  transprent-bg">
       <div className="header-wrapper">
@@ -33,20 +34,19 @@ export default function Header() {
                 <i className="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
               </a>
               <div className="dropdown-menu dash-h-dropdown">
-                <a
-                  href="https://demo.rajodiya.com/cmmsgo/my-account"
+                <Link to={'/profile'}
                   className="dropdown-item"
                 >
                   <i className="ti ti-user"></i>
                   <span>Profile</span>
-                </a>
-                <a
-                  href="" 
+                </Link>
+                <Link
+                  to={'/logout'} 
                   className="dropdown-item"
                 >
                   <i className="ti ti-power"></i>
                   <span>Logout</span>
-                </a>
+                </Link>
               </div>
             </li>
           </ul>
@@ -68,7 +68,7 @@ export default function Header() {
               </a>
             </li> */}
             <li className="dropdown dash-h-item drp-language">
-              <a
+              <Link
                 className="dash-head-link dropdown-toggle arrow-none me-0"
                 data-bs-toggle="dropdown"
                 href="#"
@@ -79,20 +79,20 @@ export default function Header() {
                 <i className="ti ti-world nocolor"></i>
                 <span className="drp-text hide-mob">EN</span>
                 <i className="ti ti-chevron-down drp-arrow nocolor"></i>
-              </a>
+              </Link>
               <div className="dropdown-menu dash-h-dropdown dropdown-menu-end">
-                <a
-                  href="https://demo.rajodiya.com/cmmsgo/super_admin/change_lang/ar"
+                <Link
+                  href="#"
                   className="dropdown-item "
                 >
                   <span className="small">AR</span>
-                </a>
-                <a
-                  href="https://demo.rajodiya.com/cmmsgo/super_admin/change_lang/da"
+                </Link>
+                <Link
+                  href="#"
                   className="dropdown-item "
                 >
                   <span className="small">DA</span>
-                </a>
+                </Link>
               </div>
             </li>
           </ul>

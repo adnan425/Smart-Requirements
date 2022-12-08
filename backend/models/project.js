@@ -4,25 +4,11 @@ const { userSchema } = require('./user');
 
 const projectSchema = new mongoose.Schema({
     manager: {
-        type: new mongoose.Schema({
-            name: {
-                type: String,
-                required: true,
-                minLength: 5,
-                maxLength: 50,
-            },
-        }),
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'users' // referencing users tables for get other details
     },
     stakeholders: [{
-        type: new mongoose.Schema({
-            name: {
-                type: String,
-                required: true,
-                minLength: 5,
-                maxLength: 50,
-            },
-        }),
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'users' // referencing users tables for get other details
     }],
     title: {

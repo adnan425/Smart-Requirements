@@ -15,13 +15,16 @@ import Manager from '../Components/ProjectManager/Home';
 import NewProject from "../Components/ProjectManager/NewProject";
 import ManagerProject from '../Components/ProjectManager/Projects'
 import Stakeholder from '../Components/Stakeholder/Home';
+import Logout from './../Components/Utllils/Logout';
 
 export default function Home() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        {/* <Route path="/" element={<LandingPage />} /> */}
+        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout/>} />
         <Route path="/signup" element={<Signup />} />
 
         {/* admin routes */}

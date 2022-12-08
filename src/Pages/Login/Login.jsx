@@ -5,15 +5,14 @@ import Joi from "joi-browser";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { Link, Navigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2"; 
 
 import pic1 from "./../../assets/banners/svg/login1.svg";
 import pic2 from "./../../assets/banners/svg/login2.svg";
 import pic3 from "./../../assets/banners/svg/login3.svg";
 import Form from "../../Components/Utllils/Form";
-
-const MySwal = withReactContent(Swal);
+import auth from './../../Components/Services/authService';
+ 
 
 class Login extends Form {
   keyPoints = [
@@ -51,40 +50,44 @@ class Login extends Form {
 
   doSubmit = async () => {
     // call server
+    // await auth.login(this.state.data.email, this.state.data.password);
     axios
       .post(
         "http://localhost:3004/api/auth",
         this.state.data,
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Credentials": "true",
-          },
-        },
-        {
-          withCredentials: true,
-        }
+        // {
+        //   headers: {
+        //     "Access-Control-Allow-Origin": "*",
+        //     "Access-Control-Allow-Headers": "*",
+        //     "Access-Control-Allow-Credentials": "true",
+        //   },
+        // },
+        // {
+        //   withCredentials: true,
+        // }
       )
+
       .then((response) => {
         if (response?.status === 200) {
-          MySwal.fire("Success!", "Login Successfull...!", "success");
-          localStorage.setItem("x-auth-token", response?.data);
-          // redirect according to their role
-          const user = jwtDecode(response?.data);
-          console.log(user);
-          if (user.role === "manager") {
+          Swal.fire("Success!", "Login Successfull...!", "success").then(()=>{
+            localStorage.setItem("token", response?.data);
+            // redirect according to their role
+            const user = jwtDecode(response?.data); 
+  
+            if (user.role === "manager") {
+  
+              this.setState({ manager: true });
+            } else if (user.role === "admin") {
+              this.setState({ admin: true });
+            } else if (user.role === "stakeholder") {
+              this.setState({ stakeholder: true });
+            }
+          })
 
-            this.setState({ manager: true });
-          } else if (user.role === "admin") {
-            this.setState({ admin: true });
-          } else if (user.role === "stakeholder") {
-            this.setState({ stakeholder: true });
-          }
         }
       })
       .catch((response) => {
-        MySwal.fire("Error!", response?.response?.data, "error");
+        Swal.fire("Error!", response?.response?.data, "error");
       });
   };
   render() {

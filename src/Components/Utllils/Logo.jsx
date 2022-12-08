@@ -11,11 +11,11 @@ export default function Logo({path = "/"}) {
       alt="Logo"
       className="logo logo-lg"
     />
-    <img
+    {/* <img
       src={siteLogo} style={{"height": '100px'}}
       alt=""
       className="logo logo-sm"
-    />
+    /> */}
   </Link>
   )
 }

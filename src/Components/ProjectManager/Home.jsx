@@ -3,8 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "../Utllils/Header"; 
 import SelectedProject from "./SelectedProject"; 
-import projectContext from '../Context/ProjectContext';
-import SingleProject from './SingleProject';
+import projectContext from '../Context/ProjectContext'; 
 import auth from "../Services/authService";
 export default function Home() {
 
@@ -12,9 +11,10 @@ export default function Home() {
 
   const context = useContext(projectContext);
   console.log("context : ", context);
-
-  const [user, setUser] = useState(auth.getCurrentUser);
-  console.log("Home", user);
+const autUser = auth.getCurrentUser();
+console.log(autUser);
+  const [user, setUser] = useState(auth.getCurrentUser); 
+// console.log(user);
   // const { projects, setProjects } = context;
   const projects = [
     {

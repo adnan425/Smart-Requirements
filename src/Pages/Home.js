@@ -17,9 +17,13 @@ import ManagerProject from '../Components/ProjectManager/Projects'
 import Stakeholder from '../Components/Stakeholder/Home';
 import Logout from './../Components/Utllils/Logout';
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Home() {
   return (
     <>
+    <ToastContainer/>
       <Routes>
         {/* <Route path="/" element={<LandingPage />} /> */}
         <Route path="/" element={<Login />} />
@@ -46,6 +50,7 @@ export default function Home() {
 
         <Route path="/stakeholder" element={<Stakeholder />} />
       </Routes>
+
 
 
     </>

@@ -15,6 +15,7 @@ axios.interceptors.response.use(null,error =>{
     return Promise.reject(error);
 });
 
+
 function setJWT(jwt){
     axios.defaults.headers.common['token'] = jwt;
 }

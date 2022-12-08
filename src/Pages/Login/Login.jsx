@@ -54,17 +54,7 @@ class Login extends Form {
     axios
       .post(
         "http://localhost:3004/api/auth",
-        this.state.data,
-        // {
-        //   headers: {
-        //     "Access-Control-Allow-Origin": "*",
-        //     "Access-Control-Allow-Headers": "*",
-        //     "Access-Control-Allow-Credentials": "true",
-        //   },
-        // },
-        // {
-        //   withCredentials: true,
-        // }
+        this.state.data, 
       )
 
       .then((response) => {

@@ -14,7 +14,7 @@ export default function Details() {
                     <div className="col-xl-7 col-lg-7 col-md-12">
                         <div className="main_product_img desktop_view">
                             <div className="product_preview">
-                                <a target="_blank" href="https://demo.rajodiya.com/cmmsgo/login"
+                                <a  href="/"  
                                     className="custome_btn">Live
                                     preview</a>
 
@@ -43,7 +43,7 @@ export default function Details() {
                                     <img src="assets/images/cmmsgo-image2.png" alt="" />
                                 </div>
                                 <div className="product_preview">NDE
-                                    <a target="_blank" href="https://demo.rajodiya.com/cmmsgo/login"
+                                    <a  href="/"  
                                         className="custome_btn">Live preview</a>
 
                                 </div>
@@ -71,8 +71,9 @@ export default function Details() {
                                 <div className="price_cartbtn unbeatable-btns">
                                     <span className="price"><span className="f-size">Only</span>
                                         $19</span>
-                                    <a target="_blank"
-                                        href="https://codecanyon.net/checkout/from_item/36662539?license=regular&amp;support=bundle_6month"
+                                    <a 
+                                    rel='noreferrer'
+                                        href="/"
                                         className="custome_btn extend-license-btn">
                                         <span>Get Access Now!</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="28"

@@ -1,20 +1,24 @@
 import http from './../../Services/httpService';
 
- const api = ({dispatch}) => next => async action =>{
-    if(action.type !== "apiCallBegin"){
-       return  next(action);
+const api = ({ dispatch }) => next => async action => {
+    if (action.type !== "apiCallBegin") {
+        return next(action);
     }
     const { url, method, data, onSuccess, onError } = action.payload;
     try {
         const response = await http.request({
-            baseURL : 'http://localhost:3004/api',
+            baseURL: 'http://localhost:3004/api',
             url,
             method,
-            data, 
+            data
         });
-        dispatch({type: onSuccess, payload: response.data});
+        console.log(" Redux ", response);
+        dispatch({ type: onSuccess, payload: response.data });
     } catch (error) {
-        dispatch({type: onError, payload: error});        
+        // General
+        dispatch(action.apiCallFailed(error.message));
+        // Specific
+        if (onError) dispatch({ type: onError, payload: error.message });
     }
 }
 export default api;

@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="topba">
             <div className="footer_logo">
               <a href="workdo.html">
-                <img src={Logo} style={{ height: "100px" }} />
+                <img src={Logo} style={{ height: "100px" }} alt="logo" />
               </a>
             </div>
             <div className="desc_text mobile_desc">
@@ -32,7 +32,7 @@ export default function Footer() {
               <div className="copy_right">
                 <p>
                   All Rights Reserved to{" "}
-                  <a href="#">
+                  <a href="/">
                     <br />
                     Smart Requirements
                   </a>
@@ -42,10 +42,10 @@ export default function Footer() {
             <div className="footer_menu">
               <ul className="menu_list accordion-content">
                 <li>
-                  <a href="#">Terms &amp; Conditions</a>
+                  <a href="/">Terms &amp; Conditions</a>
                 </li>
                 <li>
-                  <a href="#">Privacy Policy</a>
+                  <a href="/">Privacy Policy</a>
                 </li>
               </ul>
             </div>
@@ -77,7 +77,7 @@ export default function Footer() {
             </div>
             <div className="copy_right mobile_view">
               <p>
-                All Rights Reserved to <a href="#">SR</a>
+                All Rights Reserved to <a href="/">SR</a>
               </p>
             </div>
           </div>

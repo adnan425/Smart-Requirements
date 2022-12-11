@@ -1,16 +1,11 @@
-import React, { useState, useEffect,useContext  } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "../Utllils/Header"; 
-import SelectedProject from "./SelectedProject"; 
-import projectContext from '../Context/ProjectContext'; 
-import getProjects from "../Store/Projects";
+import SelectedProject from "./SelectedProject";  
 export default function Home() {
 
-  const redirect = useNavigate();
-  console.log(getProjects());
-  const context = useContext(projectContext);
-  console.log("context : ", context); 
+  const redirect = useNavigate(); 
 
 
   // const { projects, setProjects } = context;

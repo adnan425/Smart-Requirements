@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import auth from "../Services/authService";
 export default function Header() { 
   const [user, setUser] = useState(auth.getCurrentUser); 
-  console.log("Header", user);
+  // console.log("Header", user);
 
   return (
     <header className="dash-header  transprent-bg">

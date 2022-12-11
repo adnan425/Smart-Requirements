@@ -14,7 +14,7 @@ export default function Intro() {
                     <div
                         className="unbeatable-btns d-flex align-items-center  justify-content-center">
                         <a target="_blank"
-                            href="#"
+                            href="/"
                             className="custome_btn extend-license-btn">
                             <span>Create your own Project </span>
                         </a>

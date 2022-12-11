@@ -23,7 +23,7 @@ export function getCurrentUser() {
   } catch (ex) {
     return null;
   }
-}
+};
 export default {
   login,
   Logout,

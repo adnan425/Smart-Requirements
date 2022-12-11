@@ -40,7 +40,7 @@ router.post('/', [auth, manager ], async (req, res, next) => {
         
 
         await project.save();
-        res.status(200).send(project);
+        // res.status(200).send(project);
         res.status(200).send("Successfully created your project.");
 
     } catch (err) {

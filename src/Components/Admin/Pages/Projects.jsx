@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import ProjectGrid from "../../Utllils/DataGrid";
-import ProjectTable from "../../Utllils/DataList";
+import React, { useState } from "react";
+import DataGrid from "../../Utllils/DataGrid";
+import DataList from "../../Utllils/DataList";
+import PageHeader from "../../Utllils/PageHeader";
 export default function Projects() {
   const projectsList = [
     {
@@ -70,53 +70,31 @@ export default function Projects() {
       classes: "bg-primary",
     },
   ];
-  
+  const [gridView, setGridView] = useState(true);
+  // For change the view  | GRID VIEW | LIST VIEW
+  const handleClick = () => {
+    gridView === true ? setGridView(false) : setGridView(true);
+  };
   return (
-    <div className="page-content">
-      <div className="dash-container">
-        <div className="dash-content">
-          <div className="page-header">
-            <div className="page-block">
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <div className="page-header-title">
-                    <h4 className="m-b-10"> {Projects}</h4>
-                  </div>
-                  <ul className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link to={"/dashboard"}>Dashboard</Link>
-                    </li>
-                    <li className="breadcrumb-item">{Projects}</li>
-                  </ul>
-                </div>
-                <div className="col">
-                  <div className="float-end">
-                    <a
-                      href="https://demo.rajodiya.com/erpgo-saas/project/list" 
-                      data-bs-toggle="tooltip"
-                      title="List View"
-                      className="btn btn-sm btn-primary"
-                      data-bs-original-title="List View"
-                    >
-                      <i className="ti ti-list"></i>
-                    </a>
-  
-
-                  
-                  </div>
-                </div>
+    <>
+      <div className="page-content">
+        <div className="dash-container">
+          <div className="dash-content">
+            <PageHeader
+              handleView={handleClick}
+              title="All Projects"
+              icon={gridView ? "ti ti-layout-grid" : "ti ti-list"}
+            />
+            <div className="row min-750" id="project_view">
+              <div className="row">
+                {!gridView && <DataList list={projectsList} />}
+                {gridView && <DataGrid list={projectsList} />}
               </div>
             </div>
+            {/* <!-- [ Main Content ] end --> */}
           </div>
-          <div className="row min-750" id="project_view">
-            <div className="row">
-              <ProjectTable list={projectsList} />
-              <ProjectGrid list={projectsList} />
-            </div>
-          </div>
-          {/* <!-- [ Main Content ] end --> */}
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from './Login/Login';
 import Signup from './Signup';
-import LandingPage from "../Components/Landing/Layout/LandingPage";
 import Admin from '../Components/Admin/Admin';
 import Users from "../Components/Admin/Pages/Users";
 import Settings from "../Components/Admin/Pages/Settings";

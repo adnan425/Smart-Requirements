@@ -4,17 +4,15 @@ import Sidebar from "./Sidebar";
 import Header from "../Utllils/Header"; 
 import SelectedProject from "./SelectedProject"; 
 import projectContext from '../Context/ProjectContext'; 
-import auth from "../Services/authService";
+import getProjects from "../Store/Projects";
 export default function Home() {
 
   const redirect = useNavigate();
-
+  console.log(getProjects());
   const context = useContext(projectContext);
-  console.log("context : ", context);
-const autUser = auth.getCurrentUser();
-console.log(autUser);
-  const [user, setUser] = useState(auth.getCurrentUser); 
-// console.log(user);
+  console.log("context : ", context); 
+
+
   // const { projects, setProjects } = context;
   const projects = [
     {
@@ -87,33 +85,7 @@ console.log(autUser);
 
   useEffect(() => {
     // GET ALL THE DETAILS OF SELECTED PROJECT FROM SERVER
-    const pro = {
-      id: 12322,
-      title: "Smart Requirements",
-      description:
-        "The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.",
-      manager: {
-        id: "943",
-        name: "adnan",
-      },
-      stakeholders: [
-        {
-          id: "534",
-          name: "Stakeholder1",
-        },
-        {
-          id: "534",
-          name: "Stakeholder1",
-        },
-        {
-          id: "534",
-          name: "Stakeholder1",
-        },
-      ],
-      status: "In progress",
-      data: "2022-02-21",
-      due_data: "In prgresss",
-    };
+   
     //  SET  DETAILS OF SELECTED PROJECT FROM SERVER
     // setselectedProject(pro);
     console.log(selectedProject);
@@ -123,7 +95,7 @@ console.log(autUser);
     <>
       <Sidebar items={projects} onProjectSelect={handleSelectProject} />
       <div className="main-content position-relative">
-        <Header user={user} />
+        <Header/>
         {!isSelect && <Outlet /> } 
 
       {/* {!isSelect && <SingleProject/> } */}

@@ -1,10 +1,10 @@
 import React from "react";
 import Form from "../Utllils/Form";
 import PageHeader from "../Utllils/PageHeader";
-
-import Joi from "joi-browser";
 import http from "../Services/httpService"; 
+import Joi from "joi-browser";
 import { toast } from "react-toastify";
+
 export default class NewProject extends Form {
   schema = {
     title: Joi.string().min(3).max(200).required().label("Title"),
@@ -18,12 +18,20 @@ export default class NewProject extends Form {
     errors: {},
   };
   doSubmit = async () => {
-    console.log(this.state.data);
+    const { data } = this.state;
     http.post(
       "http://localhost:3004/api/projects",
-      this.state.data
-    ).then(({data})=>{
-      console.log("error" , data);
+      data
+    ).then((data)=>{
+      if(data.status === 200){
+        toast.success(data.data);
+        this.setState({
+          data : {
+            title: "",
+            description: "",
+          }
+        })
+      }
     }).catch(({ response })=>{ 
       toast.error(response.data);
     })

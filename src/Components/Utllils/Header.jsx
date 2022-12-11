@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-export default function Header(user) {
-  console.log('User',user.email);
+import auth from "../Services/authService";
+export default function Header() { 
+  const [user, setUser] = useState(auth.getCurrentUser); 
+  console.log("Header", user);
+
   return (
     <header className="dash-header  transprent-bg">
       <div className="header-wrapper">
@@ -18,21 +21,21 @@ export default function Header(user) {
             </li>
 
             <li className="dropdown dash-h-item drp-company">
-              <a
+              <Link
                 className="dash-head-link dropdown-toggle arrow-none me-0"
-                data-bs-toggle="dropdown"
-                href="#"
+                data-bs-toggle="dropdown" 
                 role="button"
                 aria-haspopup="false"
                 aria-expanded="false"
               >
                 <img
                   className="theme-avtar"
-                  src="https://demo.rajodiya.com/cmmsgo/storage/avatars/3.jpg"
+                  src="https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png"
+                  alt="profile"
                 />
-                <span className="hide-mob ms-2">User</span>
+                <span className="hide-mob ms-2">{(user.name !== '') ? user.name : "User"}</span>
                 <i className="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
-              </a>
+              </Link>
               <div className="dropdown-menu dash-h-dropdown">
                 <Link to={'/profile'}
                   className="dropdown-item"

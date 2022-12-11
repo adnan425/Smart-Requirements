@@ -1,7 +1,5 @@
+import http from "./httpService"; 
 import jwtDecode from "jwt-decode";
-import http from "./httpService";
-// import { apiUrl } from './../../config.json';
-import { useState } from 'react';
 const apiUrl = "http://localhost:3004/api";
 const apiEndPoint = apiUrl + "/auth";
 
@@ -18,10 +16,9 @@ export function getJWT(){
 export function Logout() {
   localStorage.removeItem("token");
 }
-export async function getCurrentUser() {
+export function getCurrentUser() {
   try {
-    const { data }= await http.get('http://localhost:3004/api/users/me');
-    return await data;
+     return  jwtDecode(getJWT());
   
   } catch (ex) {
     return null;

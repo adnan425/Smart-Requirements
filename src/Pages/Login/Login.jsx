@@ -11,7 +11,7 @@ import pic1 from "./../../assets/banners/svg/login1.svg";
 import pic2 from "./../../assets/banners/svg/login2.svg";
 import pic3 from "./../../assets/banners/svg/login3.svg";
 import Form from "../../Components/Utllils/Form";
-import auth from './../../Components/Services/authService';
+import { toast } from 'react-toastify';
  
 
 class Login extends Form {
@@ -58,8 +58,8 @@ class Login extends Form {
       )
 
       .then((response) => {
-        if (response?.status === 200) {
-          Swal.fire("Success!", "Login Successfull...!", "success").then(()=>{
+        if (response?.status === 200) { 
+          toast.success('Login Successfull...!');
             localStorage.setItem("token", response?.data);
             // redirect according to their role
             const user = jwtDecode(response?.data); 
@@ -72,7 +72,7 @@ class Login extends Form {
             } else if (user.role === "stakeholder") {
               this.setState({ stakeholder: true });
             }
-          })
+           
 
         }
       })

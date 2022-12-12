@@ -4,8 +4,8 @@ import PageHeader from "../Utllils/PageHeader";
 import http from "../Services/httpService"; 
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
-
 export default class NewProject extends Form {
+  
   schema = {
     title: Joi.string().min(3).max(200).required().label("Title"),
     description: Joi.string().min(3).max(255).required().label("Description"),

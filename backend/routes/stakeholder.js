@@ -38,6 +38,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         stakeholder.password = await bcrypt.hash(stakeholder.password, salt);
 
+        
 
         //  NOW ADD STAKEHOLDER INTO PROJECTS 
         try { 

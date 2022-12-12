@@ -1,4 +1,5 @@
 const express = require('express');
+const Joi = require('joi');
 const _ = require('lodash');
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
@@ -10,15 +11,15 @@ const router = express.Router();
 // POST | ADD PROJECT | TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/', [auth, manager ], async (req, res, next) => {
     try {
-        const managetId = req.user._id;
-        if (!managetId) return res.status(400).send("Invalid Manager Id!");
+        const managerId = req.user._id; 
+        if (!managerId) return res.status(400).send("Invalid Manager Id!");
 
         // findOne = looking for one of property
         const isUnique = await Project.findOne({ title: req.body.title });
         if (isUnique) return res.status(400).send('Enter unique name of project.');
 
         const projectObj = {
-            "managerId": managetId,
+            "managerId": req.user._id,
             "title": req.body.title,
             "description": req.body.description
         };
@@ -27,7 +28,7 @@ router.post('/', [auth, manager ], async (req, res, next) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         // checking the user id is exist or not
-        const manager = await User.findById(managetId);
+        const manager = await User.findById(req.user._id);
         if (!manager) return res.status(400).send("Invalid Manager Id!");
 
 
@@ -61,7 +62,7 @@ router.get('/', [auth,admin] , async (req, res, next) => {
 //  GET | MY Projects | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.get('/me', [auth, manager], async (req, res, next) => {
     try {
-        const projects = await Project.find({_id : req.user._id}).select('id title status date');
+        const projects = await Project.find({manager : req.user._id}).select('id title status date description date');
         return res.status(200).send(projects);
     } catch (err) {
         next();
@@ -69,5 +70,20 @@ router.get('/me', [auth, manager], async (req, res, next) => {
 
 });
 
+//  GET | Projects BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
+router.get('/:id', [auth, manager], async (req, res, next) => {
+    try {
+        const projectId  = req.params.id;
+        if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
+         
+        const project = await Project.findById(projectId);
+        if(!project) return res.status(404).send("Project not found by this id.");
+
+        return res.status(200).send(project);
+    } catch (err) {
+        next();
+    }
+
+});
 
 module.exports = router;

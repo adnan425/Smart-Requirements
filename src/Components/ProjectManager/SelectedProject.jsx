@@ -1,8 +1,8 @@
 import React from "react";
 import PageHeader from "../Utllils/PageHeader";
-
-export default function SelectedProject(props) {
-  const { title: projectTitle } = props.project.selectedProject;
+export default function SelectedProject(project) {
+  
+  const { title: projectTitle } = project;
   const phases = [
     {
       id: 1,

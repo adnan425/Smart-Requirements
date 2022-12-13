@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom"; 
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "../Utllils/Header";
-import SelectedProject from "./SelectedProject";  
-import http from "../Services/httpService";
-export default function Home() {
-  const apiUrl = 'http://localhost:3004/api';
-
-  const redirect = useNavigate(); 
+import SelectedProject from "./SelectedProject"; 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getProjectById, getMyProjects } from "../Store/Projects/projects";
+export default function Home() { 
+  const dispatch = useDispatch();
+  const redirect = useNavigate();
   // const projects = [
   //   {
   //     _id: "63810bc3c954f2e8c6b8de0c",
@@ -52,54 +53,42 @@ export default function Home() {
   //     date: "2022-11-25T20:57:37.184Z",
   //   },
   // ];
-
+ 
+  const projects= useSelector((c) => c.projects.list); 
+ 
   const [selectedProjectID, setselectedProjectID] = useState();
   const [isSelect, setIsSelect] = useState(false); 
-  const [ project, setProject ] = useState();
-  const [ projects, setProjects ] = useState([]);
 
-  const getProjects = ()=>{
-    http.get(`${apiUrl}/projects/me`).then((response)=>{
-      console.log(response.data);
-      setProjects(response.data);
-    }).catch(err=>console.log(err));
-  }
-  useEffect(()=>{
-    getProjects();
-  },[])
 
-  useEffect(()=>{
-    if(selectedProjectID && selectedProjectID !==""){
-      console.log(selectedProjectID);
-      http.get(`${apiUrl}/projects/${selectedProjectID}`).then(response=>{ 
-        console.log(response.data);
-        setProject(response.data); 
-        setIsSelect(true);
-      })
+
+  useEffect(() => {
+    dispatch(getMyProjects());
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    if (selectedProjectID && selectedProjectID !== "") {
+       dispatch(getProjectById(selectedProjectID));
+       setIsSelect(true);
     }
-
-  },[selectedProjectID])
-
+  }, [selectedProjectID]);
 
   const handleSelectProject = (project) => {
     // IF ADD PROJECT THEN SHOW ADD FORM
     if (project.title === "New Project") {
       setIsSelect(false);
       redirect("/manager/new");
-      return ;
+      return;
     }
 
     // IF ALL PROJECT THEN SHOW ALL PROJECTS
     else if (project.title === "All Projects") {
       setIsSelect(false);
       redirect("/manager");
-      return ;
-
+      return;
     } else {
-      // UPDATE THE STATE
-      console.log("Selected project: ", project); 
+      // UPDATE THE STATE 
       setselectedProjectID(project._id);
- 
     }
   };
 
@@ -109,7 +98,7 @@ export default function Home() {
       <div className="main-content position-relative">
         <Header />
         {!isSelect && <Outlet />}
-        {isSelect && <SelectedProject project={project} />}
+        {isSelect && <SelectedProject />}
       </div>
     </>
   );

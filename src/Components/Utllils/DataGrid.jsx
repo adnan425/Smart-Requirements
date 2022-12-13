@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 export default function DataGrid({ list }) {
   return (
     <>
-      {list.map((project) => {
+      {list && list.map((project) => { 
+        
+        const { _id, title,  date,  status } = project; 
+        const start_date = date;
         return (
           <>
-            <div className="col-xl-3 col-lg-4 col-sm-6" key={project.id}>
+            <div className="col-xl-3 col-lg-4 col-sm-6" key={_id}>
               <div className="card hover-shadow-lg">
                 <div className="card-header border-0 pb-0">
                   <div className="d-flex justify-content-between align-items-center">
@@ -17,7 +19,7 @@ export default function DataGrid({ list }) {
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Start Date "
                       >
-                        {project.start_date}
+                        {start_date}
                       </h6>
                     </div>
                     <div className="text-right">
@@ -27,7 +29,7 @@ export default function DataGrid({ list }) {
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Due Date "
                         >
-                          {project.due_date}
+                          {status}
                         </h6>
                       </div>
                     </div>
@@ -36,7 +38,7 @@ export default function DataGrid({ list }) {
                 <div className="card-body text-center">
                   <h5 className=" my-4">
                     <Link to={"project/" + project.id} className="text-dark">
-                      {project.name}
+                      {title}
                     </Link>
                   </h5>
                   <div className="avatar-group hover-avatar-ungroup mb-3">
@@ -78,7 +80,7 @@ export default function DataGrid({ list }) {
                       project.classes
                     }
                   >
-                    {project.status}
+                    {status}
                   </span>
                 </div>
                 <div className="card-footer">
@@ -100,7 +102,7 @@ export default function DataGrid({ list }) {
                     </div>
                     <div className="action-btn bg-warning ms-2">
                       <Link
-                        to={"project/" + project.id}
+                        to={"project/" + _id}
                         className="mx-3 btn btn-sm d-inline-flex align-items-center"
                         data-bs-whatever="View Project"
                         data-bs-toggle="tooltip"

@@ -1,8 +1,13 @@
 import React from "react";
 import PageHeader from "../Utllils/PageHeader";
-export default function SelectedProject(project) {
+import { useSelector } from 'react-redux';
+export default function SelectedProject() {
   
-  const { title: projectTitle } = project;
+  const project = useSelector((c) => c.projects.selectedProject);
+  const { _id, title : projectTitle, description, date } = project; 
+  const start_date = date;
+  const progress = "50%";
+  // const classes = "bg-success";
   const phases = [
     {
       id: 1,
@@ -30,7 +35,7 @@ export default function SelectedProject(project) {
       <div className="dash-content">
         <PageHeader title={projectTitle} />
 
-        <div className="row">
+        <div className="row" key={_id}>
           <div className="col-12">
             <div className="card">
               <div className="card-body">
@@ -38,6 +43,7 @@ export default function SelectedProject(project) {
                   <div className="avatar me-3">
                     <img
                       avatar="Beverly"
+                      src="https://demo.rajodiya.com/erpgo-saas/storage/projects/1626783039.png"
                       alt=""
                       className="img-user wid-45 rounded-circle"
                     />
@@ -51,16 +57,16 @@ export default function SelectedProject(project) {
                           <small className="font-weight-bold">
                             Completed: :{" "}
                           </small>
-                          60%
+                          {progress}
                         </span>
                         <div className="progress progress-xs mt-2">
                           <div
                             className="progress-bar bg-info"
                             role="progressbar"
-                            aria-valuenow="60"
+                            aria-valuenow={progress}
                             aria-valuemin="0"
                             aria-valuemax="100"
-                            style={{ width: "60%" }}
+                            style={{ width: progress }}
                           ></div>
                         </div>
                       </div>
@@ -71,7 +77,7 @@ export default function SelectedProject(project) {
                 <div className="row">
                   <div className="col-sm-10">
                     <h4 className="mt-3 mb-1"> {""}</h4>
-                    <p> Fuga Temporibus ven</p>
+                    <p>{description}</p>
                   </div>
                 </div>
                 <div className="card bg-primary mb-0">
@@ -79,7 +85,7 @@ export default function SelectedProject(project) {
                     <div className="d-block d-sm-flex align-items-center justify-content-between">
                       <div className="row align-items-center">
                         <span className="text-white text-sm">Start Date</span>
-                        <h5 className="text-white text-nowrap">27 Jun 2005</h5>
+                        <h5 className="text-white text-nowrap">{start_date}</h5>
                       </div>
                       <div className="row align-items-center">
                         <span className="text-white text-sm">End Date</span>

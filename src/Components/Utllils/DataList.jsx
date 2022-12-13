@@ -19,27 +19,31 @@ export default function DataList({ list }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {list.map((project) => {
+                  { list && list.map((project) => {
+                       const { _id, title,  date,  status } = project; 
+                       const start_date = date;
+                       const progress = "50%";
+                       const classes = "bg-success";
                     return (
-                      <tr key={project.id}>
+                      <tr key={_id}>
                         <td>
                           <div className="d-flex align-items-center">
                             <img
-                              src={project.avatar}
+                              src="https://demo.rajodiya.com/erpgo-saas/storage/projects/1626783039.png"
                               className="wid-40 rounded me-3"
-                              alt={project.name}
+                              alt={title}
                             />
                             <p className="mb-0">
                               <Link
-                                to={"project" + project.id}
+                                to={"project/" + _id}
                                 className="name mb-0 h6 text-sm"
                               >
-                                {project.name}
+                                {title}
                               </Link>
                             </p>
                           </div>
                         </td>
-                        <td>{project.start_date}</td>
+                        <td>{start_date}</td>
                         {/* <td>
                           <div className="avatar-group" id="project_13">
                             <Link
@@ -94,22 +98,22 @@ export default function DataList({ list }) {
                          </td>
                         <td>
                           <h6 className="mb-0 text-success">
-                            {project.progress}
+                            {progress}
                           </h6>
                           <div className="progress mb-0">
                             <div
-                              className={"progress-bar " + project.classes}
-                              style={{ width: project.progress }}
+                              className={"progress-bar " + classes}
+                              style={{ width: progress }}
                             ></div>
                           </div>
                         </td>
                         <td>
                           <span
                             className={
-                              "badge p-2 px-3 rounded " + project.classes
+                              "badge p-2 px-3 rounded " + classes
                             }
                           >
-                            {project.status}
+                            {status}
                           </span>
                         </td>
                         <td className="text-right"> 

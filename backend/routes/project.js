@@ -62,7 +62,8 @@ router.get('/', [auth,admin] , async (req, res, next) => {
 //  GET | MY Projects | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.get('/me', [auth, manager], async (req, res, next) => {
     try {
-        const projects = await Project.find({manager : req.user._id}).select('id title status date description date');
+        // const projects = await Project.find({manager : req.user._id}).select('id title status date description date');
+        const projects = await Project.find({manager : req.user._id}).select('-manager');
         return res.status(200).send(projects);
     } catch (err) {
         next();

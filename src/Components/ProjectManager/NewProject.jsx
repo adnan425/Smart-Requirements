@@ -3,8 +3,9 @@ import Form from "../Utllils/Form";
 import PageHeader from "../Utllils/PageHeader";
 import http from "../Services/httpService"; 
 import Joi from "joi-browser";
-import { toast } from "react-toastify";
-export default class NewProject extends Form {
+import { toast } from "react-toastify"; 
+ 
+ export default class NewProject extends Form {
   
   schema = {
     title: Joi.string().min(3).max(200).required().label("Title"),
@@ -18,7 +19,8 @@ export default class NewProject extends Form {
     errors: {},
   };
   doSubmit = async () => {
-    const { data } = this.state;
+    const { data } = this.state; 
+
     http.post(
       "http://localhost:3004/api/projects",
       data
@@ -70,3 +72,4 @@ export default class NewProject extends Form {
     );
   }
 }
+ 

@@ -6,7 +6,7 @@ export default function Header() {
   // console.log("Header", user);
 
   return (
-    <header className="dash-header  transprent-bg">
+    <header className="dash-header  transprent-bg ">
       <div className="header-wrapper">
         <div className="me-auto dash-mob-drp">
           <ul className="list-unstyled">
@@ -14,7 +14,10 @@ export default function Header() {
               <a href="#!" className="dash-head-link" id="mobile-collapse">
                 <div className="hamburger hamburger--arrowturn">
                   <div className="hamburger-box">
-                    <div className="hamburger-inner"></div>
+                    <div className="hamburger-inner">
+                      
+                    </div>
+
                   </div>
                 </div>
               </a>

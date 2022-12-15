@@ -91,14 +91,16 @@ export default function Home() {
       setselectedProjectID(project._id);
     }
   };
-
+  const IsSelectClick = ()=>{
+    setIsSelect(!isSelect);
+  }
   return (
     <>
       <Sidebar items={projects} onProjectSelect={handleSelectProject} />
       <div className="main-content position-relative">
         <Header />
         {!isSelect && <Outlet />}
-        {isSelect && <SelectedProject />}
+        {isSelect && <SelectedProject handlePhase={IsSelectClick}/>}
       </div>
     </>
   );

@@ -43,7 +43,8 @@ const slice = createSlice({
         },
         [getMyProjects.fulfilled]: (projects, action) => {
             projects.loading = false;
-            projects.list = action.payload; 
+            if(action.type !== "error")
+                projects.list = action.payload; 
 
         },
         [getMyProjects.rejected]: (state, action) => {
@@ -55,7 +56,8 @@ const slice = createSlice({
         },
         [getProjectById.fulfilled]: (state, action) => {
             state.loading = false;
-            state.selectedProject = action.payload;
+            if(action.type !== "error")
+                state.selectedProject = action.payload;
         },
         [getProjectById.rejected]: (state, action) => {
             state.loading = false;
@@ -67,7 +69,8 @@ const slice = createSlice({
         },
         [addProject.fulfilled]: (state, action) => {
             state.loading = false;
-            state.list = [...state.projects.list , action.payload];
+            if(action.type !== "error")
+                state.list = [...state.projects.list , action.payload];
         },
         [addProject.rejected]: (state, action) => {
             state.loading = false;

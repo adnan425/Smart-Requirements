@@ -36,7 +36,7 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
                     <div className="dash-link">
                       <span className="dash-micon">
                         <i
-                          className={list.icon ? list.icon : "ti ti-list-check"}
+                          className={list.icon ? list.icon : "ti ti-layout-2"}
                         />
                       </span>
                       <span className="dash-mtext">

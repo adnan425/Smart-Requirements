@@ -85,6 +85,7 @@ export default function Projects() {
               <div className="row">
                  { !gridView && <DataList list={projectsList} /> }
                  { gridView && <DataGrid list={projectsList} /> }
+                 
               </div>
             </div>
             {/* <!-- [ Main Content ] end --> */}

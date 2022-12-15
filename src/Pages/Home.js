@@ -14,6 +14,7 @@ import Manager from '../Components/ProjectManager/Home';
 import NewProject from "../Components/ProjectManager/NewProject";
 import ManagerProject from '../Components/ProjectManager/Projects'
 import Stakeholder from '../Components/Stakeholder/Home';
+import Elicitation from "../Components/ProjectManager/Elicitation";
 import Logout from './../Components/Utllils/Logout';
 
 import { ToastContainer } from "react-toastify";
@@ -44,6 +45,7 @@ export default function Home() {
         <Route path="manager" element={<Manager />} >
           <Route  index element={<ManagerProject/>} />
           <Route  exact path="new" element={<NewProject/>} />
+          <Route path="phase1" element={<Elicitation/>} />
         </Route>
 
 

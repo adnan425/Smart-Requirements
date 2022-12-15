@@ -1,8 +1,11 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-export default function PageHeader({ handleView="" , title = "Dashboard", icon = ""}) {
-  
+export default function PageHeader({
+  handleView = "",
+  title = "Dashboard",
+  icon = "",
+}) {
   return (
     <div className="page-header">
       <div className="page-block">
@@ -20,26 +23,27 @@ export default function PageHeader({ handleView="" , title = "Dashboard", icon =
                 </h4>
               </div>
               <div className="col-auto">
-
-                <button
-                  onClick={(handleView==="") ? "{JavaScript:Void(0)}" : handleView}
-                  className="btn btn-sm btn-primary btn-icon m-1"
-                  data-bs-toggle="tooltip"
-                  data-bs-original-title="Grid View"
-                >
-                  <i className={icon}></i>
-                </button> 
+                {handleView && (
+                  <button
+                    onClick={
+                      handleView === "" ? "{JavaScript:Void(0)}" : handleView
+                    }
+                    className="btn btn-sm btn-primary btn-icon m-1"
+                    data-bs-toggle="tooltip"
+                    data-bs-original-title="Grid View"
+                  >
+                    <i className={icon}></i>
+                  </button>
+                )}
               </div>
             </div>
             <ul className="breadcrumb">
-              <li className="breadcrumb-item"> 
-              <Link to="/">Dashboard</Link></li>
               <li className="breadcrumb-item">
-                <Link to="">
-                  {title}
-                </Link>
+                <Link to="/">Dashboard</Link>
               </li>
-               
+              <li className="breadcrumb-item">
+                <Link to="">{title}</Link>
+              </li>
             </ul>
           </div>
         </div>

@@ -18,6 +18,8 @@
     "post-loader": "^2.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.0",
+    "react-bootstrap-modal": "^4.2.0",
     "react-dom": "^18.2.0",
     "react-easy-swipe": "^0.0.22",
     "react-perfect-scrollbar": "^1.5.8",

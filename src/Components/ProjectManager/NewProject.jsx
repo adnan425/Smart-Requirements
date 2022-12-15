@@ -24,9 +24,9 @@ import { toast } from "react-toastify";
     http.post(
       "http://localhost:3004/api/projects",
       data
-    ).then((data)=>{
+    ).then((data)=>{ 
       if(data.status === 200){
-        toast.success(data.data);
+        toast.success("Successfully created your new project.");
         this.setState({
           data : {
             title: "",

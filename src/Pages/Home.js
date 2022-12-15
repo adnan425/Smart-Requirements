@@ -1,7 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from './Login/Login';
+import Login from './Login';
 import Signup from './Signup';
+import ForgetPassword from './ForgetPassword';
 import Admin from '../Components/Admin/Admin';
 import Users from "../Components/Admin/Pages/Users";
 import Settings from "../Components/Admin/Pages/Settings";
@@ -30,6 +31,7 @@ export default function Home() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout/>} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forget-password" element={<ForgetPassword/>} />
 
         {/* admin routes */}
         <Route path="admin" element={<Admin />} >

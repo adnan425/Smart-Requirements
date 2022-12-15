@@ -10,7 +10,11 @@ export default function Elicitation() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [requirement, setRequirement] = useState({
+    title: '',
+    description: '',
+    type: '',
+  })
   return (
     <div className="page-content">
       <div className="dash-container">
@@ -30,7 +34,23 @@ export default function Elicitation() {
               <Modal.Header closeButton>
                 <Modal.Title>Requirements</Modal.Title>
               </Modal.Header>
-              <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+              <Modal.Body>
+                <div class="col-md-12 form-group">
+                  <label for="title" class="col-form-label">Short Title</label>
+                  <input class="form-control" value={requirement.title} onChange={e=> setRequirement({...requirement,title:e.target.value})} placeholder="Enter short title of requirement"
+                    required="required" id='title' type="text" />
+                </div>
+                <div class="col-md-12 form-group">
+                  <label for="desc" class="col-form-label">Description</label>
+                  <input class="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
+                    required="required" id='desc' type="text" />
+                </div>
+                <div class="form-group col-md-12">
+                <label for="type" class="col-form-label">Requirement Type</label>
+                <select class="form-control select2" required="required" id="type">
+                  <option value="Functional">Functional</option><option value="Non-Functional">Non-Functional</option></select>
+            </div>
+              </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                   Close
@@ -48,7 +68,7 @@ export default function Elicitation() {
                   role="tablist"
                 >
                   <li className="nav-item" role="presentation">
-                    
+
                     <button
                       className="nav-link active"
                       id="pills-user-tab-3"
@@ -60,7 +80,7 @@ export default function Elicitation() {
                     </button>
                   </li>
                   <li className="nav-item" role="presentation">
-                    
+
                     <button
                       className="nav-link"
                       id="pills-user-tab-1"
@@ -94,7 +114,7 @@ export default function Elicitation() {
                       aria-labelledby="home-tab4"
                     >
                       <div className="tab-content" id="myTabContent">
-                      <div
+                        <div
                           className="tab-pane fade active show"
                           id="pills-user-3"
                           role="tabpanel"

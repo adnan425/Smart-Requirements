@@ -19,13 +19,6 @@ const projectSchema = new mongoose.Schema({
         trim: true,
         unique: true
     },
-    description: {
-        type: String,
-        required: true,
-        minLength: 3,
-        maxLength: 255,
-        trim: true, 
-    },
     status: {
         type: String,
         enum: ['started','pending','completed'],

@@ -1,4 +1,5 @@
 import React from 'react'
+import Theme from './../../Utllils/Theme';
 
 export default function Settings() {
   return (
@@ -17,7 +18,7 @@ export default function Settings() {
                 </div>
                 <ul className="breadcrumb">
                   <li className="breadcrumb-item"> </li>
-                  <a href="https://demo.rajodiya.com/cmmsgo/home"></a>
+                  <a href="/"></a>
                 </ul>
               </div>
             </div>
@@ -27,7 +28,7 @@ export default function Settings() {
         <div className="row">
           <div className="row">
             <div className="col-sm-12">
-             
+             <Theme/>
             </div>
           </div>
         </div>

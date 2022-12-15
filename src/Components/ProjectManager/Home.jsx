@@ -86,7 +86,12 @@ export default function Home() {
       setIsSelect(false);
       redirect("/manager");
       return;
-    } else {
+    }
+    else if (project.title === "Settings") {
+      setIsSelect(false);
+      redirect("/manager/settings");
+      return;
+    }    else {
       // UPDATE THE STATE 
       setselectedProjectID(project._id);
     }

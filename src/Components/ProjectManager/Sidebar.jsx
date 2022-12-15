@@ -15,6 +15,12 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
       icon: "ti ti-plus",
       title: "New Project",
     },
+    {
+      _id: 11,
+      icon: "ti ti-settings",
+      title: "Settings",
+    },
+    
   ];
 
   return (
@@ -26,7 +32,7 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
         <PerfectScrollbar>
           <div className="navbar-content active">
             <ul className="dash-navbar">
-              {items.map((list) => {
+              {items && items.map((list) => {
                 return (
                   <li
                     className="dash-item"
@@ -40,7 +46,7 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
                         />
                       </span>
                       <span className="dash-mtext">
-                        {list.title.slice(0, 20)}
+                        {list.title }
                       </span>
                       {/* <span className="dash-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span> */}
                     </div>

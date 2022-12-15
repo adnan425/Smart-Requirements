@@ -48,6 +48,8 @@ export default function Home() {
           <Route  index element={<ManagerProject/>} />
           <Route  exact path="new" element={<NewProject/>} />
           <Route path="phase1" element={<Elicitation/>} />
+          <Route exact path="settings" element={<Settings />} />
+
         </Route>
 
 

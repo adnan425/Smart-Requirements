@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import Logo from "../Utllils/Logo";
 
@@ -22,6 +22,10 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
     },
     
   ];
+  const [active, setActive] = useState('All Projects');
+  const activeClick = ({title})=>{
+    setActive(title);
+  }
 
   return (
     <nav className="dash-sidebar light-sidebar transprent-bg active dash-trigger">
@@ -35,8 +39,8 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
               {items && items.map((list) => {
                 return (
                   <li
-                    className="dash-item"
-                    onClick={() => onProjectSelect(list)}
+                    className={ `dash-item  ${(active===list.title) ? 'active' : ""}` }
+                    onClick={() => {onProjectSelect(list); activeClick(list) }} 
                     key={list._id}
                   >
                     <div className="dash-link">

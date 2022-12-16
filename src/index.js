@@ -7,6 +7,13 @@ import { BrowserRouter } from "react-router-dom";
 import "react-perfect-scrollbar/dist/css/styles.css"; 
 import { Provider } from "react-redux";
 import store from './Components/Store/configureStore';
+
+
+import './assets/css/style.css';
+import './assets/css/customizer.css';
+import './assets/css/custom.css';
+import '@tabler/icons/iconfont/tabler-icons.min.css'
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

@@ -35,19 +35,19 @@ export default function Elicitation() {
                 <Modal.Title>Requirements</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <div class="col-md-12 form-group">
-                  <label for="title" class="col-form-label">Short Title</label>
-                  <input class="form-control" value={requirement.title} onChange={e=> setRequirement({...requirement,title:e.target.value})} placeholder="Enter short title of requirement"
+                <div className="col-md-12 form-group">
+                  <label for="title" className="col-form-label">Short Title</label>
+                  <input className="form-control" value={requirement.title} onChange={e=> setRequirement({...requirement,title:e.target.value})} placeholder="Enter short title of requirement"
                     required="required" id='title' type="text" />
                 </div>
-                <div class="col-md-12 form-group">
-                  <label for="desc" class="col-form-label">Description</label>
-                  <input class="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
+                <div className="col-md-12 form-group">
+                  <label for="desc" className="col-form-label">Description</label>
+                  <input className="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
                     required="required" id='desc' type="text" />
                 </div>
-                <div class="form-group col-md-12">
-                <label for="type" class="col-form-label">Requirement Type</label>
-                <select class="form-control select2" required="required" id="type">
+                <div className="form-group col-md-12">
+                <label for="type" className="col-form-label">Requirement Type</label>
+                <select className="form-control select2" required="required" id="type">
                   <option value="Functional">Functional</option><option value="Non-Functional">Non-Functional</option></select>
             </div>
               </Modal.Body>

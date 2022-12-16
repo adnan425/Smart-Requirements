@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import DataList from "../Utllils/DataList";
 import DataGrid from "../Utllils/DataGrid"; 
 import PageHeader from "../Utllils/PageHeader";   
-import { useSelector } from "react-redux";  
+import { useSelector } from "react-redux"; 
+import { Link } from "react-router-dom"; 
 
 export default function Projects() {
   const projectsList= useSelector((c) => c.projects.list);
@@ -85,12 +86,12 @@ export default function Projects() {
     <div class="row">
         <div class="btn-group btn-group-toggle" data-toggle="buttons" aria-label="Basic radio toggle button group">
             <label class="btn btn-primary month-label active">
-                <a href="#" class="text-white">  Pending </a>
+                <Link  class="text-white">  Pending </Link>
 
             </label>
 
             <label class="btn btn-primary year-label">
-                <a href="#" class="text-white">Completed</a>
+                <Link  class="text-white">Completed</Link>
 
             </label>
         </div>

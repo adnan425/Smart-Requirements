@@ -1,4 +1,6 @@
 "use strict";
+import PerfectScrollbar from "perfect-scrollbar";
+const bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 var flg = "0";
 document.addEventListener("DOMContentLoaded", function () {
   // feather icon start
@@ -504,8 +506,7 @@ function rmmini() {
   if (vw <= 1024) {
     if (document.querySelector("body").classList.contains("minimenu")) {
       document.querySelector("body").classList.remove("minimenu");
-      flg = "1";
-      2;
+      flg = "1"; 
     }
   } else {
     if (vw > 1024) {
@@ -703,8 +704,8 @@ if (document.querySelector("body").classList.contains("dash-horizontal")) {
     if (topbarhasmenu) {
       topbarhasmenu.addEventListener(
         "mouseenter",
-        function () {
-          var elm = targetElement.children[1];
+        function (e) {
+          var elm = e.target.children[1];
           var off = elm.getBoundingClientRect();
           var l = off.left;
           var t = off.top;
@@ -821,7 +822,7 @@ let slideUp = (target, duration = 0) => {
   target.style.transitionDuration = duration + "ms";
   target.style.boxSizing = "border-box";
   target.style.height = target.offsetHeight + "px";
-  target.offsetHeight;
+  // target.offsetHeight;
   target.style.overflow = "hidden";
   target.style.height = 0;
   target.style.paddingTop = 0;

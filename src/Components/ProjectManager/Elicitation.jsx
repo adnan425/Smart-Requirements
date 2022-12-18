@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Accordion from "../Utllils/Accordion";
 import PageHeader from "../Utllils/PageHeader";
 import PageTitle from "./../Utllils/PageTitle";
+import { Joi } from 'joi-browser';
 
 export default function Elicitation() {
   const [show, setShow] = useState(false);
@@ -14,7 +15,20 @@ export default function Elicitation() {
     title: '',
     description: '',
     type: '',
-  })
+  });
+  const requirementSchema = ()=>{
+    title: Joi.string()
+  }
+  const validate = ()=>{
+
+  }
+  const handleSubmit = () =>{
+
+    // const errors = 
+  }
+
+
+
   return (
     <div className="page-content">
       <div className="dash-container">
@@ -42,7 +56,7 @@ export default function Elicitation() {
                 </div>
                 <div className="col-md-12 form-group">
                   <label for="desc" className="col-form-label">Description</label>
-                  <input className="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
+                  <textarea className="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
                     required="required" id='desc' type="text" />
                 </div>
                 <div className="form-group col-md-12">
@@ -55,8 +69,8 @@ export default function Elicitation() {
                 <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
-                  Save Changes
+                <Button variant="primary" onClick={handleSubmit}>
+                  Add
                 </Button>
               </Modal.Footer>
             </Modal>

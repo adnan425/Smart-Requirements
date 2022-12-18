@@ -27,7 +27,6 @@ export const getProjectById = createAsyncThunk("projects/getProjectById", async 
     }
 });
 
-var lastId;
 const slice = createSlice({
     name: 'projects',
     initialState: {
@@ -38,6 +37,7 @@ const slice = createSlice({
         error: {}
     },
     extraReducers: {
+        //  GET MY PROJECTS
         [getMyProjects.pending]: (state, action) => {
             state.loading = true;
         },
@@ -51,6 +51,7 @@ const slice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        // GET PROJECTS BY ID
         [getProjectById.pending]: (state, action) => {
             state.loading = true;
         },
@@ -64,6 +65,7 @@ const slice = createSlice({
             state.error = action.payload;
 
         },
+        // ADD PROJECT
         [addProject.pending]: (state, action) => {
             state.loading = true;
         },
@@ -77,32 +79,9 @@ const slice = createSlice({
             state.error = action.payload;
 
         },
-        projectsRecived: (projects, action) => {
-            projects.list = action.payload.data;
-        },
-        projectAdded: (projects, action) => {
-            projects.list.push({
-                id: ++lastId,
-                description: action.payload.description,
-                resolved: false
-            })
-        },
-        projectUpdated: (projects, action) => {
-            const index = projects.list.findIndex(bug => bug.id === action.payload.id);
-            projects[index].resolved = true;
-        }
+   
     }
 });
 export const { projectsRecived, projectAdded, projectUpdated } = slice.actions;
 export default slice.reducer;
 
-// export const selectedProject = state => {
-//     // state.projects.filter(project => project.id )
-// }
-
-// ACTIONS CREATERS
-// export const loadProjects = ()=> apiCallBegin({
-//     url: 'projects',
-//     onSuccess: slice.actions.projectsRecived.type,
-//     onError: 'apiCallFailed'
-//  })

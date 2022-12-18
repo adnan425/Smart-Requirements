@@ -1,16 +1,20 @@
 const Joi = require("joi");
-const mongoose = require("mongoose");
-const { userSchema } = require('./user');
+const mongoose = require("mongoose"); 
 
 const projectSchema = new mongoose.Schema({
     manager: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users' // referencing users tables for get other details
     },
-    stakeholders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users' // referencing users tables for get other details
-    }],
+    stakeholders: {
+        type: new mongoose.Schema({
+            stakeholder_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'users'
+            },
+            date: {type: Date, default: Date.now}
+        })
+    },
     title: {
         type: String,
         required: true,

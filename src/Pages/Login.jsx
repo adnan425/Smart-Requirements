@@ -90,29 +90,29 @@ class Login extends Form {
         {this.state.admin && <Navigate to="/admin" replace={true} />}
         {!this.state.admin && !this.state.manager && !this.state.stakeholder && (
           <>
-            <div class="auth-wrapper auth-v3">
-              <div class="bg-auth-side bg-primary"></div>
-              <div class="auth-content">
-                <nav class="navbar navbar-expand-md navbar-light default">
-                  <div class="container-fluid pe-2">
-                    <a class="navbar-brand" href="/">
+            <div className="auth-wrapper auth-v3">
+              <div className="bg-auth-side bg-primary"></div>
+              <div className="auth-content">
+                <nav className="navbar navbar-expand-md navbar-light default">
+                  <div className="container-fluid pe-2">
+                    <a className="navbar-brand" href="/">
                       <img src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
-                        class="auth-logo navbar-logo" alt="logo" />
+                        className="auth-logo navbar-logo" alt="logo" />
                     </a>
-                    {/* <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
+                    {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                      <span className="navbar-toggler-icon"></span>
                     </button> */}
-                    {/* <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style={{ flexGrow: "0" }}>
-                      <ul class="navbar-nav align-items-center ms-auto mb-2 mb-lg-0">
+                    {/* <div className="collapse navbar-collapse" id="navbarTogglerDemo01" style={{ flexGrow: "0" }}>
+                      <ul className="navbar-nav align-items-center ms-auto mb-2 mb-lg-0">
 
 
-                        <li class="nav-item">
+                        <li className="nav-item">
 
-                          <div class="btn-group align-items-center">
+                          <div className="btn-group align-items-center">
                             <select name="language" id="language"
-                              class="btn  btn-primary dropdown-toggle" >
+                              className="btn  btn-primary dropdown-toggle" >
 
-                              <option class="login_lang" selected="" >EN</option>
+                              <option className="login_lang" selected="" >EN</option>
 
                             </select>
                           </div>
@@ -124,12 +124,12 @@ class Login extends Form {
                   </div>
                 </nav>
 
-                <div class="card">
-                  <div class="row align-items-center text-start">
-                    <div class="col-xl-6">
-                      <div class="card-body">
-                        <div class="">
-                          <h2 class="mb-3 f-w-600">Login</h2>
+                <div className="card">
+                  <div className="row align-items-center text-start">
+                    <div className="col-xl-6">
+                      <div className="card-body">
+                        <div className="">
+                          <h2 className="mb-3 f-w-600">Login</h2>
                         </div>
                         <form
                           onSubmit={this.handleSubmit} 
@@ -142,29 +142,29 @@ class Login extends Form {
                               "Password",
                               "password"
                             )}
-                            <div class="mb-2 mt-2">
+                            <div className="mb-2 mt-2">
                               <Link to={"/forget-password"}
-                                class="small text-muted text-underline--dashed border-primar">Forgot Your Password?</Link>
+                                className="small text-muted text-underline--dashed border-primar">Forgot Your Password?</Link>
                             </div>
                             {this.renderButton("Sign In")}
-                            <p class="my-4 text-center">Don't have an account?
+                            <p className="my-4 text-center">Don't have an account?
                               <Link to={"/signup"}
-                                class="my-4 text-primary">Register</Link>
+                                className="my-4 text-primary">Register</Link>
                             </p>
                           </div>
                         </form>
                       </div>
                     </div>
-                    <div class="col-xl-6 img-card-side">
+                    <div className="col-xl-6 img-card-side">
                       <Carousel showArrows={false} showThumbs={false}>
                         {       this.keyPoints && this.keyPoints.map((point) => {
                           return (
-                            <div class="auth-img-content" key={point.id}>
+                            <div className="auth-img-content" key={point.id}>
 
                               <img src={point.pic}
-                                alt="" class="img-fluid" />
-                              <h3 class="text-white mb-4 mt-5">{point.heading}</h3>
-                              <p class="text-white">{point.text}</p>
+                                alt="" className="img-fluid" />
+                              <h3 className="text-white mb-4 mt-5">{point.heading}</h3>
+                              <p className="text-white">{point.text}</p>
                             </div>
 
                           )
@@ -176,11 +176,11 @@ class Login extends Form {
                 </div>
 
 
-                <div class="auth-footer">
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col-6">
-                        <p class="">Copyright ©  2022 </p>
+                <div className="auth-footer">
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col-6">
+                        <p className="">Copyright ©  2022 </p>
                       </div>
                     </div>
                   </div>

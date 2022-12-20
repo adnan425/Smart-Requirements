@@ -23,7 +23,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   return (
-    <>
+    <> 
     <ToastContainer/>
       <Routes>
         {/* <Route path="/" element={<LandingPage />} /> */}

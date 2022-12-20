@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // feather.replace();
   // feather icon end
   // remove pre-loader start
-  setTimeout(function () {
-    document.querySelector(".loader-bg").remove();
-  }, 400);
+  // setTimeout(function () {
+  //   document.querySelector(".loader-bg").remove();
+  // }, 400);
   // remove pre-loader end
   if (!document.querySelector("body").classList.contains("dash-horizontal")) {
     addscroller();
@@ -510,7 +510,7 @@ function rmmini() {
     }
   } else {
     if (vw > 1024) {
-      if (flg == "1") {
+      if (flg === "1") {
         document.querySelector("body").classList.add("minimenu");
         flg = "0";
       }
@@ -535,29 +535,12 @@ window.addEventListener("resize", function () {
   }
 });
 
-window.addEventListener("load", function () {
-  var tooltipTriggerList = [].slice.call(
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  );
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl);
-  });
-  var popoverTriggerList = [].slice.call(
-    document.querySelectorAll('[data-bs-toggle="popover"]')
-  );
-  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl);
-  });
-  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
-  var toastList = toastElList.map(function (toastEl) {
-    return new bootstrap.Toast(toastEl);
-  });
-});
+ 
 // active menu item list start
 var elem = document.querySelectorAll(".dash-sidebar .dash-navbar a");
 for (var l = 0; l < elem.length; l++) {
   var pageUrl = window.location.href.split(/[?#]/)[0];
-  if (elem[l].href == pageUrl && elem[l].getAttribute("href") != "") {
+  if (elem[l].href === pageUrl && elem[l].getAttribute("href") !== "") {
     elem[l].parentNode.classList.add("active");
     scrolltargetmenu(elem[l].parentNode);
     elem[l].parentNode.parentNode.parentNode.classList.add("active");
@@ -615,10 +598,10 @@ if (tablayclick) {
     var c = tc[t];
     c.addEventListener("click", function (event) {
       var targetElement = event.target;
-      if (targetElement.tagName == "A") {
+      if (targetElement.tagName === "A") {
         targetElement = targetElement.parentNode;
       }
-      if (targetElement.tagName == "I") {
+      if (targetElement.tagName === "I") {
         targetElement = targetElement.parentNode.parentNode;
       }
       var tempcont = targetElement.children[0].getAttribute("data-cont");
@@ -790,30 +773,7 @@ function collapseedge() {
     }
   }
 }
-// Collapse meni edge end
-var tc = document.querySelectorAll(".prod-likes .form-check-input");
-for (var t = 0; t < tc.length; t++) {
-  var prodlike = tc[t];
-  prodlike.addEventListener("change", function (event) {
-    if (event.currentTarget.checked) {
-      prodlike = event.target;
-      // console.log(prodlike.parentNode);
-      prodlike.parentNode.insertAdjacentHTML(
-        "beforeend",
-        '<div class="dash-like"><div class="like-wrapper"><span><span class="dash-group"><span class="dash-dots"></span><span class="dash-dots"></span><span class="dash-dots"></span><span class="dash-dots"></span></span></span></div></div>'
-      );
-      prodlike.parentNode
-        .querySelector(".dash-like")
-        .classList.add("dash-like-animate");
-      setTimeout(function () {
-        prodlike.parentNode.querySelector(".dash-like").remove();
-      }, 3000);
-    } else {
-      prodlike = event.target;
-      prodlike.parentNode.querySelector(".dash-like").remove();
-    }
-  });
-}
+ 
 
 // =======================================================
 // =======================================================

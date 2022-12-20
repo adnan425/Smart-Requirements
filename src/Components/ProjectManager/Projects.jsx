@@ -82,16 +82,16 @@ export default function Projects() {
         <div className="dash-container">
           <div className="dash-content">
           <PageHeader handleView={handleClick => { setGridView(!gridView); }}  title="All Projects" icon={(gridView) ? "ti ti-layout-grid" : "ti ti-list" } />
-          <div class="col-xl-12 col-lg-12 col-md-12 d-flex Palign-items-center justify-content-end mb-3">
-    <div class="row">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons" aria-label="Basic radio toggle button group">
-            <label class="btn btn-primary month-label active">
-                <Link  class="text-white">  Pending </Link>
+          <div className="col-xl-12 col-lg-12 col-md-12 d-flex Palign-items-center justify-content-end mb-3">
+    <div className="row">
+        <div className="btn-group btn-group-toggle" data-toggle="buttons" aria-label="Basic radio toggle button group">
+            <label className="btn btn-primary month-label active">
+                <Link  className="text-white">  Pending </Link>
 
             </label>
 
-            <label class="btn btn-primary year-label">
-                <Link  class="text-white">Completed</Link>
+            <label className="btn btn-primary year-label">
+                <Link  className="text-white">Completed</Link>
 
             </label>
         </div>

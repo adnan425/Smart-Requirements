@@ -9,7 +9,7 @@ import axios from "axios";
 import Form from "../Components/Utllils/Form";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import Logo from '../Components/Utllils/Logo';
+// import Logo from '../Components/Utllils/Logo';
 
 
 export default class Signup extends Form {

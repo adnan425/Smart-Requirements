@@ -1,33 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Accordion from "../Utllils/Accordion";
 import PageHeader from "../Utllils/PageHeader";
 import PageTitle from "./../Utllils/PageTitle";
-import { Joi } from 'joi-browser';
+import http from '../Services/httpService';
+import Joi from 'joi-browser';
+import { Editor } from '@tinymce/tinymce-react';
+import { useSelector , useDispatch } from 'react-redux';
+import { toast } from "react-toastify";
+import { projectRequirements } from '../Store/Projects/projects';
+
+const apiUrl = 'http://localhost:3004/api';
 
 export default function Elicitation() {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const projectId = useSelector(c => c.projects.selectedProject._id);
+  const requirements = useSelector(c => c.projects.requirements); 
+  if (!projectId) {
+    window.location = '../manager';
+  }
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(projectRequirements(projectId));
+  }, [dispatch, projectId])
+
   const [requirement, setRequirement] = useState({
     title: '',
     description: '',
-    type: '',
+    type: 'Functional',
+    projectId: projectId
   });
-  const requirementSchema = ()=>{
-    title: Joi.string()
+  const [errors, setErrors] = useState({});
+
+
+  const requirementSchema = {
+    title: Joi.string().min(5).max(50).required().label("Short Title"),
+    description: Joi.string().min(1).max(500).required().label("Description"),
+    type: Joi.string().min(1).max(26).required().label("Requirement Type"),
+    projectId: Joi.string().min(11).max(25).required()
   }
-  const validate = ()=>{
+  const validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(requirement, requirementSchema, options);
+    if (!error) return null;
+
+    const err = {};
+    for (let item of error.details) err[item.path[0]] = item.message;
+
+    console.log(err);
+    return err;
+  }
+  const handleSubmit = () => {
+    const error = validate();
+    if (error) {
+      setErrors(error);
+      return false;
+    }
+    doSubmit();
+  }
+  const doSubmit = () => {
+    http.post(`${apiUrl}/manager/requirement`, requirement).then(({ status }) => {
+      if (status === 200) {
+        toast.success("Added your requirement.");
+        setShow(false);
+        setRequirement({
+          title: '',
+          description: '',
+          type: 'Functional',
+          projectId: projectId,
+        })
+
+      } else {
+        toast(status);
+      }
+    }).catch(err => { console.log("error ", err.response.data); toast.error(err.response.data) });
+
 
   }
-  const handleSubmit = () =>{
-
-    // const errors = 
-  }
-
-
 
   return (
     <div className="page-content">
@@ -44,26 +97,51 @@ export default function Elicitation() {
                 <i className="ti ti-plus"></i></button>
             </PageTitle>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} size="lg" onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Requirements</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div className="col-md-12 form-group">
-                  <label for="title" className="col-form-label">Short Title</label>
-                  <input className="form-control" value={requirement.title} onChange={e=> setRequirement({...requirement,title:e.target.value})} placeholder="Enter short title of requirement"
+                  <label forhtml="title" className="col-form-label">Short Title</label>
+                  <input className="form-control" value={requirement.title} onChange={e => setRequirement({ ...requirement, title: e.target.value })} placeholder="Enter short title of requirement"
                     required="required" id='title' type="text" />
+                  {errors && <small className="small  text-danger ">{errors['title']}</small>}
                 </div>
                 <div className="col-md-12 form-group">
-                  <label for="desc" className="col-form-label">Description</label>
-                  <textarea className="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
-                    required="required" id='desc' type="text" />
+                  <label forhtml="desc" className="col-form-label">Description</label>
+                  {/* <textarea className="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
+                    required="required" id='desc' type="text" /> */}
+                  <Editor
+                    apiKey='z408d5ikk3diehupwlw4hi4ldi40xul0cxhqhazdhk15psov'
+                    // onInit={(evt, editor) => editorRef.current = editor}
+                    initialValue=""
+                    onEditorChange={(content, editor) => { setRequirement({ ...requirement, description: content }) }}
+                    init={{
+                      height: 200,
+                      menubar: false,
+                      plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'preview',
+                        'anchor', 'code', 'fullscreen',
+                        'insertdatetime', 'code', 'help', 'wordcount'
+                      ],
+                      toolbar: 'undo redo | blocks | ' +
+                        'bold italic  | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                  />
+                  {errors.description && <small className="small  text-danger ">{errors.description}</small>}
+
                 </div>
                 <div className="form-group col-md-12">
-                <label for="type" className="col-form-label">Requirement Type</label>
-                <select className="form-control select2" required="required" id="type">
-                  <option value="Functional">Functional</option><option value="Non-Functional">Non-Functional</option></select>
-            </div>
+                  <label forhtml="type" className="col-form-label">Requirement Type</label>
+                  <select className="form-control" required="required" id="type" onChange={e => setRequirement({ ...requirement, type: e.target.value })}>
+                    <option value="Functional">Functional</option><option value="Non-Functional">Non-Functional</option></select>
+                  {errors.type && <small className="small  text-danger ">{errors.type}</small>}
+
+                </div>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
@@ -134,6 +212,7 @@ export default function Elicitation() {
                           role="tabpanel"
                           aria-labelledby="pills-user-tab-3"
                         >
+                          {/* All Requirements */}
                           <div className="card">
                             <div className="card-header">
                               <h5>All Requirements</h5>
@@ -146,19 +225,28 @@ export default function Elicitation() {
                             <div className="card-body">
                               <div className="faq justify-content-center">
                                 <div className="col-sm-12 col-md-10-12 col-xxl-12">
-                                  <Accordion
-                                    id="fr-1"
-                                    title="FR:1 Use should Login"
-                                    description="<strong>This is the first item's accordion body.</strong> It is
-                shown by default, until the collapse plugin adds the appropriate
-                classes that we use to style each element. These classes control
-                the overall appearance, as well as the showing and hiding via
-                CSS transitions. You can modify any of this with custom CSS or
-                overriding our default variables. It's also worth noting that
-                just about any HTML can go within the
-                <code>.accordion-body</code>, though the transition does limit
-                overflow."
-                                  />
+
+                                 { 
+                                 requirements && requirements.map((requirement)=>{
+                                  const { _id } = requirement;
+                                  return (
+                                    <Accordion
+                                  id={_id}
+                                  title="FR:1 Use should Login"
+                                  description="<strong>This is the first item's accordion body.</strong> It is
+                                                  shown by default, until the collapse plugin adds the appropriate
+                                                  classes that we use to style each element. These classes control
+                                                  the overall appearance, as well as the showing and hiding via
+                                                  CSS transitions. You can modify any of this with custom CSS or
+                                                  overriding our default variables. It's also worth noting that
+                                                  just about any HTML can go within the
+                                                  <code>.accordion-body</code>, though the transition does limit
+                                                  overflow."
+                                />
+                                  )
+                                 })
+                                 }
+
                                 </div>
                               </div>
 

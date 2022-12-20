@@ -30,13 +30,10 @@ router.post('/', [auth, manager], async (req, res, next) => {
         const user = await User.findOne({ email: req.body.email });
         if (user){  
             const isAdded = await Project.find({_id: req.body.projectId}, {
-                stakeholders: {
-                    $elemMatch: { _id: user._id }
-                }
-            }); 
+                stakeholders: { _id: user._id }
+            });
             if(isAdded){
                 res.status(200).send("Stakeholder is already added.");
-
             }else{
                 await Project.findByIdAndUpdate(
                     req.body.projectId,
@@ -64,7 +61,17 @@ router.post('/', [auth, manager], async (req, res, next) => {
 
 });
 
-// DELETE | ONLY STAKEHOLDER CAN DELETE | 2 MIDDLWARE { AUTH , MANAGER } | ID OF STAKEHOLDER FOR DELETION 
+// GET | All Stakeholders By project ID | 2 MIDDLWARE { AUTH , MANAGER } | 
+router.get('/:id', [auth,manager], async (req,res,next)=>{
+    try {
+        const projectId = req.params.id;
+        const project = await Project.findOne({_id: projectId}); 
+        res.status(200).send(project); 
+    } catch (error) {
+        next();
+    }
+})
+// DELETE | ONLY STAKEHOLDER MANAGER DELETE | 2 MIDDLWARE { AUTH , MANAGER } | ID OF STAKEHOLDER FOR DELETION 
 router.delete('/:id', [auth,manager], async (req,res,next)=>{
     try {
         const project = await Project.findById(req.body.projectId);

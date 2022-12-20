@@ -20,13 +20,12 @@ const requirementSchema = new mongoose.Schema({
         type: String,
         required: true,
         minLength: 3,
-        maxLength: 255,
+        maxLength: 500,
         trim: true, 
     },
     type:{
         type: String,
-        enum: ['functional' ,'non-function'],
-        lowecase: true,
+        enum: ['Functional' ,'Non-Function'],
         required: true
     },
     date: {

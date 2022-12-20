@@ -3,16 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> 
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <title>Smart Requirements</title> 
-
+    <title>Smart Requirements</title>
+    <!-- <link rel="stylesheet" href="./../src/assets/css/style.css"> -->
+    <script type="text/javascript">
+      var lnk = document.createElement("link");
+      lnk.type = "text/css";
+      const themeMode = localStorage.getItem("themeMode");
+      if (themeMode != "dark") {
+        lnk.href = "./../src/assets/css/style.css";
+        lnk.rel = "stylesheet";
+        document.getElementsByTagName("head")[0].appendChild(lnk);
+      } else {
+        lnk.href =
+          "https://demo.rajodiya.com/taskly-saas/assets/css/style-dark.css";
+        lnk.rel = "stylesheet";
+        document.getElementsByTagName("head")[0].appendChild(lnk);
+      }
+    </script>
     <!-- <link
       rel="stylesheet"
       type="text/css"
@@ -22,25 +37,36 @@
 
   <body class="">
     <script>
-      const theme = localStorage.getItem('theme');
-      if(theme){
+      const theme = localStorage.getItem("theme");
+      if (theme) {
         document.body.classList.add(theme);
-      }else{
-        document.body.addClass("theme-4");
+      } else {
+        document.body.classList.add("theme-4");
       }
-  </script>
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--   final  -->
+    <script>
+      const transparent = localStorage.getItem("transparent");
+      const header = document.getElementsByTagName('header');
+      const nav = document.getElementsByTagName('nav');
+      if (transparent == 'no') {
+        header.classList.removeClass(" transparent-bg");
+        nav.classList.removeClass(" transparent-bg");
+
+      } else {
+        header.classList.add(" transparent-bg");
+        nav.classList.add(" transparent-bg");
+      }
+    </script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.2/umd/popper.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/perfect-scrollbar/1.5.5/perfect-scrollbar.min.js" ></script>  -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="./../src/assets/js/feather.min.js"></script>  -->
     <!-- <script src="https://unpkg.com/classnames@2.1.3/index.js"></script> -->
-    <!-- <script src="./../src/assets/js/dash.js"></script>  -->
- 
-   
+    <script src="./../src/assets/js/dash.js"></script>
+
     <!-- project tables -->
     <script type="text/javascript">
       $(".custom-navbar-toggler").click(function () {
@@ -73,6 +99,5 @@
     </script> -->
 
     <script src="https://demo.rajodiya.com/crmgo-saas/assets/js/plugins/apexcharts.min.js"></script>
-  
   </body>
 </html>

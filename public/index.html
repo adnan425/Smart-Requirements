@@ -13,22 +13,9 @@
 
     <title>Smart Requirements</title>
     <!-- <link rel="stylesheet" href="./../src/assets/css/style.css"> -->
-    <script type="text/javascript">
-      var lnk = document.createElement("link");
-      lnk.type = "text/css";
-      const themeMode = localStorage.getItem("themeMode");
-      if (themeMode != "dark") {
-        lnk.href = "./../src/assets/css/style.css";
-        lnk.rel = "stylesheet";
-        document.getElementsByTagName("head")[0].appendChild(lnk);
-      } else {
-        lnk.href =
-          "https://demo.rajodiya.com/taskly-saas/assets/css/style-dark.css";
-        lnk.rel = "stylesheet";
-        document.getElementsByTagName("head")[0].appendChild(lnk);
-      }
-    </script>
-    <!-- <link
+    <!-- <link rel="stylesheet" href="./../src/assets/css/style.css"> -->
+    <!-- <link rel="stylesheet" href="https://demo.rajodiya.com/taskly-saas/assets/css/style-dark.css"> -->
+      <!-- <link
       rel="stylesheet"
       type="text/css"
       href="assets/css/css-responsive.css"
@@ -56,6 +43,17 @@
     <script src="./../src/assets/js/dash.js"></script>
 <!-- <script src="https://demo.rajodiya.com/cmmsgo-saas/assets/js/dash.js"></script> -->
     <!-- project tables -->
+    <script>
+      $(document).ready(()=>{
+        const themeMode = localStorage.getItem("themeMode");
+      if (themeMode === "dark") {
+        $('head').append('<link rel="stylesheet" href="https://demo.rajodiya.com/taskly-saas/assets/css/style-dark.css">')
+      }
+      })
+    </script>
+
+    
+
     <script type="text/javascript">
       $(".custom-navbar-toggler").click(function () {
         if ($(this).attr("aria-expanded") == "true") {

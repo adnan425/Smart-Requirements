@@ -24,8 +24,7 @@ const requirementSchema = new mongoose.Schema({
         trim: true, 
     },
     type:{
-        type: String,
-        enum: ['Functional' ,'Non-Function'],
+        type: String, 
         required: true
     },
     date: {

@@ -36,6 +36,7 @@ router.post('/', [auth, manager ], async (req, res, next) => {
             title: req.body.title,
             description: req.body.description,
             manager: manager._id, 
+            stakeholders: [],
             status: "started"
         });
         

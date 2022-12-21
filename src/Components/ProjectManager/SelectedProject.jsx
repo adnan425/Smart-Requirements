@@ -1,8 +1,18 @@
-import React, {  } from "react";
+import React, { useState } from "react";
 import PageHeader from "../Utllils/PageHeader";
-import { useSelector,  } from 'react-redux';
+import { useSelector, } from 'react-redux';
 import { Link } from "react-router-dom";
-import Card from "../Utllils/Card"; 
+import Card from "../Utllils/Card";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { toast } from "react-toastify";
+import Joi from 'joi-browser';
+import http from '../Services/httpService';
+const moment = require('moment');
+
+const apiUrl = 'http://localhost:3004/api';
+
+
 export default function SelectedProject({ handlePhase }) {
   const stakeholders = [
     {
@@ -25,13 +35,66 @@ export default function SelectedProject({ handlePhase }) {
     },
 
   ]
-  const project = useSelector((c) => c.projects.selectedProject);;
+  const project = useSelector((c) => c.projects.selectedProject);
+  const projectId = useSelector((c) => c.projects.selectedProject._id);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [errors, setErrors] = useState({});
+  const [stakeholder, setStakeholder] = useState({
+    projectId: projectId,
+    name: '',
+    email: '',
+    password: ''
+  })
 
+  const stakeholderSchema = {
+    name: Joi.string().min(5).max(50).required(),
+    email: Joi.string().min(5).max(255).required().email(),
+    password: Joi.string().min(8).max(255).required(),
+    projectId: Joi.string().min(11).max(25).required()
+  }
+  const validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(stakeholder, stakeholderSchema, options);
+    if (!error) return null;
+
+    const err = {};
+    for (let item of error.details) err[item.path[0]] = item.message;
+
+    console.log(err);
+    return err;
+  }
+  const handleSubmit = () => {
+    const error = validate();
+    if (error) {
+      setErrors(error);
+      return false;
+    }
+    doSubmit();
+  }
+  const doSubmit = () => {
+    http.post(`${apiUrl}/projects/stakeholder`, stakeholder).then(({ status }) => {
+      if (status === 200) {
+        toast.success("Successfully added.");
+        setShow(false);
+        setStakeholder({
+          name: '',
+          email: '',
+          password: '',
+          projectId: projectId,
+        })
+
+      } else {
+        toast(status);
+      }
+    }).catch(err => { console.log("error ", err.response.data); toast.error(err.response.data) });
+
+
+  }
   const { _id, title: projectTitle, date } = project;
+  const start_date = moment(date).format("MMM Do YYYY");;
 
-
-
-  const start_date = date;
   // const classes = "bg-success";
   const phases = [
     {
@@ -69,7 +132,7 @@ export default function SelectedProject({ handlePhase }) {
                   <div className="col-md-3 px-3">
                     <span className="text-white text-sm mb-2 d-block">Progress : 30%</span>
                     <h5 className="text-white text-nowrap" style={{ padding: "5px !important" }}>
-                      <div className="progress custom_progress"> 
+                      <div className="progress custom_progress">
 
                         <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" ariav-aluenow="30" aria-valuemin="0" aria-valuemax="100" style={{ width: "30%" }}>
                         </div>
@@ -77,7 +140,7 @@ export default function SelectedProject({ handlePhase }) {
                   </div>
                   <div className="col-md-3 px-3">
                     <small className="text-white mb-2 d-block">Start Date</small>
-                    <h5 className="text-white text-nowrap">Jul 12, 2021</h5>
+                    <h5 className="text-white text-nowrap">{start_date}</h5>
                   </div>
                   <div className="col-md-3 px-3" >
                     <div className="row">
@@ -108,7 +171,7 @@ export default function SelectedProject({ handlePhase }) {
             <Card title="Requirement Phases" description="Requirements elicitation practices include interviews, questionnaires, user observation, workshops, brainstorming, use cases, role playing and prototyping.">
               <div className="row kanban-wrapper horizontal-scroll-cards">
 
-                {phases.map((phase) => {
+                {phases && phases.map((phase) => {
                   return (
 
                     <div className="col" id={phase.id}  >
@@ -248,14 +311,47 @@ export default function SelectedProject({ handlePhase }) {
                       )
                     })}
                     <div className="col-md-3">
-                      <a href="/" className="btn-addnew-project"
+                      <button onClick={handleShow} className="btn-addnew-project"
                         data-bs-toggle="tooltip" data-bs-placement="top" title="project" >
                         <div className="bg-primary proj-add-icon">
                           <i className="ti ti-plus"></i>
                         </div>
                         <h6 className="mt-4 mb-2">New User</h6>
                         <p className="text-muted text-center">Click here to add New User</p>
-                      </a>
+                      </button>
+                      <Modal show={show} size="lg" onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Requirements</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <div className="col-md-12 form-group">
+                            <label forhtml="name" className="col-form-label">Name</label>
+                            <input className="form-control" value={stakeholder.name} onChange={e => setStakeholder({ ...stakeholder, name: e.target.value })} placeholder="Enter Name"
+                              required="required" id='name' type="text" />
+                            {errors && <small className="small  text-danger ">{errors['name']}</small>}
+                          </div>
+                          <div className="col-md-12 form-group">
+                            <label forhtml="email" className="col-form-label">Email</label>
+                            <input className="form-control" value={stakeholder.email} onChange={e => setStakeholder({ ...stakeholder, email: e.target.value })} placeholder="Enter Email"
+                              required="required" id='email' type="email" />
+                            {errors && <small className="small  text-danger ">{errors['email']}</small>}
+                          </div>
+                          <div className="col-md-12 form-group">
+                            <label forhtml="pass" className="col-form-label">Password</label>
+                            <input className="form-control" value={stakeholder.password} onChange={e => setStakeholder({ ...stakeholder, password: e.target.value })} placeholder="Enter Password"
+                              required="required" id='pass' type="password" />
+                            {errors && <small className="small  text-danger ">{errors['password']}</small>}
+                          </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleClose}>
+                            Close
+                          </Button>
+                          <Button variant="primary" onClick={handleSubmit}>
+                            Add
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
                     </div>
                   </div>
                 </Card>

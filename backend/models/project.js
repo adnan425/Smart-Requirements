@@ -6,15 +6,12 @@ const projectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users' // referencing users tables for get other details
     },
-    stakeholders: {
-        type: new mongoose.Schema({
-            stakeholder_id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'users'
-            },
-            date: {type: Date, default: Date.now}
-        })
-    },
+    stakeholders: [{
+        stakeholderId :{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users' 
+        }
+    }],
     title: {
         type: String,
         required: true,

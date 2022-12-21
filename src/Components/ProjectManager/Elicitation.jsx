@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Accordion from "../Utllils/Accordion";
@@ -7,7 +7,7 @@ import PageTitle from "./../Utllils/PageTitle";
 import http from '../Services/httpService';
 import Joi from 'joi-browser';
 import { Editor } from '@tinymce/tinymce-react';
-import { useSelector , useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import { projectRequirements } from '../Store/Projects/projects';
 
@@ -19,7 +19,7 @@ export default function Elicitation() {
   const handleShow = () => setShow(true);
 
   const projectId = useSelector(c => c.projects.selectedProject._id);
-  const requirements = useSelector(c => c.projects.requirements); 
+  const requirements = useSelector(c => c.projects.requirements);
   if (!projectId) {
     window.location = '../manager';
   }
@@ -225,106 +225,106 @@ export default function Elicitation() {
                             <div className="card-body">
                               <div className="faq justify-content-center">
                                 <div className="col-sm-12 col-md-10-12 col-xxl-12">
+                                  <div class="accordion accordion-flush" id="accordionExample">
+                                    {
+                                      requirements && requirement.length > 0 && requirements.map((requirement)=>{
+                                        const { _id, title, description, type } = requirement;
+                                        return (
+                                          <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
+                                        )
+                                      })
+                                    }
+                                    {
+                                      (requirements.length === 0)  && <Accordion title='Requirements List is Empty' />
 
-                                 { 
-                                 requirements && requirements.map((requirement)=>{
-                                  const { _id } = requirement;
-                                  return (
-                                    <Accordion
-                                  id={_id}
-                                  title="FR:1 Use should Login"
-                                  description="<strong>This is the first item's accordion body.</strong> It is
-                                                  shown by default, until the collapse plugin adds the appropriate
-                                                  classes that we use to style each element. These classes control
-                                                  the overall appearance, as well as the showing and hiding via
-                                                  CSS transitions. You can modify any of this with custom CSS or
-                                                  overriding our default variables. It's also worth noting that
-                                                  just about any HTML can go within the
-                                                  <code>.accordion-body</code>, though the transition does limit
-                                                  overflow."
-                                />
-                                  )
-                                 })
-                                 }
+                                    }
+                                    </div>
 
+                                  </div>
                                 </div>
-                              </div>
 
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-user-1"
-                          role="tabpanel"
-                          aria-labelledby="pills-user-tab-1"
-                        >
-                          <div className="card">
-                            <div className="card-header">
-                              <h5>Functional Requirements</h5>
-                              <small className="text-muted">
-                                These details will be used to collect invoice
-                                payments. Each invoice will have a payment
-                                button based on the below configuration.
-                              </small>
-                            </div>
-                            <div className="card-body">
-                              <div className="faq justify-content-center">
-                                <div className="col-sm-12 col-md-10-12 col-xxl-12">
-                                  <Accordion
-                                    id="fr-1"
-                                    title="FR:1 Use should Login"
-                                    description="<strong>This is the first item's accordion body.</strong> It is
-                shown by default, until the collapse plugin adds the appropriate
-                classes that we use to style each element. These classes control
-                the overall appearance, as well as the showing and hiding via
-                CSS transitions. You can modify any of this with custom CSS or
-                overriding our default variables. It's also worth noting that
-                just about any HTML can go within the
-                <code>.accordion-body</code>, though the transition does limit
-                overflow."
-                                  />
-                                </div>
+                          <div
+                            className="tab-pane fade"
+                            id="pills-user-1"
+                            role="tabpanel"
+                            aria-labelledby="pills-user-tab-1"
+                          >
+                            <div className="card">
+                              <div className="card-header">
+                                <h5>Functional Requirements</h5>
+                                <small className="text-muted">
+                                  These details will be used to collect invoice
+                                  payments. Each invoice will have a payment
+                                  button based on the below configuration.
+                                </small>
                               </div>
+                              <div className="card-body">
+                                <div className="faq justify-content-center">
+                                  <div className="col-sm-12 col-md-10-12 col-xxl-12">
+                                  <div class="accordion accordion-flush" id="accordionExample">
+                                  {
+                                      requirements && requirement.length > 0 && requirements.map((requirement)=>{
+                                        const { _id, title, description, type } = requirement;
+                                        if(type === 'Functional'){
+                                        return (
+                                          <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
+                                        )
+                                      }
+                                      })
+                                    }
+                                    {
+                                      (requirements.length === 0) && <Accordion title='Requirements List is Empty' />
 
+                                    }
+                                
+                                  </div>
+                                  </div>
+                                </div>
+
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-user-2"
-                          role="tabpanel"
-                          aria-labelledby="pills-user-tab-2"
-                        >
-                          <div className="card">
-                            <div className="card-header">
-                              <h5>Non Functional Requirements</h5>
-                              <small className="text-muted">
-                                These details will be used to collect invoice
-                                payments. Each invoice will have a payment
-                                button based on the below configuration.
-                              </small>
-                            </div>
-                            <div className="card-body">
-                              <div className="faq justify-content-center">
-                                <div className="col-sm-12 col-md-10-12 col-xxl-12">
-                                  <Accordion
-                                    id="fr-1"
-                                    title="FR:1 Use should
-              Login"
-                                    description="<strong>This is the first item's accordion body.</strong> It is
-                shown by default, until the collapse plugin adds the appropriate
-                classes that we use to style each element. These classes control
-                the overall appearance, as well as the showing and hiding via
-                CSS transitions. You can modify any of this with custom CSS or
-                overriding our default variables. It's also worth noting that
-                just about any HTML can go within the
-                <code>.accordion-body</code>, though the transition does limit
-                overflow."
-                                  />
-                                </div>
+                          <div
+                            className="tab-pane fade"
+                            id="pills-user-2"
+                            role="tabpanel"
+                            aria-labelledby="pills-user-tab-2"
+                          >
+                            <div className="card">
+                              <div className="card-header">
+                                <h5>Non Functional Requirements</h5>
+                                <small className="text-muted">
+                                  These details will be used to collect invoice
+                                  payments. Each invoice will have a payment
+                                  button based on the below configuration.
+                                </small>
                               </div>
+                              <div className="card-body">
+                                <div className="faq justify-content-center">
+                                  <div className="col-sm-12 col-md-10-12 col-xxl-12">
+                                  <div class="accordion accordion-flush" id="accordionExample">
+                                  {
+                                      requirements && requirement.length > 0 && requirements.map((requirement)=>{
+                                        const { _id, title, description, type } = requirement;
+                                        if(type === 'Non-Functional'){
+                                        return (
+                                          <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
+                                        )
+                                      }
+                                      })
+                                    }
+                                    {
+                                      (requirements.length === 0) && <Accordion title='Requirements List is Empty' />
 
+                                    }
+                                  </div>
+                                  </div>
+                                </div>
+
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -335,10 +335,8 @@ export default function Elicitation() {
               </div>
             </div>
           </div>
+          {/* <!-- [ Main Content ] end --> */}
         </div>
-        {/* <!-- [ Main Content ] end --> */}
       </div>
-    </div>
-    //   </div>
-  );
+      );
 }

@@ -121,7 +121,7 @@ const slice = createSlice({
         [projectRequirements.fulfilled]: (projects, action) => {
             projects.loading = false;
             if (action.type !== "error")
-                projects.requirements = [...projects.requirements, action.payload];
+                projects.requirements = action.payload;
         },
         [projectRequirements.rejected]: (state, action) => {
             state.loading = false;

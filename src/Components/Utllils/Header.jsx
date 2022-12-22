@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import auth from "../Services/authService";
 export default function Header() { 
   const [user, setUser] = useState(auth.getCurrentUser); 
-  // console.log("Header", user);
-
   return (
     <header className="dash-header  transprent-bg ">
       <div className="header-wrapper">
@@ -40,12 +38,14 @@ export default function Header() {
                 <i className="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
               </Link>
               <div className="dropdown-menu dash-h-dropdown">
-                <Link to={'/profile'}
+                {
+                  user['role'] && <Link to={`settings`}
                   className="dropdown-item"
                 >
                   <i className="ti ti-user"></i>
                   <span>Profile</span>
                 </Link>
+                }
                 <Link
                   to={'/logout'} 
                   className="dropdown-item"
@@ -91,14 +91,9 @@ export default function Header() {
                   href="#"
                   className="dropdown-item "
                 >
-                  <span className="small">AR</span>
+                  <span className="small">EN</span>
                 </Link>
-                <Link
-                  href="#"
-                  className="dropdown-item "
-                >
-                  <span className="small">DA</span>
-                </Link>
+              
               </div>
             </li>
           </ul>

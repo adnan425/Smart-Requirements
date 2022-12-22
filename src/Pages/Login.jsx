@@ -12,6 +12,7 @@ import pic1 from "./../assets/banners/svg/login1.svg";
 import pic2 from "./../assets/banners/svg/login2.svg";
 import pic3 from "./../assets/banners/svg/login3.svg";
 import Form from "../Components/Utllils/Form";
+import dark_logo from './../assets/logos/dark_logo.png';
 
 
 class Login extends Form {
@@ -59,7 +60,7 @@ class Login extends Form {
 
       .then((response) => {
         if (response?.status === 200) {
-          toast.success('Login Successfull...!');
+          toast.success('Welcome Back');
           localStorage.setItem("token", response?.data);
           // redirect according to their role
           const user = jwtDecode(response?.data);
@@ -96,9 +97,9 @@ class Login extends Form {
                 <nav className="navbar navbar-expand-md navbar-light default">
                   <div className="container-fluid pe-2">
                     <a className="navbar-brand" href="/">
-                      <img src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
+                      <img src={dark_logo}
                         className="auth-logo navbar-logo" alt="logo" />
-                    </a>
+                    </a> 
                     {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                       <span className="navbar-toggler-icon"></span>
                     </button> */}

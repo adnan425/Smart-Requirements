@@ -110,28 +110,8 @@ export default function Elicitation() {
                 </div>
                 <div className="col-md-12 form-group">
                   <label forhtml="desc" className="col-form-label">Description</label>
-                  {/* <textarea className="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
-                    required="required" id='desc' type="text" /> */}
-                  <Editor
-                    apiKey='z408d5ikk3diehupwlw4hi4ldi40xul0cxhqhazdhk15psov'
-                    // onInit={(evt, editor) => editorRef.current = editor}
-                    initialValue=""
-                    onEditorChange={(content, editor) => { setRequirement({ ...requirement, description: content }) }}
-                    init={{
-                      height: 200,
-                      menubar: false,
-                      plugins: [
-                        'advlist', 'autolink', 'lists', 'link', 'preview',
-                        'anchor', 'code', 'fullscreen',
-                        'insertdatetime', 'code', 'help', 'wordcount'
-                      ],
-                      toolbar: 'undo redo | blocks | ' +
-                        'bold italic  | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
-                      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                    }}
-                  />
+                  <textarea className="form-control" placeholder="Enter description" value={requirement.description} onChange={e=>setRequirement({...requirement, description: e.target.value})}
+                    required="required" id='desc' type="text" />                  
                   {errors.description && <small className="small  text-danger ">{errors.description}</small>}
 
                 </div>
@@ -227,7 +207,7 @@ export default function Elicitation() {
                                 <div className="col-sm-12 col-md-10-12 col-xxl-12">
                                   <div class="accordion accordion-flush" id="accordionExample">
                                     {
-                                      requirements && requirement.length > 0 && requirements.map((requirement)=>{
+                                      requirements   && requirements.map((requirement)=>{
                                         const { _id, title, description, type } = requirement;
                                         return (
                                           <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
@@ -266,7 +246,7 @@ export default function Elicitation() {
                                   <div className="col-sm-12 col-md-10-12 col-xxl-12">
                                   <div class="accordion accordion-flush" id="accordionExample">
                                   {
-                                      requirements && requirement.length > 0 && requirements.map((requirement)=>{
+                                      requirements && requirements.map((requirement)=>{
                                         const { _id, title, description, type } = requirement;
                                         if(type === 'Functional'){
                                         return (
@@ -307,7 +287,7 @@ export default function Elicitation() {
                                   <div className="col-sm-12 col-md-10-12 col-xxl-12">
                                   <div class="accordion accordion-flush" id="accordionExample">
                                   {
-                                      requirements && requirement.length > 0 && requirements.map((requirement)=>{
+                                      requirements &&0 && requirements.map((requirement)=>{
                                         const { _id, title, description, type } = requirement;
                                         if(type === 'Non-Functional'){
                                         return (

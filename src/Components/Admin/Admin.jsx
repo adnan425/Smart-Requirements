@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "../Utllils/Header";
-import Leftbar from "./Sidebar/Leftbar";
+import Leftbar from "./Sidebar";
 import {Outlet} from "react-router-dom";  
 
 export default function Admin() {

@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-export default function DataGrid({ list }) {
+const moment = require('moment');
+
+export default function DataGrid({ list }) { 
   return (
     <>
-      {list && list.map((project) => { 
+            {list && list.map((project) => { 
         
         const { _id, title,  date,  status } = project; 
-        const start_date = date;
+        const start_date = moment(date).format("MMM Do YYYY");;
         return (
           <>
             <div className="col-xl-3 col-lg-4 col-sm-6" key={_id}>

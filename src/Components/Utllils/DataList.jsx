@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"; 
+const moment = require('moment');
+
 export default function DataList({ list }) {
   return (
     <>
@@ -21,7 +23,7 @@ export default function DataList({ list }) {
                 <tbody>
                   { list && list.map((project) => {
                        const { _id, title,  date,  status } = project; 
-                       const start_date = date;
+                       const start_date = moment(date).format("MMM Do YYYY");;
                        const progress = "50%";
                        const classes = "bg-success";
                     return (

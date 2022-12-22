@@ -1,30 +1,34 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from './Login';
 import Signup from './Signup';
 import ForgetPassword from './ForgetPassword';
 import Admin from '../Components/Admin/Admin';
-import Users from "../Components/Admin/Pages/Users";
-import Settings from "../Components/Admin/Pages/Settings";
-import Projects from "../Components/Admin/Pages/Projects";
-import Dashboard from "../Components/Admin/Pages/Dashboard";
-import SrsTemplate from "../Components/Admin/Pages/SrsTemplate";
-import Suggesstion from "../Components/Admin/Pages/suggesstions";
+import Users from "../Components/Admin/Users";
+import Settings from "../Components/Admin/Settings";
+import Projects from "../Components/Admin/Projects";
+import Dashboard from "../Components/Admin/Dashboard";
+import SrsTemplate from "../Components/Admin/PagesHelp/SrsTemplate";
+import Suggesstion from "../Components/Admin/PagesHelp/suggesstions";
 
 import Manager from '../Components/ProjectManager/Home';
 import NewProject from "../Components/ProjectManager/NewProject";
 import ManagerProject from '../Components/ProjectManager/Projects'
 import Stakeholder from '../Components/Stakeholder/Home';
 import Elicitation from "../Components/ProjectManager/Elicitation";
+import Phase2 from "../Components/ProjectManager/Phase2";
 import Logout from './../Components/Utllils/Logout';
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const Login = lazy(()=>import('./Login'));
 
 export default function Home() {
   return (
     <> 
     <ToastContainer/>
+    <Suspense fallback={<div>Loading...</div>}>
+
+
       <Routes>
         {/* <Route path="/" element={<LandingPage />} /> */}
         <Route path="/" element={<Login />} />
@@ -48,6 +52,7 @@ export default function Home() {
           <Route  index element={<ManagerProject/>} />
           <Route  exact path="new" element={<NewProject/>} />
           <Route path="phase1" element={<Elicitation/>} />
+          <Route path="phase2" element={<Phase2/>} />
           <Route exact path="settings" element={<Settings />} />
 
         </Route>
@@ -56,7 +61,7 @@ export default function Home() {
         <Route path="/stakeholder" element={<Stakeholder />} />
       </Routes>
 
-
+      </Suspense>
 
     </>
   );

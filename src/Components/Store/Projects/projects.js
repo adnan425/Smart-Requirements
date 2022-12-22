@@ -3,6 +3,14 @@ import { toast } from "react-toastify";
 import http from "../../Services/httpService";
 
 const apiUrl = "http://localhost:3004/api";
+export const getAllProejcts = createAsyncThunk("projects/projects", async () => {
+    try {
+        const response = await http.get(`${apiUrl}/projects`);
+        return await response.data;
+    } catch (error) {
+        return error.message
+    }
+});
 export const projectRequirements = createAsyncThunk("projects/requirements", async (id) => {
     try {
         const response = await http.get(`${apiUrl}/manager/requirement/${id}`);
@@ -58,6 +66,20 @@ const slice = createSlice({
         error: {}
     },
     extraReducers: {
+        //  GET ALL PROJECTS
+        [getAllProejcts.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [getAllProejcts.fulfilled]: (projects, action) => {
+            projects.loading = false;
+            if (action.type !== "error")
+                projects.list = action.payload;
+
+        },
+        [getAllProejcts.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
         //  GET MY PROJECTS
         [getMyProjects.pending]: (state, action) => {
             state.loading = true;

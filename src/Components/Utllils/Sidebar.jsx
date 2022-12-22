@@ -1,8 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
+import { NavLink } from "react-router-dom";
+
 import Logo from "./Logo";
-import SingleList from "./SingleList";
 const Sidebar = ({ items  }) => {
+  const [active, setActive] = useState(items[0]['label']);
+  const activeClick = title=>{
+    setActive(title);
+  }
   return (
     <nav className="dash-sidebar light-sidebar transprent-bg active dash-trigger">
       <div className="navbar-wrapper">
@@ -12,9 +17,17 @@ const Sidebar = ({ items  }) => {
         <PerfectScrollbar>
           <div className="navbar-content active">
             <ul className="dash-navbar">
-              {items.map((list) => {
+              {items && items.map(item => {
+                const {  id , path , icon , label } = item;
                 return (
-                  <SingleList tag="NavLink" id={list.id} path={list.path} icon={list.icon} label={list.label} />
+                  <li className={ `dash-item  ${(active===label) ? 'active' : ""}` } key={id} onClick={() => {activeClick(label) }} >
+                  <NavLink to={path} className="dash-link">
+                    <span className="dash-micon">
+                      <i className={icon} />
+                    </span>
+                    <span className="dash-mtext">{label}</span>
+                  </NavLink>
+                </li>
                 );
               })}
             </ul>

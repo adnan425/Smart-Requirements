@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from '../../Utllils/Sidebar';
+import Sidebar from '../Utllils/Sidebar';
 export default function Leftbar() {
   const adminPermissions = [
     {
@@ -20,18 +20,18 @@ export default function Leftbar() {
       label: "Projects",
       path: "projects",
     },
-    {
-      id: 4,
-      icon: "ti ti-template",
-      label: "SRS Template",
-      path: "srs",
-    },
-    {
-      id: 5,
-      icon: "ti ti-headphones",
-      label: "Suggestions",
-      path: "suggestions",
-    },
+    // {
+    //   id: 4,
+    //   icon: "ti ti-template",
+    //   label: "SRS Template",
+    //   path: "srs",
+    // },
+    // {
+    //   id: 5,
+    //   icon: "ti ti-headphones",
+    //   label: "Suggestions",
+    //   path: "suggestions",
+    // },
     {
       id: 6,
       icon: "ti ti-settings",

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "../Utllils/Header";
-import SelectedProject from "./SelectedProject"; 
+import SelectedProject from "./SelectedProject";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getProjectById, getMyProjects } from "../Store/Projects/projects";
-export default function Home() { 
+export default function Home() {
   const dispatch = useDispatch();
   const redirect = useNavigate();
   // const projects = [
@@ -53,25 +53,24 @@ export default function Home() {
   //     date: "2022-11-25T20:57:37.184Z",
   //   },
   // ];
- 
-  const projects= useSelector((c) => c.projects.list); 
- 
+
+  const projects = useSelector((c) => c.projects.list);
+
   const [selectedProjectID, setselectedProjectID] = useState();
-  const [isSelect, setIsSelect] = useState(false); 
+  const [isSelect, setIsSelect] = useState(false);
 
-
-
-  useEffect(() => { 
+  
+  useEffect(() => {
     dispatch(getMyProjects());
   }, [dispatch]);
 
 
   useEffect(() => {
     if (selectedProjectID && selectedProjectID !== "") {
-       dispatch(getProjectById(selectedProjectID));
-       setIsSelect(true);
+      dispatch(getProjectById(selectedProjectID));
+      setIsSelect(true);
     }
-  }, [selectedProjectID]);
+  }, [selectedProjectID, dispatch]);
 
   const handleSelectProject = (project) => {
     // IF ADD PROJECT THEN SHOW ADD FORM
@@ -91,21 +90,24 @@ export default function Home() {
       setIsSelect(false);
       redirect("/manager/settings");
       return;
-    }    else {
+    } else {
       // UPDATE THE STATE 
       setselectedProjectID(project._id);
     }
   };
-  const IsSelectClick = ()=>{
+  const IsSelectClick = () => {
     setIsSelect(!isSelect);
   }
   return (
     <>
-      <Sidebar items={projects} onProjectSelect={handleSelectProject} />
+      {
+        projects && <Sidebar items={projects} onProjectSelect={handleSelectProject} />
+      }
+
       <div className="main-content position-relative">
         <Header />
         {!isSelect && <Outlet />}
-        {isSelect && <SelectedProject handlePhase={IsSelectClick}/>}
+        {isSelect && <SelectedProject handlePhase={IsSelectClick} />}
       </div>
     </>
   );

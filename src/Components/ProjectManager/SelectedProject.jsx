@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import { toast } from "react-toastify";
 import Joi from 'joi-browser';
 import http from '../Services/httpService';
+import ProfileCard from "../Utllils/ProfileCard";
 const moment = require('moment');
 
 const apiUrl = 'http://localhost:3004/api';
@@ -93,7 +94,7 @@ export default function SelectedProject({ handlePhase }) {
 
   }
   const { _id, title: projectTitle, date } = project;
-  const start_date = moment(date).format("MMM Do YYYY");;
+  const start_date = moment(date).format("MMM Do YYYY");
 
   // const classes = "bg-success";
   const phases = [
@@ -262,51 +263,7 @@ export default function SelectedProject({ handlePhase }) {
                       const { id } = stakeholder;
                       return (
                         <div className="col-lg-3 col-sm-6 col-md-6">
-                          <div className="card text-white text-center">
-                            <div className="card-header border-0 pb-0">
-
-                              <div className="d-flex justify-content-between align-items-center">
-                                <h6 className="mb-0">
-                                  <div className="badge p-2 px-3 rounded bg-primary"></div>
-                                </h6>
-                              </div>
-
-                              <div className="card-header-right">
-                                <div className="btn-group card-option">
-                                  <div className="action-btn bg-danger ms-2">
-                                    <a className="align-items-center btn btn-sm d-inline-flex  " href="/" >
-                                      <i className="ti ti-trash text-white"></i>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="card-body">
-                              <a href="https://demo.rajodiya.com/workgo-saas/storage/productimages/user_2.jpg" >
-                                <img src="https://demo.rajodiya.com/workgo-saas/storage/productimages/user_2.jpg" alt="user" height={"100px"}
-                                  className="  rounded-circle card-avatar" />
-                              </a>
-                              <h4 className="text-primary mt-2">Alex</h4>
-                              <small className="text-primary">alex@example.com</small>
-
-                              <div className="row mt-3">
-                                <div className="col-12 col-sm-12">
-                                  <div className="card mb-0">
-                                    <div className="card-body p-3">
-                                      <div className="row">
-                                        <div className="col-12">
-                                          <p className="text-muted   mb-0">
-                                            <i className="ti ti-clock mx-3  card-icon-text-space"></i>Jul 12, 2021</p>
-                                        </div>
-
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-                              </div>
-                            </div>
-                          </div>
+                          <ProfileCard />
                         </div>
                       )
                     })}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./Input";
+import Button from "./Button";
 
 export default class Form extends Component {
   state = {
@@ -49,11 +50,12 @@ export default class Form extends Component {
   renderButton(label) {
     return (
       <div className="d-grid">
-        <button
+        <Button label={label} />
+        {/* <button
           className="btn btn-primary btn-block mt-2"
         >
           {label}
-        </button>
+        </button> */}
       </div>
     );
   }

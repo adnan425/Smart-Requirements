@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import auth from "../Services/authService";
+import { useDispatch } from 'react-redux';
+import { activeSidebar } from "../Store/Sidebar/Sidebar";
 export default function Header() { 
   const [user, setUser] = useState(auth.getCurrentUser); 
+ const dispatch = useDispatch();
   return (
     <header className="dash-header  transprent-bg ">
       <div className="header-wrapper">
         <div className="me-auto dash-mob-drp">
           <ul className="list-unstyled">
             <li className="dash-h-item mob-hamburger">
-              <a href="#!" className="dash-head-link" id="mobile-collapse">
+              <a href="#!" className="dash-head-link" onClick={()=>{dispatch(activeSidebar())}}  id="mobile-collapse">
                 <div className="hamburger hamburger--arrowturn">
                   <div className="hamburger-box">
                     <div className="hamburger-inner">

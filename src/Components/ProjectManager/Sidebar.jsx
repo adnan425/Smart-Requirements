@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import Logo from "../Utllils/Logo";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { closeSidebar } from "../Store/Sidebar/Sidebar";
 
 export default function Sidebar({ items: projects, onProjectSelect }) {
   var items = [
@@ -22,14 +25,18 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
     },
     
   ];
+  const isShow = useSelector((state) => state.sidebar.isActive);
+  const dispatch = useDispatch();
   const [active, setActive] = useState('All Projects');
+  var classes = '';
+  if(isShow){ classes = "mob-sidebar-active" }else{ classes = "" }
   const activeClick = ({title})=>{
     setActive(title);
   }
-
+ 
   return (
-    <nav className="dash-sidebar light-sidebar transprent-bg active dash-trigger">
-      <div className="navbar-wrapper">
+    <nav className={`dash-sidebar light-sidebar transprent-bg active dash-trigger ${classes}`}>
+      <div className="navbar-wrapper" style={{display: 'block'}}>
         <div className="m-header main-logo">
           <Logo />
         </div>
@@ -40,7 +47,7 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
                 return (
                   <li
                     className={ `dash-item  ${(active===list.title) ? 'active' : ""}` }
-                    onClick={() => {onProjectSelect(list); activeClick(list) }} 
+                    onClick={() => {onProjectSelect(list); activeClick(list); dispatch(closeSidebar()) }} 
                     key={list._id}
                   >
                     <div className="dash-link">
@@ -61,6 +68,7 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
           </div>
         </PerfectScrollbar>
       </div>
+      { (isShow===true) && <div onClick={()=>{dispatch(closeSidebar())}} className="dash-menu-overlay"></div> }
     </nav>
   );
 }

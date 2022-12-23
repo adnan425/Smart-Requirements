@@ -1,16 +1,18 @@
 import React from "react";
 
-const Input = ({ name, value, label, type = "text", error, onChange}) => {
+const Input = ({ tag ="input", name, value, label, placeholder="", type = "text",  error, onChange , classes = ""}) => {
+  const Tag = tag;
   return (
-    <div className="form-group mb-3">
+    <div className={`form-group mb-3 ${classes}`}>
       <label htmlFor={name} className="form-label">
         {label}
       </label>
-      <input
+      <Tag
         type={type}
         value={value}
         name={name}
         id={name}
+        placeholder={placeholder}
         className="form-control"
         onChange={onChange}
       />

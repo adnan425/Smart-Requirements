@@ -1,7 +1,11 @@
 import React from 'react'
 
-export default function Button() {
+export default function Button({ label = "" }) {
   return (
-    <div>Button</div>
+    <button
+      className="btn btn-primary btn-block mt-2"
+    >
+      {label}
+    </button>
   )
 }

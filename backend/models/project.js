@@ -20,6 +20,27 @@ const projectSchema = new mongoose.Schema({
         trim: true,
         unique: true
     },
+    description:{
+        type: String,
+        minLength: 3,
+        maxLength: 250,
+        trim: true, 
+    },
+    author: {
+        type: String,
+        minLength: 3,
+        maxLength: 150,
+        trim: true,
+        default: "Manager"
+    },
+    organization: {
+        type: String,
+        minLength: 3,
+        maxLength: 200,
+        trim: true,
+        default: "SZABIST"
+
+    },
     status: {
         type: String,
         enum: ['started','pending','completed'],

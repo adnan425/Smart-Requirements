@@ -31,18 +31,8 @@ router.post('/', [auth, manager], async (req, res, next) => {
         const user = await User.findOne({ email: req.body.email });
         if (user) {
 
-            const isAdded = await Project.findOne({$and : [{_id: req.body.projectId}, { stakeholders: { stakeholderId: user._id} }]});
-            // const result = _.find(r, el => el.stakeholderId === user._id);
-            // let r = isAdded.stakeholders;
-            // let ne = isAdded.find({stakeholders: {stakeholderId : user._id}});
-            // const entry = { stakeholderId: "63a201e0a098cbc68a7bfa89" };
-            // const query = _.filter(r, _.matches(entry));
-            // const countries = { stakeholder : { stakeholderId: user._id } }
-            // const query = _.has(countries, 'stakeholder.stakeholderId')
-            // const query = Project.findOne({_id: req.body.projectId}, {stakeholders: { stakeholderId: user._id }});
-            // console.log(query);
-
-
+            const isAdded = await Project.findOne({_id: req.body.projectId}, {stakeholders: { $in:{ stakeholderId: user._id}}});
+                // {$and : [{_id: req.body.projectId}, { stakeholders: { stakeholderId: user._id} }]});
             if (isAdded) {
                 res.status(200).send("Stakeholder is already added.");
             } else {

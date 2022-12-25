@@ -1,6 +1,5 @@
 const express = require('express');
-const Joi = require('joi');
-const _ = require('lodash');
+const Joi = require('joi'); 
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
 const admin = require('../middleware/admin');
@@ -9,9 +8,9 @@ const { User } = require('../models/user');
 const router = express.Router();
 
 // POST | ADD PROJECT | TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.post('/', [auth, manager ], async (req, res, next) => {
+router.post('/', [auth, manager], async (req, res, next) => {
     try {
-        const managerId = req.user._id; 
+        const managerId = req.user._id;
         if (!managerId) return res.status(400).send("Invalid Manager Id!");
 
         // findOne = looking for one of property
@@ -34,36 +33,34 @@ router.post('/', [auth, manager ], async (req, res, next) => {
 
         let project = new Project({
             title: req.body.title,
-            description: req.body.description,
-            manager: manager._id, 
+            manager: manager._id,
             stakeholders: [],
+            description: req.body.description,
             status: "started"
         });
-        
 
         await project.save();
-        res.status(200).send(project); 
+        res.status(200).send(project);
 
     } catch (err) {
         next();
-        // res.status(500).send("Internal server error.");
     }
 });
 
 //  GET | All Projects | TWO MIDDLWARE { AUTH, ADMIN } | ONLY ADMIN | USE ADMIN MIDDLEWARE FOR VERIFY 
-router.get('/', [auth,admin] , async (req, res, next) => {
+router.get('/', [auth, admin], async (req, res, next) => {
     try {
         const projects = await Project.find().select('id title status date description');
         return res.status(200).send(projects);
     } catch (err) {
         next();
     }
-}); 
+});
 //  GET | MY Projects | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.get('/me', [auth, manager], async (req, res, next) => {
     try {
         // const projects = await Project.find({manager : req.user._id}).select('id title status date description date');
-        const projects = await Project.find({manager : req.user._id}).select('-manager');
+        const projects = await Project.find({ manager: req.user._id }).select('-manager');
         return res.status(200).send(projects);
     } catch (err) {
         next();
@@ -74,13 +71,74 @@ router.get('/me', [auth, manager], async (req, res, next) => {
 //  GET | Projects BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.get('/:id', [auth, manager], async (req, res, next) => {
     try {
-        const projectId  = req.params.id;
+        const projectId = req.params.id;
         if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
-         
+
         const project = await Project.findById(projectId);
-        if(!project) return res.status(404).send("Project not found by this id.");
+        if (!project) return res.status(404).send("Project not found by this id.");
 
         return res.status(200).send(project);
+    } catch (err) {
+        next();
+    }
+
+});
+
+//  PUT | Projects BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY | UPDATE TITLE PAGE 
+router.put('/:id', [auth, manager], async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
+        const isUnique = await Project.findById(projectId);
+        if (!isUnique) return res.status(404).send('Project not found.');
+
+        // findOne = looking for one of property
+        const isUniqueTitle = await Project.findOne({ _id: projectId },{ manager: req.user._id });
+        if (!isUniqueTitle) return res.status(403).send('Access denied.');
+
+        res.status(200).send(isUnique);
+        const projectObj = {
+            "managerId": req.user._id,
+            "title": req.body.title,
+            "description": isUnique.description,
+            'author': req.body.author,
+            'organization': req.body.organization
+        };
+        // validating all req body data
+        const { error } = validateProject(projectObj);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        // isUnique.title = req.body.title;
+        // isUnique.author = req.body.author;
+        // isUnique.organization = req.body.organization;
+
+        const project = await Project.findByIdAndUpdate(projectId, {
+            $set: {
+                title: req.body.title || isUnique.title,
+                author: req.body.author || isUnique.author,
+                organization: req.body.organization || isUnique.organization
+            }
+        });
+                 
+        return res.status(200).send(project);
+    } catch (err) {
+        next();
+    }
+
+});
+//  GET | Project BY ID  | USE MANAGER MIDDLEWARE FOR VERIFY | UPDATE TITLE PAGE 
+router.get('/p/:id', [auth, manager], async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
+        const isUnique = await Project.findById(projectId).select('title author organization date');
+        if (!isUnique) return res.status(404).send('Project not found.');
+
+        // findOne = looking for one of property
+        const isUniqueTitle = await Project.findOne({ _id: projectId },{ manager: req.user._id });
+        if (!isUniqueTitle) return res.status(403).send('Access denied.');
+          
+        return res.status(200).send(isUnique);
     } catch (err) {
         next();
     }

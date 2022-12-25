@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import PageHeader from "../Utllils/PageHeader";
-import { useSelector, } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import PageHeader from "../Utllils/PageHeader"; 
 import { Link } from "react-router-dom";
 import Card from "../Utllils/Card";
 import Modal from 'react-bootstrap/Modal';
@@ -9,6 +8,8 @@ import { toast } from "react-toastify";
 import Joi from 'joi-browser';
 import http from '../Services/httpService';
 import ProfileCard from "../Utllils/ProfileCard";
+import { useSelector, useDispatch } from 'react-redux';
+import { getProjectTitle } from './../Store/SRS/srs'; 
 const moment = require('moment');
 
 const apiUrl = 'http://localhost:3004/api';
@@ -38,6 +39,11 @@ export default function SelectedProject({ handlePhase }) {
   ]
   const project = useSelector((c) => c.projects.selectedProject);
   const projectId = useSelector((c) => c.projects.selectedProject._id);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProjectTitle(projectId));
+  }, [dispatch, projectId])
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -101,22 +107,31 @@ export default function SelectedProject({ handlePhase }) {
     {
       id: 1,
       title: "Requirements Elicitation",
+      path: '/manager/phase1'
     },
     {
       id: 2,
       title: "Requirements Analaysis",
+      path: '/manager/phase2'
+
     },
     {
       id: 3,
       title: "Requirements Tracability",
+      path: '/manager/phase1'
+
     },
     {
       id: 4,
       title: "Requirements Verification",
+      path: '/manager/phase1'
+
     },
     {
       id: 5,
       title: "Generate Report",
+      path: '/manager/phase1'
+
     },
   ];
   return (
@@ -197,7 +212,7 @@ export default function SelectedProject({ handlePhase }) {
                                 Phase
                               </span>
                               <div className="card-header border-0 pb-0 position-relative">
-                                <h5><Link onClick={handlePhase} to={'/manager/phase1'}>{phase.title}</Link></h5>
+                                <h5><Link onClick={handlePhase} to={phase.path}>{phase.title}</Link></h5>
                                 <div className="card-header-right">
                                   <div className="btn-group card-option">
                                     <button
@@ -262,7 +277,7 @@ export default function SelectedProject({ handlePhase }) {
                     {stakeholders.map(stakeholder => {
                       const { id } = stakeholder;
                       return (
-                        <div className="col-lg-3 col-sm-6 col-md-6">
+                        <div className="col-lg-3 col-sm-6 col-md-6" key={id}>
                           <ProfileCard />
                         </div>
                       )

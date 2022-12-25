@@ -74,7 +74,6 @@ const slice = createSlice({
             projects.loading = false;
             if (action.type !== "error")
                 projects.list = action.payload;
-
         },
         [getAllProejcts.rejected]: (state, action) => {
             state.loading = false;
@@ -148,12 +147,11 @@ const slice = createSlice({
         [projectRequirements.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.payload;
-
         },
 
 
     }
 });
-export const { projectsRecived, projectAdded, projectUpdated } = slice.actions;
+// export const { projectsRecived, projectAdded, projectUpdated } = slice.actions;
 export default slice.reducer;
 

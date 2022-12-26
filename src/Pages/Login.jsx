@@ -12,7 +12,7 @@ import pic1 from "./../assets/banners/svg/login1.svg";
 import pic2 from "./../assets/banners/svg/login2.svg";
 import pic3 from "./../assets/banners/svg/login3.svg";
 import Form from "../Components/Utllils/Form";
-import dark_logo from './../assets/logos/dark_logo.png';
+import dark_logo from './../assets/logos/blue.svg';
 
 
 class Login extends Form {
@@ -98,7 +98,7 @@ class Login extends Form {
                   <div className="container-fluid pe-2">
                     <a className="navbar-brand" href="/">
                       <img src={dark_logo}
-                        className="auth-logo navbar-logo" alt="logo" />
+                        className="auth-logo navbar-logo" style={{ "height": '' }} alt="logo" />
                     </a> 
                     {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                       <span className="navbar-toggler-icon"></span>

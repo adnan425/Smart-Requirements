@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import http from "../../Services/httpService";
 
 const apiUrl = "http://localhost:3004/api";

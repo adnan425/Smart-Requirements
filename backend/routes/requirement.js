@@ -1,12 +1,10 @@
-const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
-const _ = require('lodash');
+const Joi = require('joi'); 
 const express = require('express');
 const auth = require('./../middleware/auth');
 const manager = require('./../middleware/manager');
-const router = express.Router();
-const { Project } = require('./../models/project');
 const { Requirement , validateRequirement } = require('../models/requirement');
+const { Project } = require('./../models/project');
+const router = express.Router();
 
 // ADD REQ | USER ID FROM MIDDLWARE
 router.post('/', [auth, manager] , async (req,res,next)=>{

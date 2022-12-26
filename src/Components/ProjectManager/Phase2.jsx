@@ -4,60 +4,49 @@ import Button from '../Utllils/Button';
 import Input from '../Utllils/Input';
 import PageHeader from "../Utllils/PageHeader";
 import Joi from 'joi-browser';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import http from '../Services/httpService';
-const apiUrl = "http://localhost:3004/api";
 const moment = require('moment');
+const apiUrl = "http://localhost:3004/api";
 
 
 export default function Phase2() {
   const [errors, setErrors] = useState({});
-  const [active, setActive] = useState('Title Page'); 
+  const [active, setActive] = useState('Title Page');
 
   const projectId = useSelector((c) => c.projects.selectedProject._id);
   if (!projectId || projectId === null || projectId === 'undefined') {
     window.location = './';
   }
-  const getTitle = useSelector(state => state.srs.title);
-  toast(getTitle);
-
-
-
+  const getTitle = useSelector(state => state.srs.title); 
   const [projectTitle, setProjectTitle] = useState({
     title: getTitle.title,
     author: getTitle.author,
     orginzation: getTitle.orginzation,
     date: moment(getTitle.date).format("MMM Do YYYY")
-  }); 
-   const updateTitleSchema = {
+  });
+  const updateTitleSchema = {
     title: Joi.string().min(5).max(50).required().label("Project Title"),
     author: Joi.string().min(1).max(500).required().label("Prepared By"),
     orginzation: Joi.string().min(1).max(26).required().label("Orginzation"),
-}
+  }
   const validate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(projectTitle, updateTitleSchema, options);
     if (!error) return null;
-
     const err = {};
-    for (let item of error.details) err[item.path] = item.message;
-
-    console.log(err);
+    for (let item of error.details) err[item.path] = item.message; 
     return err;
   }
   const doSubmit = () => {
- toast(projectId);
-  http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
-    if (status === 200) {
-      toast.success("Updated."); 
-    } else {
-      toast(status);
-    }
-  }).catch(err => { console.log("error ", err.response.data); toast.error(err.response.data) });
-
-
-
- 
+    toast(projectId);
+    http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
+      if (status === 200) {
+        toast.success("Updated.");
+      } else {
+        toast(status);
+      }
+    }).catch(err => {toast.error(err.response.data) });
   }
   const handlSubmitTitle = e => {
     e.preventDefault();

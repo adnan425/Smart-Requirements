@@ -38,6 +38,19 @@ export default function Phase2() {
     scope: '',
     references: ''
   });
+  const [desc, setDesc] = useState(
+    {
+      projectId:  '',
+      fucntions:   '',
+      perspective:  '',
+      characteristics:   '',
+      envirnoment:   '',
+      implementation:   '',
+      documentation:   '',
+      assumptions:   '',
+      
+    }
+  )
   const [isIntro, setIsIntro] = useState(false); // check that intro is already in db
   const [introId, setIntroId] = useState(false); // setIntroId for update
   function getIntro() {
@@ -76,6 +89,15 @@ export default function Phase2() {
     scope: Joi.string().min(5).max(500).required().label("Scope"),
     references: Joi.string().min(5).max(500).required().label("References")
   }
+  const descSchema = {
+    perspective: Joi.string().min(5).max(500).required().label("Product Perspective"),
+    functions: Joi.string().min(5).max(500).required().label("Product Functions"),
+    characteristics: Joi.string().min(5).max(500).required().label("User Classes and Characteristics"),
+    envirnoment: Joi.string().min(5).max(500).required().label("Operating Environment"),
+    implementation: Joi.string().min(5).max(500).required().label("Design & Implementation Constraints"),
+    documentation: Joi.string().min(5).max(500).required().label("User Documentation"),
+    assumptions: Joi.string().min(5).max(500).required().label("Assumptions & Dependencies")
+  }
   const [introErrors, setIntroErrors] = useState({});
   const introValidate = () => {
     const options = { abortEarly: false };
@@ -86,13 +108,12 @@ export default function Phase2() {
     return err;
   }
   const doIntroSubmit = () => {
-
     if (!isIntro) {
       // store with new entry  
       http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
         .then(res => {
           console.log(res.status);
-          if(res.status === 200){
+          if (res.status === 200) {
             toast.success("Successfully added.");
           }
         }).catch(err => {
@@ -117,7 +138,6 @@ export default function Phase2() {
   }
   const handleIntroSubmit = e => {
     e.preventDefault();
-
     const error = introValidate();
     if (error) {
       setIntroErrors(error);
@@ -153,6 +173,22 @@ export default function Phase2() {
     }
     doSubmit();
 
+  }
+  const descValidate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(intro, introSchema, options);
+    if (!error) return null;
+    const err = {};
+    for (let item of error.details) err[item.path] = item.message;
+    return err;
+  }
+  const handleDescSubmit = e => {
+    e.preventDefault();
+    const error = descValidate();
+    if (error) {
+      setErrors(error);
+      return false;
+    }
   }
   return (
     <div className="page-content">
@@ -241,7 +277,7 @@ export default function Phase2() {
                       </form>
                     </div>
                     <div id="description" class="card">
-                      <form >
+                      <form onSubmit={handleDescSubmit} >
                         <div class="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>

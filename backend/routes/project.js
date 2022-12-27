@@ -85,7 +85,7 @@ router.get('/:id', [auth, manager], async (req, res, next) => {
 });
 
 //  PUT | Projects BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY | UPDATE TITLE PAGE 
-router.put('/:id', [auth, manager], async (req, res, next) => {
+router.put('/p/:id', [auth, manager], async (req, res, next) => {
     try {
         const projectId = req.params.id;
         if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
@@ -95,8 +95,7 @@ router.put('/:id', [auth, manager], async (req, res, next) => {
         // findOne = looking for one of property
         const isUniqueTitle = await Project.findOne({ _id: projectId },{ manager: req.user._id });
         if (!isUniqueTitle) return res.status(403).send('Access denied.');
-
-        res.status(200).send(isUnique);
+ 
         const projectObj = {
             "managerId": req.user._id,
             "title": req.body.title,
@@ -113,15 +112,25 @@ router.put('/:id', [auth, manager], async (req, res, next) => {
         // isUnique.organization = req.body.organization;
 
         const project = await Project.findByIdAndUpdate(projectId, {
-            $set: {
+            // $set: {
                 title: req.body.title || isUnique.title,
                 author: req.body.author || isUnique.author,
                 organization: req.body.organization || isUnique.organization
-            }
-        });
+            // }
+        },
+         function(err, result) {
+         if (err) {
+             console.log('Error updating user: ' + err);
+             res.send({'error':'An error has occurred'});
+         } else {
+             console.log('' + result + ' document(s) updated');
+             res.send(project);
+         }
+     });
                  
         return res.status(200).send(project);
     } catch (err) {
+        console.log(err);
         next();
     }
 

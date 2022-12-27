@@ -20,17 +20,14 @@ export default function Phase2() {
     window.location = './';
   }
   const getTitle = useSelector(state => state.srs.title);
+
+  // ------------------------- States --------------------------
   const [projectTitle, setProjectTitle] = useState({
     title: getTitle.title,
     author: getTitle.author,
     organization: getTitle.organization,
     date: moment(getTitle.date).format("MMM Do YYYY")
   });
-  const updateTitleSchema = {
-    title: Joi.string().min(5).max(50).required().label("Project Title"),
-    author: Joi.string().min(1).max(500).required().label("Prepared By"),
-    organization: Joi.string().min(1).max(26).required().label("organization"),
-  }
   const [intro, setIntro] = useState({
     purpose: '',
     conventions: '',
@@ -40,22 +37,24 @@ export default function Phase2() {
   });
   const [desc, setDesc] = useState(
     {
-      projectId:  '',
-      fucntions:   '',
-      perspective:  '',
-      characteristics:   '',
-      envirnoment:   '',
-      implementation:   '',
-      documentation:   '',
-      assumptions:   '',
-      
+      perspective: '',
+      functions: '',
+      characteristics: '',
+      envirnoment: '',
+      implementation: '',
+      documentation: '',
+      assumptions: '',
     }
   )
   const [isIntro, setIsIntro] = useState(false); // check that intro is already in db
   const [introId, setIntroId] = useState(false); // setIntroId for update
+  const [isDesc, setIsDesc] = useState(false); // setIsDesc for update
+  const [descId, setDesId] = useState(false); // descId for update
+
+  // ------------------------- Get Data From API --------------------------
   function getIntro() {
     http.get(`${apiUrl}/project/intro/${projectId}`).then(({ data }) => {
-      console.log("Intro fsf", data);
+      console.log("Introduction: ", data);
       setIsIntro(true);
       setIntro({
         purpose: data.purpose,
@@ -79,9 +78,49 @@ export default function Phase2() {
       setIsIntro(false);
     });
   };
+  function getDesc() {
+    http.get(`${apiUrl}/project/desc/${projectId}`).then(({ data }) => {
+      console.log("Description: ", data);
+      setIsDesc(true);
+      setDesc(
+        {
+          functions: data.functions,
+          perspective: data.perspective,
+          characteristics: data.characteristics,
+          envirnoment: data.envirnoment,
+          implementation: data.implementation,
+          documentation: data.implementation,
+          assumptions: data.assumptions,
+        }
+      );
+      setDesId(data._id);
+
+    }).catch(err => {
+       
+      setDesc({
+        functions: '',
+        perspective: '',
+        characteristics: '',
+        envirnoment: '',
+        implementation: '',
+        documentation: '',
+        assumptions: '',
+      });
+      setIsDesc(false);
+    });
+  };
+  // ------------------------- useEffect --------------------------
   useEffect(() => {
     getIntro();
-  }, [])
+    getDesc();
+  }, []);
+
+  // ------------------------- Schemas --------------------------
+  const updateTitleSchema = {
+    title: Joi.string().min(5).max(50).required().label("Project Title"),
+    author: Joi.string().min(1).max(500).required().label("Prepared By"),
+    organization: Joi.string().min(1).max(26).required().label("organization"),
+  }
   const introSchema = {
     purpose: Joi.string().min(5).max(500).required().label("Purpose"),
     conventions: Joi.string().min(5).max(500).required().label("Conventions"),
@@ -98,7 +137,8 @@ export default function Phase2() {
     documentation: Joi.string().min(5).max(500).required().label("User Documentation"),
     assumptions: Joi.string().min(5).max(500).required().label("Assumptions & Dependencies")
   }
-  const [introErrors, setIntroErrors] = useState({});
+  // ------------------------- Validations --------------------------
+
   const introValidate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(intro, introSchema, options);
@@ -107,44 +147,13 @@ export default function Phase2() {
     for (let item of error.details) err[item.path] = item.message;
     return err;
   }
-  const doIntroSubmit = () => {
-    if (!isIntro) {
-      // store with new entry  
-      http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
-        .then(res => {
-          console.log(res.status);
-          if (res.status === 200) {
-            toast.success("Successfully added.");
-          }
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        })
-
-    } else {
-      // update with existing recorde
-      toast("update entry", isIntro);
-      http.put(`${apiUrl}/project/intro`, { '_id': introId, 'projectId': projectId, ...intro })
-        .then(res => {
-          console.log(res);
-          toast(res, "updated");
-          toast(res);
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        })
-    }
-
-  }
-  const handleIntroSubmit = e => {
-    e.preventDefault();
-    const error = introValidate();
-    if (error) {
-      setIntroErrors(error);
-      return false;
-    }
-    setIntroErrors({});
-    doIntroSubmit();
+  const descValidate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(desc, descSchema, options);
+    if (!error) return null;
+    const err = {};
+    for (let item of error.details) err[item.path] = item.message;
+    return err;
   }
   const validate = () => {
     const options = { abortEarly: false };
@@ -154,15 +163,17 @@ export default function Phase2() {
     for (let item of error.details) err[item.path] = item.message;
     return err;
   }
-  const doSubmit = () => {
-    toast(projectId);
-    http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
-      if (status === 200) {
-        toast.success("Updated.");
-      } else {
-        toast(status);
-      }
-    }).catch(err => { toast.error(err.response.data) });
+
+  // ------------------------- Handle Submit --------------------------
+  const handleIntroSubmit = e => {
+    e.preventDefault();
+    const error = introValidate();
+    if (error) {
+      setErrors(error);
+      return false;
+    }
+    setErrors({});
+    doIntroSubmit();
   }
   const handlSubmitTitle = e => {
     e.preventDefault();
@@ -174,14 +185,6 @@ export default function Phase2() {
     doSubmit();
 
   }
-  const descValidate = () => {
-    const options = { abortEarly: false };
-    const { error } = Joi.validate(intro, introSchema, options);
-    if (!error) return null;
-    const err = {};
-    for (let item of error.details) err[item.path] = item.message;
-    return err;
-  }
   const handleDescSubmit = e => {
     e.preventDefault();
     const error = descValidate();
@@ -189,7 +192,74 @@ export default function Phase2() {
       setErrors(error);
       return false;
     }
+    toast('handleDescSubmit');
+
+    setErrors({});
+    toast("reched");
+    doDescSubmit();
   }
+  const doSubmit = () => {
+    toast(projectId);
+    http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
+      if (status === 200) {
+        toast.success("Updated.");
+      } else {
+        toast(status);
+      }
+    }).catch(err => { toast.error(err.response.data) });
+  }
+  const doIntroSubmit = () => {
+    if (!isIntro) {
+      // store with new entry  
+      http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
+        .then(res => { 
+          if (res.status === 200) {
+            toast.success("Successfully added.");
+          }
+        }).catch(err => {
+          console.log("Submit error: " , err);
+          toast.error(err);
+        })
+
+    } else {
+      // update with existing recorde 
+      http.put(`${apiUrl}/project/intro`, { '_id': introId, 'projectId': projectId, ...intro })
+        .then(res => { 
+          toast(res);
+        }).catch(err => {
+          console.log(err);
+          toast.error(err);
+        })
+    }
+
+  }
+  const doDescSubmit = () => {
+    if (!isDesc) {
+      // store with new entry  
+      http.post(`${apiUrl}/project/desc`, { projectId: projectId, ...desc })
+        .then(res => { 
+          if (res.status === 200) {
+            toast.success("Successfully added.");
+          }
+        }).catch(err => {
+          console.log(err);
+          toast.error(err);
+        })
+
+    } else {
+      // update with existing recorde
+      toast("update entry", descId);
+      http.put(`${apiUrl}/project/desc`, { '_id': descId, 'projectId': projectId, ...desc })
+        .then(res => { 
+          toast(res);
+        }).catch(err => {
+          console.log(err);
+          toast.error(err);
+        })
+    }
+
+  }
+
   return (
     <div className="page-content">
       <div className="dash-container">
@@ -209,9 +279,13 @@ export default function Phase2() {
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
                         <a href="#description" onClick={() => { setActive('Overall Description') }} className={`list-group-item list-group-item-action border-0  ${(active === 'Overall Description') ? 'active' : ""}`}>2. Overall Description
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
-                        <a href="#interface" onClick={() => { setActive('External Interface Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'External Interface Requirements') ? 'active' : ""}`}>3. External Interface Requirements
+                        <a href="#interface" onClick={() => { setActive('External Interface Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'External Interface Requirements') ? 'active' : ""}`}>3. External Interface  Requirements
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
                         <a href="#features" onClick={() => { setActive('System Features') }} className={`list-group-item list-group-item-action border-0  ${(active === 'System Features') ? 'active' : ""}`}>4. System Features
+                          <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
+                          <a href="#nonfunctional" onClick={() => { setActive('Other Nonfunctional Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'Other Nonfunctional Requirements') ? 'active' : ""}`}>5. Other Nonfunctional Requirements
+                          <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
+                          <a href="#otherrequirements" onClick={() => { setActive('Other Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'Other Requirements') ? 'active' : ""}`}>6. Other Requirements
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
                       </div>
                     </div>
@@ -266,11 +340,11 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <Input tag='textarea' name={'purpose'} value={intro.purpose} label={"1.1 purpose"} error={introErrors.purpose} onChange={e => setIntro({ ...intro, purpose: e.target.value })} />
-                            <Input tag='textarea' name={'conventions'} value={intro.conventions} label={"1.2 Document Conventions"} error={introErrors.conventions} onChange={e => setIntro({ ...intro, conventions: e.target.value })} />
-                            <Input tag='textarea' name={'audience'} value={intro.audience} label={"1.3 Intended Audience and Reading Suggestions"} error={introErrors.audience} onChange={e => setIntro({ ...intro, audience: e.target.value })} />
-                            <Input tag='textarea' name={'scope'} value={intro.scope} label={"1.4 Product Scope"} error={introErrors.scope} onChange={e => setIntro({ ...intro, scope: e.target.value })} />
-                            <Input tag='textarea' name={'references'} value={intro.references} label={"1.5 References"} error={introErrors.references} onChange={e => setIntro({ ...intro, references: e.target.value })} />
+                            <Input tag='textarea' name={'purpose'} value={intro.purpose} label={"1.1 purpose"} error={errors.purpose} onChange={e => setIntro({ ...intro, purpose: e.target.value })} />
+                            <Input tag='textarea' name={'conventions'} value={intro.conventions} label={"1.2 Document Conventions"} error={errors.conventions} onChange={e => setIntro({ ...intro, conventions: e.target.value })} />
+                            <Input tag='textarea' name={'audience'} value={intro.audience} label={"1.3 Intended Audience and Reading Suggestions"} error={errors.audience} onChange={e => setIntro({ ...intro, audience: e.target.value })} />
+                            <Input tag='textarea' name={'scope'} value={intro.scope} label={"1.4 Product Scope"} error={errors.scope} onChange={e => setIntro({ ...intro, scope: e.target.value })} />
+                            <Input tag='textarea' name={'references'} value={intro.references} label={"1.5 References"} error={errors.references} onChange={e => setIntro({ ...intro, references: e.target.value })} />
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
@@ -293,13 +367,13 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <Input tag='textarea' name={'perspective'} value={''} label={"2.1 Product Perspective"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'function'} value={''} label={"2.2 Product Functions"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'userClasses'} value={''} label={"2.3 User Classes and Characteristics"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'operating'} value={''} label={"2.4 Operating Environment"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'design'} value={''} label={"2.5 Design and Implementation Constraints"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'documentation'} value={''} label={"2.6 User Documentation"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'assumption'} value={''} label={"2.7 Assumptions and Dependencies"} error={''} onChange={''} />
+                            <Input tag='textarea' name={'perspective'} value={desc.perspective} label={"2.1 Product Perspective"} error={errors.perspective} onChange={e => setDesc({ ...desc, perspective: e.target.value })} />
+                            <Input tag='textarea' name={'functions'} value={desc.functions} label={"2.2 Product Functions"} error={errors.functions} onChange={e => setDesc({ ...desc, functions: e.target.value })} />
+                            <Input tag='textarea' name={'characteristics'} value={desc.characteristics} label={"2.3 User Classes and Characteristics"} error={errors.characteristics} onChange={e => setDesc({ ...desc, characteristics: e.target.value })} />
+                            <Input tag='textarea' name={'envirnoment'} value={desc.envirnoment} label={"2.4 Operating Environment"} error={errors.envirnoment} onChange={e => setDesc({ ...desc, envirnoment: e.target.value })} />
+                            <Input tag='textarea' name={'implementation'} value={desc.implementation} label={"2.5 Design and Implementation Constraints"} error={errors.implementation} onChange={e => setDesc({ ...desc, implementation: e.target.value })} />
+                            <Input tag='textarea' name={'documentation'} value={desc.documentation} label={"2.6 User Documentation"} error={errors.documentation} onChange={e => setDesc({ ...desc, documentation: e.target.value })} />
+                            <Input tag='textarea' name={'assumption'} value={desc.assumptions} label={"2.7 Assumptions and Dependencies"} error={errors.assumptions} onChange={e => setDesc({ ...desc, assumptions: e.target.value })} />
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
@@ -329,6 +403,79 @@ export default function Phase2() {
                             <Input tag='textarea' name={'design'} value={''} label={"2.5 Design and Implementation Constraints"} error={''} onChange={''} />
                             <Input tag='textarea' name={'documentation'} value={''} label={"2.6 User Documentation"} error={''} onChange={''} />
                             <Input tag='textarea' name={'assumption'} value={''} label={"2.7 Assumptions and Dependencies"} error={''} onChange={''} />
+                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div id="features" class="card">
+                      <form >
+                        <div class="card-header">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              <h5>4. System Features</h5><small className="text-muted"></small>
+                            </div>
+                            <div className="float-end">
+                              <button className="btn btn-sm btn-primary mx-2" onClick={e => e.preventDefault()} title="Lock It.">
+                                <i className="ti ti-check"></i></button>
+                              <button className="btn btn-sm btn-primary" onClick={e => e.preventDefault()} title="Lock It.">
+                                <i className="ti ti-lock-open"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <Input tag='textarea' name={'perspective'} value={''} label={"2.1 Product Perspective"} error={''} onChange={''} />
+                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div id="nonfunctional" class="card">
+                      <form >
+                        <div class="card-header">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              <h5>5. Other Nonfunctional Requirements</h5><small className="text-muted"></small>
+                            </div>
+                            <div className="float-end">
+                              <button className="btn btn-sm btn-primary mx-2" onClick={e => e.preventDefault()} title="Lock It.">
+                                <i className="ti ti-check"></i></button>
+                              <button className="btn btn-sm btn-primary" onClick={e => e.preventDefault()} title="Lock It.">
+                                <i className="ti ti-lock-open"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <Input tag='textarea' name={'perfReq'} value={''} label={"5.1 Performance Requirements"} error={''} onChange={''} />
+                            <Input tag='textarea' name={'safeReq'} value={''} label={"5.2 Safety Requirements"} error={''} onChange={''} />
+                            <Input tag='textarea' name={'secReq'} value={''} label={"5.3 Security Requirements"} error={''} onChange={''} />
+                            <Input tag='textarea' name={'qualityReq'} value={''} label={"5.4 Software Quality Attributes"} error={''} onChange={''} />
+                            <Input tag='textarea' name={'rules'} value={''} label={"5.5 Business Rules"} error={''} onChange={''} /> 
+                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div id="otherrequirements" class="card">
+                      <form >
+                        <div class="card-header">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              <h5>6. Other Requirements</h5><small className="text-muted"></small>
+                            </div>
+                            <div className="float-end">
+                              <button className="btn btn-sm btn-primary mx-2" onClick={e => e.preventDefault()} title="Lock It.">
+                                <i className="ti ti-check"></i></button>
+                              <button className="btn btn-sm btn-primary" onClick={e => e.preventDefault()} title="Lock It.">
+                                <i className="ti ti-lock-open"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <Input tag='textarea' name={'perspective'} value={''} label={"2.1 Product Perspective"} error={''} onChange={''} /> 
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>

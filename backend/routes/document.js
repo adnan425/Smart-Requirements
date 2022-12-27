@@ -36,7 +36,7 @@ router.post('/intro', [auth, manager], async (req, res, next) => {
 router.put('/intro', [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { "userId": req.user._id, ...req.body };
-        const intro = _.pick(bodyData, ['userId', 'projectId', 'purpose', 'conventions', 'audience', 'scope', 'references']);
+        const intro = _.pick(bodyData, ['userId', 'projectId', 'purpose','conventions', 'audience', 'scope', 'references']);
         const { error } = introductionValidation(intro);
         if (error) return res.status(400).send(error.details[0].message);
 
@@ -110,7 +110,7 @@ router.get('/intro/:id', [auth, manager], async (req, res, next) => {
 router.post('/desc', [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { "userId": req.user._id, ...req.body };
-        const desc = _.pick(bodyData, ['userId', 'projectId', 'perspective', 'characteristics', 'envirnoment', 'implementation', 'documentation', 'assumptions']);
+        const desc = _.pick(bodyData, ['userId', 'projectId', 'perspective','functions', 'characteristics', 'envirnoment', 'implementation', 'documentation', 'assumptions']);
         const { error } = descriptionValidation(desc);
         if (error) return res.status(400).send(error.details[0].message);
 
@@ -155,7 +155,7 @@ router.get('/desc/:id', [auth, manager], async (req, res, next) => {
 router.put('/desc', [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { "userId": req.user._id, ...req.body };
-        const desc = _.pick(bodyData, ['userId', 'projectId', 'perspective', 'characteristics', 'envirnoment', 'implementation', 'documentation', 'assumptions']);
+        const desc = _.pick(bodyData, ['userId', 'projectId', 'perspective', 'functions', 'characteristics', 'envirnoment', 'implementation', 'documentation', 'assumptions']);
         const { error } = descriptionValidation(desc);
         if (error) return res.status(400).send(error.details[0].message);
 
@@ -175,6 +175,7 @@ router.put('/desc', [auth, manager], async (req, res, next) => {
                 "userId": req.body.userId,
                 "projectId": req.body.projectId,
                 "perspective": req.body.perspective,
+                "functions": req.body.functions,
                 "characteristics": req.body.characteristics,
                 "implementation": req.body.implementation,
                 "documentation": req.body.documentation,

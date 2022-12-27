@@ -16,6 +16,12 @@ const descriptionSchema = new mongoose.Schema({
         maxLength: 500,
         trim: true,
     },
+    functions: {
+        type: String,
+        minLength: 3,
+        maxLength: 500,
+        trim: true,
+    },
     characteristics:{
         type: String,
         minLength: 3,

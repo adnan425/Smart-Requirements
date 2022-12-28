@@ -46,10 +46,21 @@ export default function Phase2() {
       assumptions: '',
     }
   )
+  const [nonFun, setNonFun] = useState(
+    {
+      performance: '',
+      safety: '',
+      security: '',
+      quality: '',
+      business: ''
+    }
+  )
   const [isIntro, setIsIntro] = useState(false); // check that intro is already in db
   const [introId, setIntroId] = useState(false); // setIntroId for update
   const [isDesc, setIsDesc] = useState(false); // setIsDesc for update
   const [descId, setDesId] = useState(false); // descId for update
+  const [isNonFunctional, setIsNonFunctional] = useState(false); // setIsDesc for update
+  const [nonFunId, setNonFunId] = useState(false); // descId for update
 
   // ------------------------- Get Data From API --------------------------
   function getIntro() {
@@ -96,7 +107,7 @@ export default function Phase2() {
       setDesId(data._id);
 
     }).catch(err => {
-       
+
       setDesc({
         functions: '',
         perspective: '',
@@ -109,10 +120,38 @@ export default function Phase2() {
       setIsDesc(false);
     });
   };
+  function getNonFunctional() {
+    http.get(`${apiUrl}/project/nonfun/${projectId}`).then(({ data }) => {
+      console.log("Non Functional Req: ", data);
+      setIsNonFunctional(true);
+      setNonFun(
+        {
+          performance: data.performance,
+          safety: data.safety,
+          security: data.security,
+          quality: data.quality,
+          business: data.business, 
+        }
+      );
+      setNonFunId(data._id);
+
+    }).catch(err => {
+
+      setNonFun({
+        performance: '',
+        safety: '',
+        security: '',
+        quality: '',
+        business: ''
+      });
+      setNonFunId(false);
+    });
+  };
   // ------------------------- useEffect --------------------------
   useEffect(() => {
     getIntro();
     getDesc();
+    getNonFunctional();
   }, []);
 
   // ------------------------- Schemas --------------------------
@@ -137,6 +176,13 @@ export default function Phase2() {
     documentation: Joi.string().min(5).max(500).required().label("User Documentation"),
     assumptions: Joi.string().min(5).max(500).required().label("Assumptions & Dependencies")
   }
+  const nonFunSchema = {
+    performance: Joi.string().min(5).max(500).required().label("Performance Requirements"),
+    safety: Joi.string().min(5).max(500).required().label("Safety Requirements"),
+    security: Joi.string().min(5).max(500).required().label("Security Requirements"),
+    quality: Joi.string().min(5).max(500).required().label("Software Quality Attributes"),
+    business: Joi.string().min(5).max(500).required().label("Business Rules"), 
+  }
   // ------------------------- Validations --------------------------
 
   const introValidate = () => {
@@ -158,6 +204,14 @@ export default function Phase2() {
   const validate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(projectTitle, updateTitleSchema, options);
+    if (!error) return null;
+    const err = {};
+    for (let item of error.details) err[item.path] = item.message;
+    return err;
+  }
+  const nonFunValidate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(nonFun, nonFunSchema, options);
     if (!error) return null;
     const err = {};
     for (let item of error.details) err[item.path] = item.message;
@@ -198,6 +252,16 @@ export default function Phase2() {
     toast("reched");
     doDescSubmit();
   }
+  const handleNonFunSubmit = e => {
+    e.preventDefault();
+    const error = nonFunValidate();
+    if (error) {
+      setErrors(error);
+      return false;
+    }  
+    setErrors({}); 
+    doNonFunSubmit();
+  }
   const doSubmit = () => {
     toast(projectId);
     http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
@@ -212,19 +276,19 @@ export default function Phase2() {
     if (!isIntro) {
       // store with new entry  
       http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
-        .then(res => { 
+        .then(res => {
           if (res.status === 200) {
             toast.success("Successfully added.");
           }
         }).catch(err => {
-          console.log("Submit error: " , err);
+          console.log("Submit error: ", err);
           toast.error(err);
         })
 
     } else {
       // update with existing recorde 
       http.put(`${apiUrl}/project/intro`, { '_id': introId, 'projectId': projectId, ...intro })
-        .then(res => { 
+        .then(res => {
           toast(res);
         }).catch(err => {
           console.log(err);
@@ -237,7 +301,7 @@ export default function Phase2() {
     if (!isDesc) {
       // store with new entry  
       http.post(`${apiUrl}/project/desc`, { projectId: projectId, ...desc })
-        .then(res => { 
+        .then(res => {
           if (res.status === 200) {
             toast.success("Successfully added.");
           }
@@ -250,7 +314,35 @@ export default function Phase2() {
       // update with existing recorde
       toast("update entry", descId);
       http.put(`${apiUrl}/project/desc`, { '_id': descId, 'projectId': projectId, ...desc })
-        .then(res => { 
+        .then(res => {
+          toast(res);
+        }).catch(err => {
+          console.log(err);
+          toast.error(err);
+        })
+    }
+
+  }
+  const doNonFunSubmit = () => { 
+    console.log("NonFun response check: ", isNonFunctional);
+    if (!isNonFunctional) {
+      // store with new entry  
+      http.post(`${apiUrl}/project/nonfun`, { projectId: projectId, ...nonFun })
+        .then(res => {
+          if (res.status === 200) {
+            toast.success("Successfully added.");
+            setIsNonFunctional(true);
+          }
+        }).catch(err => {
+          console.log(err);
+          toast.error(err);
+        })
+
+    } else {
+      toast.info("Update is on working");
+      // update with existing recorde 
+      http.put(`${apiUrl}/project/nonfun`, { '_id': nonFunId, 'projectId': projectId, ...nonFun })
+        .then(res => {
           toast(res);
         }).catch(err => {
           console.log(err);
@@ -283,9 +375,9 @@ export default function Phase2() {
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
                         <a href="#features" onClick={() => { setActive('System Features') }} className={`list-group-item list-group-item-action border-0  ${(active === 'System Features') ? 'active' : ""}`}>4. System Features
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
-                          <a href="#nonfunctional" onClick={() => { setActive('Other Nonfunctional Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'Other Nonfunctional Requirements') ? 'active' : ""}`}>5. Other Nonfunctional Requirements
+                        <a href="#nonfunctional" onClick={() => { setActive('Other Nonfunctional Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'Other Nonfunctional Requirements') ? 'active' : ""}`}>5. Other Nonfunctional Requirements
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
-                          <a href="#otherrequirements" onClick={() => { setActive('Other Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'Other Requirements') ? 'active' : ""}`}>6. Other Requirements
+                        <a href="#otherrequirements" onClick={() => { setActive('Other Requirements') }} className={`list-group-item list-group-item-action border-0  ${(active === 'Other Requirements') ? 'active' : ""}`}>6. Other Requirements
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
                       </div>
                     </div>
@@ -432,7 +524,7 @@ export default function Phase2() {
                       </form>
                     </div>
                     <div id="nonfunctional" class="card">
-                      <form >
+                      <form onSubmit={handleNonFunSubmit}>
                         <div class="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
@@ -448,11 +540,11 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <Input tag='textarea' name={'perfReq'} value={''} label={"5.1 Performance Requirements"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'safeReq'} value={''} label={"5.2 Safety Requirements"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'secReq'} value={''} label={"5.3 Security Requirements"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'qualityReq'} value={''} label={"5.4 Software Quality Attributes"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'rules'} value={''} label={"5.5 Business Rules"} error={''} onChange={''} /> 
+                            <Input tag='textarea' name={'perfReq'} value={nonFun.performance} label={"5.1 Performance Requirements"} error={errors.performance} onChange={ e =>setNonFun({...nonFun, performance:e.target.value})} />
+                            <Input tag='textarea' name={'safeReq'} value={nonFun.safety} label={"5.2 Safety Requirements"} error={errors.safety} onChange={e =>setNonFun({...nonFun, safety:e.target.value})} />
+                            <Input tag='textarea' name={'secReq'} value={nonFun.security} label={"5.3 Security Requirements"} error={errors.security} onChange={e =>setNonFun({...nonFun, security:e.target.value})} />
+                            <Input tag='textarea' name={'qualityReq'} value={nonFun.quality} label={"5.4 Software Quality Attributes"} error={errors.quality} onChange={e =>setNonFun({...nonFun, quality:e.target.value})} />
+                            <Input tag='textarea' name={'business'} value={nonFun.business} label={"5.5 Business Rules"} error={errors.business} onChange={e =>setNonFun({...nonFun, business:e.target.value})} />
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
@@ -475,7 +567,7 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <Input tag='textarea' name={'perspective'} value={''} label={"2.1 Product Perspective"} error={''} onChange={''} /> 
+                            <Input tag='textarea' name={'perspective'} value={''} label={"2.1 Product Perspective"} error={''} onChange={''} />
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>

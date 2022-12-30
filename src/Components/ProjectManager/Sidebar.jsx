@@ -4,6 +4,7 @@ import Logo from "../Utllils/Logo";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { closeSidebar } from "../Store/Sidebar/Sidebar";
+import Avatar from 'react-avatar';
 
 export default function Sidebar({ items: projects, onProjectSelect }) {
   var items = [
@@ -53,8 +54,13 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
                     <div className="dash-link">
                       <span className="dash-micon">
                         <i
-                          className={list.icon ? list.icon : "ti ti-layout-2"}
-                        />
+                          // className={list.icon ? list.icon : "ti ti-layout-2"}
+
+                        >
+
+                          <Avatar  size="30" name={list.title}  round="10px"/>
+
+                        </i>
                       </span>
                       <span className="dash-mtext">
                         {list.title }

@@ -7,7 +7,8 @@ export default function DataList({ list }) {
     <>
       <div className="col-xl-12">
         <div className="card">
-          <div className="card-body table-border-style">
+          {
+            list && list.length!==0 && <div className="card-body table-border-style">
             <div className="table-responsive">
               <table className="table datatable">
                 <thead>
@@ -156,6 +157,11 @@ export default function DataList({ list }) {
               </table>
             </div>
           </div>
+          }
+          {
+            list && list.length===0 && <div className="card-body table-border-style"> Project list is empty.</div>
+          }
+
         </div>
       </div>
     </>

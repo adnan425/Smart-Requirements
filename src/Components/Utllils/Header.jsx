@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import auth from "../Services/authService";
 import { useDispatch } from 'react-redux';
+import Avatar from 'react-avatar';
 import { activeSidebar } from "../Store/Sidebar/Sidebar";
 export default function Header() { 
   const [user, setUser] = useState(auth.getCurrentUser); 
@@ -32,11 +33,12 @@ export default function Header() {
                 aria-haspopup="false"
                 aria-expanded="false"
               >
-                <img
+                <Avatar  size="30" name={(user.name !== '') ? user.name : "User"} round="50%"/>
+                {/* <img
                   className="theme-avtar"
                   src="https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png"
                   alt="profile"
-                />
+                /> */}
                 <span className="hide-mob ms-2">{(user.name !== '') ? user.name : "User"}</span>
                 <i className="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
               </Link>

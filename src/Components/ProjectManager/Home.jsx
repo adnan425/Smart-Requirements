@@ -55,44 +55,40 @@ export default function Home() {
   // ];
 
   const projects = useSelector((c) => c.projects.list);
-
-  const [selectedProjectID, setselectedProjectID] = useState();
+ 
   const [isSelect, setIsSelect] = useState(false);
 
-  
+
   useEffect(() => {
     dispatch(getMyProjects());
   }, [dispatch]);
 
-
-  useEffect(() => {
-    if (selectedProjectID && selectedProjectID !== "") {
-      dispatch(getProjectById(selectedProjectID));
-      setIsSelect(true);
-    }
-  }, [selectedProjectID, dispatch]);
+ 
 
   const handleSelectProject = (project) => {
     // IF ADD PROJECT THEN SHOW ADD FORM
-    if (project.title === "New Project") {
-      setIsSelect(false);
-      redirect("/manager/new");
-      return;
-    }
-
-    // IF ALL PROJECT THEN SHOW ALL PROJECTS
-    else if (project.title === "All Projects") {
-      setIsSelect(false);
-      redirect("/manager");
-      return;
-    }
-    else if (project.title === "Settings") {
-      setIsSelect(false);
-      redirect("/manager/settings");
-      return;
-    } else {
-      // UPDATE THE STATE 
-      setselectedProjectID(project._id);
+    switch (project.title) {
+      case "New Project": {
+        setIsSelect(false);
+        redirect("/manager/new");
+        break;
+      }
+      case "All Projects":{
+        setIsSelect(false);
+        redirect("/manager");
+        break;
+      }
+      case "Settings":{
+        setIsSelect(false);
+        redirect("/manager/settings");
+        break;
+      }
+      default: {
+        // UPDATE THE STATE  
+        dispatch(getProjectById(project._id));
+        setIsSelect(true);
+        break;
+      }
     }
   };
   const IsSelectClick = () => {

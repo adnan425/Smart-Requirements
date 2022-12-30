@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { getCurrentUser } from "../Services/authService";
+
 const moment = require('moment');
 
-export default function DataGrid({ list }) { 
+export default function DataGrid({ list }) {
+  const userRole = getCurrentUser();
   return (
     <>
-            {list && list.map((project) => { 
-        
-        const { _id, title,  date,  status } = project; 
+      {list && list.length!==0 && list.map((project) => {
+
+        const { _id, title, date, status } = project;
         const start_date = moment(date).format("MMM Do YYYY");;
         return (
           <>
@@ -87,21 +90,24 @@ export default function DataGrid({ list }) {
                 </div>
                 <div className="card-footer">
                   <div className="actions d-flex justify-content-between px-4">
-                    <div className="action-btn bg-info ms-2">
-                      <Link
-                        to="edit"
-                        className="mx-3 btn btn-sm d-inline-flex align-items-center"
-                        data-bs-whatever="Edit Project"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit"
-                      >
-                        {" "}
-                        <span className="text-white">
+                    {
+                      userRole.role === 'manager' && <> <div className="action-btn bg-info ms-2">
+                        <Link
+                          to="edit"
+                          className="mx-3 btn btn-sm d-inline-flex align-items-center"
+                          data-bs-whatever="Edit Project"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Edit"
+                        >
                           {" "}
-                          <i className="ti ti-edit"></i>
-                        </span>
-                      </Link>
-                    </div>
+                          <span className="text-white">
+                            {" "}
+                            <i className="ti ti-edit"></i>
+                          </span>
+                        </Link>
+                      </div>
+                    
+
                     <div className="action-btn bg-warning ms-2">
                       <Link
                         to={"project/" + _id}
@@ -118,14 +124,16 @@ export default function DataGrid({ list }) {
                       </Link>
                     </div>
                     <div className="action-btn bg-danger ms-2">
-                      <button className="mx-3 btn btn-sm d-flex align-items-center show_confirm">
-                        <i
-                          className="ti ti-trash text-white"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete"
-                        ></i>
-                      </button>
-                    </div>
+                        <button className="mx-3 btn btn-sm d-flex align-items-center show_confirm">
+                          <i
+                            className="ti ti-trash text-white"
+                            data-bs-toggle="tooltip"
+                            data-bs-original-title="Delete"
+                          ></i>
+                        </button>
+                      </div>
+                      </>
+}
                   </div>
                 </div>
               </div>
@@ -133,6 +141,12 @@ export default function DataGrid({ list }) {
           </>
         );
       })}
+      {
+            list && list.length===0 && 
+            <>
+            <div className="card"><div className="card-header"> Project list is empty.</div></div>
+            </>
+          }
     </>
   );
 }

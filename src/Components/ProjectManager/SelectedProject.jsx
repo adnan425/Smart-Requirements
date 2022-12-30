@@ -18,27 +18,19 @@ const apiUrl = 'http://localhost:3004/api';
 export default function SelectedProject({ handlePhase }) {
   const stakeholders = [
     {
-      id: 1
+      id: 1,
+      name : "Adnan Dani"
     },
     {
-      id: 2
-    },
-    {
-      id: 3
-    },
-    {
-      id: 4
-    },
-    {
-      id: 5
-    },
-    {
-      id: 6
-    },
+      id: 2,
+      name : "Tahir ALi"
+
+    }
 
   ]
   const project = useSelector((c) => c.projects.selectedProject);
   const projectId = useSelector((c) => c.projects.selectedProject._id);
+  toast(projectId);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProjectTitle(projectId));
@@ -48,8 +40,7 @@ export default function SelectedProject({ handlePhase }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [errors, setErrors] = useState({});
-  const [stakeholder, setStakeholder] = useState({
-    projectId: projectId,
+  const [stakeholder, setStakeholder] = useState({ 
     name: '',
     email: '',
     password: ''
@@ -58,8 +49,7 @@ export default function SelectedProject({ handlePhase }) {
   const stakeholderSchema = {
     name: Joi.string().min(5).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
-    password: Joi.string().min(8).max(255).required(),
-    projectId: Joi.string().min(11).max(25).required()
+    password: Joi.string().min(8).max(255).required() 
   }
   const validate = () => {
     const options = { abortEarly: false };
@@ -81,7 +71,8 @@ export default function SelectedProject({ handlePhase }) {
     doSubmit();
   }
   const doSubmit = () => {
-    http.post(`${apiUrl}/projects/stakeholder`, stakeholder).then(({ status }) => {
+    const data = {projectId:projectId, ...stakeholder};
+    http.post(`${apiUrl}/projects/stakeholder`, data).then(({ status }) => {
       if (status === 200) {
         toast.success("Successfully added.");
         setShow(false);
@@ -228,10 +219,7 @@ export default function SelectedProject({ handlePhase }) {
                                       <a
                                         href="#!"
                                         className="dropdown-item"
-                                        data-size="lg"
-                                        data-url="https://demo.rajodiya.com/crmgo-saas/lead/8/label"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal"
+                                      
                                         data-bs-whatever="Add Label"
                                       >
                                         <i className="ti ti-sticker"></i>
@@ -275,10 +263,10 @@ export default function SelectedProject({ handlePhase }) {
                   <div className="row timeline-wrapper">
 
                     {stakeholders.map(stakeholder => {
-                      const { id } = stakeholder;
+                      const { id, name } = stakeholder;
                       return (
                         <div className="col-lg-3 col-sm-6 col-md-6" key={id}>
-                          <ProfileCard />
+                          <ProfileCard name={name} />
                         </div>
                       )
                     })}

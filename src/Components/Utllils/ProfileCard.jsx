@@ -1,6 +1,6 @@
 import React from 'react'
-
-export default function ProfileCard() {
+import Avatar from 'react-avatar';
+export default function ProfileCard({_id="", name="Manager", email="manager@mail.com", date=""}) {
     return (
         <div className="card text-center">
             <div className="card-header border-0 pb-0">
@@ -54,24 +54,25 @@ export default function ProfileCard() {
             </div>
             <div className="card-body full-card">
                 <div className="img-fluid rounded-circle card-avatar">
-                    <img
-                        src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-4.jpg"
+                    {/* <img
+                        src="storage/uploads/avatar/user-4.jpg"
                         alt="kal"
                         className="img-user wid-80 rounded-circle"
-                    />
+                    /> */}
+                    <Avatar name={name} round="50%"/>
                 </div>
-                <h4 className=" mt-2 text-primary">Mick Aston</h4>
+                <h4 className=" mt-2 text-primary">{name}</h4>
                 <p></p>
                 <div className="row">
                     <div className="col-12 col-sm-12">
                         <div className="d-grid text-primary">
-                            client@example.com
+                            {email}
                         </div>
                     </div>
                 </div>
 
                 <div className="card mb-0 mt-3"><div className="card-body p-3">
-                    <div className="row"><div className="col-12"><p className="text-muted mb-0"><i className="ti ti-clock mx-3  card-icon-text-space"></i>Jul 12, 2021</p></div></div></div></div>
+                    <div className="row"><div className="col-12"><p className="text-muted mb-0"><i className="ti ti-clock mx-3  card-icon-text-space"></i>{date}</p></div></div></div></div>
             </div>
 
         </div>

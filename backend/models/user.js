@@ -27,7 +27,10 @@ const userSchema = new mongoose.Schema({
     default: "manager",
     enum: ['manager','stakeholder'],
     lowercase: true
-  }
+  },
+  date: {
+    type: Date, default: Date.now
+}
 });
 
 userSchema.methods.generateAuthToken = function() {

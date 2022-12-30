@@ -20,11 +20,13 @@ import Logout from './../Components/Utllils/Logout';
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+ import { ConfigProvider } from 'react-avatar';
 const Login = lazy(() => import('./Login'));
 
 export default function Home() {
   return (
     <>
+    
       <ToastContainer
         position="top-right"
         autoClose={4000}
@@ -36,12 +38,12 @@ export default function Home() {
         draggable
         pauseOnHover
         theme={ localStorage.getItem('themeMode') || 'light' }
-      />
+      /> 
       {/* Same as */}
       {/* <ToastContainer /> */}
       <Suspense fallback={<div>Loading...</div>}>
 
-
+      <ConfigProvider colors={['#685ee5', '#4ebbd3', '#6fd943','#685ee5']}>
         <Routes>
           {/* <Route path="/" element={<LandingPage />} /> */}
           <Route path="/" element={<Login />} />
@@ -73,9 +75,8 @@ export default function Home() {
 
           <Route path="/stakeholder" element={<Stakeholder />} />
         </Routes>
-
-      </Suspense>
-
+        </ConfigProvider>
+      </Suspense> 
     </>
   );
 }

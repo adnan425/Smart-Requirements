@@ -34,10 +34,10 @@ router.post('/', async (req, res) => {
     res.status(200).send("Successfully registered.");
 })
 
-//GER ALL MANAGER | ONLY ADMIN CAN GET ALL MANAGER LIST | 2 MIDDLEWARE | AUTH | CHECK IS_ADMIN
+//GET ALL MANAGER | ONLY ADMIN CAN GET ALL MANAGER LIST | 2 MIDDLEWARE | AUTH | CHECK IS_ADMIN
 router.get('/', [auth, admin], async (req, res) => {
     const users = await User.find({role: 'manager'})
-        .select('id name email');
+        .select('_id name email date');
 
     res.status(200).send(users); 
 

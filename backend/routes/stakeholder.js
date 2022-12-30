@@ -31,14 +31,14 @@ router.post('/', [auth, manager], async (req, res, next) => {
         const user = await User.findOne({ email: req.body.email });
         if (user) {
 
-            const isAdded = await Project.findOne({_id: req.body.projectId}, {stakeholders: { $in:{ stakeholderId: user._id}}});
+            const isAdded = await Project.findOne({_id: req.body.projectId}, {stakeholders:  user._id});
                 // {$and : [{_id: req.body.projectId}, { stakeholders: { stakeholderId: user._id} }]});
             if (isAdded) {
                 res.status(200).send("Stakeholder is already added.");
             } else {
                 await Project.findByIdAndUpdate(
                     req.body.projectId,
-                    { $push: { stakeholders: { stakeholderId: user._id } } }
+                    { $push: { stakeholders:  isAdded._id } }
                 )
                 res.status(200).send("Successfully added as a stakeholder.");
             }
@@ -51,7 +51,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
 
             await Project.findByIdAndUpdate(
                 req.body.projectId,
-                { $push: { stakeholders: { stakeholderId: stakeholder._id } } }
+                { $push: { stakeholders:  stakeholder._id } }
             )
             res.status(200).send("Successfully added as a stakeholder.");
         }

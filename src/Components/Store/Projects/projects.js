@@ -53,6 +53,14 @@ export const getProjectById = createAsyncThunk("projects/getProjectById", async 
         return error.message
     }
 });
+export const getStakeholderProjects = createAsyncThunk("projects/getProjects", async () => {
+    try {
+        const response = await http.get(`${apiUrl}/projects/stakeholder`);
+        return await response.data;
+    } catch (error) {
+        return error.message
+    }
+});
 
 const slice = createSlice({
     name: 'projects',
@@ -72,10 +80,21 @@ const slice = createSlice({
         },
         [getAllProejcts.fulfilled]: (projects, action) => {
             projects.loading = false;
-            if (action.type !== "error")
-                projects.list = action.payload;
+            if (action.type !== "error") { projects.list = action.payload; }
         },
         [getAllProejcts.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        // STAKEHOLDER GET ALL PROJECTS
+        [getStakeholderProjects.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [getStakeholderProjects.fulfilled]: (projects, action) => {
+            projects.loading = false;
+            if (action.type !== "error") { projects.list = action.payload; }
+        },
+        [getStakeholderProjects.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         },
@@ -85,8 +104,7 @@ const slice = createSlice({
         },
         [getMyProjects.fulfilled]: (projects, action) => {
             projects.loading = false;
-            if (action.type !== "error")
-                projects.list = action.payload;
+            if (action.type !== "error") { projects.list = action.payload; }
 
         },
         [getMyProjects.rejected]: (state, action) => {

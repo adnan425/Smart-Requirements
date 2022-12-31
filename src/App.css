@@ -1,1 +1,3 @@
- 
+.activity-scroll{
+    overflow-x: hidden !important;
+}

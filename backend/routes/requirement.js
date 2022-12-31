@@ -1,13 +1,13 @@
 const Joi = require('joi'); 
 const express = require('express');
 const auth = require('./../middleware/auth');
-const manager = require('./../middleware/manager');
+const manager = require('./../middleware/manager'); 
 const { Requirement , validateRequirement } = require('../models/requirement');
 const { Project } = require('./../models/project');
 const router = express.Router();
 
 // ADD REQ | USER ID FROM MIDDLWARE
-router.post('/', [auth, manager] , async (req,res,next)=>{
+router.post('/', [auth] , async (req,res,next)=>{
     try {
         const { error } = validateRequirement(req.body);
         if (error) return res.status(400).send(error.details[0].message);
@@ -36,12 +36,10 @@ router.post('/', [auth, manager] , async (req,res,next)=>{
 });
 
 // GET REQ USING ID | USER ID FROM MIDDLWARE
-router.get('/:id', [auth, manager] , async (req,res,next)=>{
+router.get('/:id', [auth ] , async (req,res,next)=>{
     try {
         const projectId = req.params.id;
-
         if(!projectId) return res.status(400).send("Project Id not found.");
-
         if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
         
         //Check Project exist or not
@@ -50,8 +48,9 @@ router.get('/:id', [auth, manager] , async (req,res,next)=>{
 
 
         // check is project id against the logged user
-        const isMember = await Project.findOne({ '_id': projectId, 'manager':req.user._id});
-        if(!isMember) return res.status(404).send("You dont have access.");
+        // const isMember = await Project.findOne({ '_id': projectId, 'manager':req.user._id});
+        // const isStakeholder = await Project.findOne({ '_id': projectId, 'stakeholders':req.user._id});
+        // if(!isMember || !isStakeholder) return res.status(404).send("You dont have access.");
 
          const requirements = await Requirement.find({'projectId': projectId}).select('-__v');
         res.status(200).send(requirements);        

@@ -1,12 +1,14 @@
 import React from 'react'
 import Theme from './../../Utllils/Theme';
+import PageHeader from './../Utllils/PageHeader';
 
 export default function Settings() {
   return (
     <div className="page-content">
     <div className="dash-container">
       <div className="dash-content">
-        <div className="page-header">
+        <PageHeader title='Settings' />
+        {/* <div className="page-header">
           <div className="page-block">
             <div className="row align-items-center">
               <div className="col-md-12">
@@ -23,7 +25,7 @@ export default function Settings() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="row">
           <div className="row">

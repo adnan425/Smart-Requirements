@@ -1,5 +1,6 @@
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
+const stakeholder = require('./../middleware/stakeholder')
 const { User, validateUser } = require('../models/user');
 const { Project } = require('../models/project');
 const express = require('express');
@@ -7,8 +8,6 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const router = express.Router();
-
-
 
 //  POST | Add stakeholder | ProjectID | User details | Only Manager Can add | manager middleware for verify 
 router.post('/', [auth, manager], async (req, res, next) => {
@@ -88,6 +87,9 @@ router.delete('/:id', [auth, manager], async (req, res, next) => {
     } catch (error) {
         next();
     }
-})
+});
+
+ 
+
 
 module.exports = router;

@@ -40,7 +40,7 @@ export default function SingleProject() {
                                     <div
                                       className="progress-bar bg-info"
                                       role="progressbar"
-                                      aria-valuenow="60%"
+                                      ariaValuenow="60%"
                                       aria-valuemin="0"
                                       aria-valuemax="100"
                                       style={{ width: "60%" }}
@@ -53,7 +53,7 @@ export default function SingleProject() {
                           </div>
                           <div className="row">
                             <div className="col-sm-10">
-                              <h4 className="mt-3 mb-1"></h4>
+                              <h4 className="mt-3 mb-1">{''}</h4>
                               <p> Fuga Temporibus ven</p>
                             </div>
                           </div>
@@ -419,10 +419,7 @@ export default function SingleProject() {
                             </div>
                             <div className="float-end">
                               <a
-                                href="#"
-                                data-size="lg"
-                                data-url="https://demo.rajodiya.com/erpgo-saas/invite-project-member/21"
-                                data-ajax-popup="true"
+                                href="!#" 
                                 data-bs-toggle="tooltip"
                                 title=""
                                 className="btn btn-sm btn-primary"
@@ -445,7 +442,7 @@ export default function SingleProject() {
                                     <div className="avatar rounded-circle avatar-sm me-3">
                                       <img
                                         src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-8.jpg"
-                                        alt="image"
+                                        alt="imagefsd"
                                       />
                                     </div>
                                     <div className="div">
@@ -469,7 +466,7 @@ export default function SingleProject() {
                                         value="DELETE"
                                       />
                                       <a
-                                        href="#"
+                                        href="!#"
                                         className="mx-3 btn btn-sm  align-items-center bs-pass-para"
                                         data-bs-toggle="tooltip"
                                         title="Delete"
@@ -488,7 +485,7 @@ export default function SingleProject() {
                                     <div className="avatar rounded-circle avatar-sm me-3">
                                       <img
                                         src="https://demo.rajodiya.com/erpgo-saas/storage/uploads/avatar/user-1.jpg"
-                                        alt="image"
+                                        alt="imagesd"
                                       />
                                     </div>
                                     <div className="div">
@@ -502,10 +499,7 @@ export default function SingleProject() {
                                 <div className="col-sm-auto text-sm-end d-flex align-items-center">
                                   <div className="action-btn bg-warning ms-2">
                                     <a
-                                      href="#"
-                                      data-size="md"
-                                      data-url="https://demo.rajodiya.com/erpgo-saas/projects/milestone/17/show"
-                                      data-ajax-popup="true"
+                                      href="!#" 
                                       data-bs-toggle="tooltip"
                                       title=""
                                       className="btn btn-sm"
@@ -516,10 +510,7 @@ export default function SingleProject() {
                                   </div>
                                   <div className="action-btn bg-info ms-2">
                                     <a
-                                      href="#"
-                                      data-size="md"
-                                      data-url="https://demo.rajodiya.com/erpgo-saas/projects/milestone/17/edit"
-                                      data-ajax-popup="true"
+                                      href="!#" 
                                       data-bs-toggle="tooltip"
                                       title=""
                                       className="btn btn-sm"
@@ -540,7 +531,7 @@ export default function SingleProject() {
                                         value="DELETE"
                                       />
                                       <a
-                                        href="#"
+                                        href="!#"
                                         className="mx-3 btn btn-sm  align-items-center bs-pass-para"
                                         data-bs-toggle="tooltip"
                                         title=""

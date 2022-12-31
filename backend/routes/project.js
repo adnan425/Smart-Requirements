@@ -2,6 +2,7 @@ const express = require('express');
 const Joi = require('joi'); 
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
+const stakeholder = require('../middleware/stakeholder');
 const admin = require('../middleware/admin');
 const { validateProject, Project } = require('../models/project');
 const { User } = require('../models/user');
@@ -67,9 +68,20 @@ router.get('/me', [auth, manager], async (req, res, next) => {
     }
 
 });
+//  GET | MY Projects | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
+router.get('/stakeholder', [auth, stakeholder], async (req, res, next) => {
+    try {
+        // const projects = await Project.find({manager : req.user._id}).select('id title status date description date');
+        const projects = await Project.find({ stakeholders: req.user._id }).select('-manager');
+        return res.status(200).send(projects);
+    } catch (err) {
+        next();
+    }
+
+});
 
 //  GET | Projects BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
-router.get('/:id', [auth, manager], async (req, res, next) => {
+router.get('/:id', [auth], async (req, res, next) => {
     try {
         const projectId = req.params.id;
         if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");

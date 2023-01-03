@@ -65,10 +65,19 @@ router.post('/', [auth, manager], async (req, res, next) => {
 router.get('/:id', [auth, manager], async (req, res, next) => {
     try {
         const projectId = req.params.id;
-        const project = await Project.find({_id: projectId })
-                        .populate('users', 'name, email')
-                        .select('name, users');
-        // const stakeholders = project.stakeholders;
+        const project = await Project.find( {_id: projectId})
+                        // .select('stakeholders')
+                        .populate({
+                            path: 'users',
+                            // Get friends of friends - populate the 'friends' array for every friend
+                            populate: { path: 'users' }
+                          }).exec(function(err,f){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                console.log(f);
+                            }
+                          })
         res.status(200).send(project);
     } catch (error) {
         next();

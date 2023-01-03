@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataList from "../Utllils/DataList";
 import DataGrid from "../Utllils/DataGrid";
 import PageHeader from "../Utllils/PageHeader";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import http from "../Services/httpService";
+import { toast } from "react-toastify";
 
+const apiUrl = "http://localhost:3004/api";
 export default function Projects() {
-  const projectsList = useSelector((c) => c.projects.list);
+  const [projects, setProjects] = useState([]);
+
+  const getProjects = () => {
+    try {
+      http.get(`${apiUrl}/projects/me`).then(({ data }) => {
+        setProjects(data);
+      }).catch((err) => { console.log(err) });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+  useEffect(() => {
+    getProjects();
+  }, []);
   const [gridView, setGridView] = useState(true);
-  console.log(projectsList);
+  console.log(projects);
   return (
     <>
       <div className="page-content">
@@ -32,8 +47,8 @@ export default function Projects() {
             </div>
             <div className="row min-750" id="project_view">
               <div className="row">
-                {!gridView && <DataList list={projectsList} />}
-                {gridView && <DataGrid list={projectsList} />}
+                {!gridView && <DataList list={projects} />}
+                {gridView && <DataGrid list={projects} />}
 
               </div>
             </div>

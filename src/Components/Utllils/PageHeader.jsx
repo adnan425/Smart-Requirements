@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
-
+import auth from "../Services/authService";
 export default function PageHeader({
   handleView = "",
   title = "Dashboard",
   icon = "",
 }) {
+  const [user, setUser] = useState(auth.getCurrentUser); 
+
   return (
     <div className="page-header">
       <div className="page-block">
@@ -39,7 +41,7 @@ export default function PageHeader({
             </div>
             <ul className="breadcrumb">
               <li className="breadcrumb-item">
-                <Link to="/">Dashboard</Link>
+                <Link to={`/${user.role}`}>Dashboard</Link>
               </li>
               <li className="breadcrumb-item">
                 <Link to="">{title}</Link>

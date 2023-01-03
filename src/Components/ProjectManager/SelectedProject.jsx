@@ -30,7 +30,6 @@ export default function SelectedProject({ handlePhase }) {
   ]
   const project = useSelector((c) => c.projects.selectedProject);
   const projectId = useSelector((c) => c.projects.selectedProject._id);
-  toast(projectId);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProjectTitle(projectId));

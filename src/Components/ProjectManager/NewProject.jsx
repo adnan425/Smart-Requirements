@@ -32,7 +32,8 @@ import { toast } from "react-toastify";
             title: "",
             description: "",
           }
-        })
+        });
+        window.location.reload();
       }
     }).catch(({ response })=>{ 
       toast.error(response.data);

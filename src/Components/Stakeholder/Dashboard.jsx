@@ -1,7 +1,9 @@
-import React, { useEffect } from "react"; 
-import { useDispatch,  useSelector  } from 'react-redux';
-import { getAllProejcts } from "../Store/Projects/projects";
+import React, { useEffect, useState } from "react";  
 import PageHeader from "../Utllils/PageHeader";
+import http from "../Services/httpService";
+import { toast } from "react-toastify";
+
+const apiUrl = "http://localhost:3004/api";
 const moment = require('moment');
 
 export default function Dashboard() {
@@ -35,20 +37,28 @@ export default function Dashboard() {
       className: "bg-primary",
     },
   ];
-  const dispatch =  useDispatch();
-  const projects = useSelector(s => s.projects.list);
-  const recentProjects = projects.slice(0,2); 
+  const [ projects, setProjects ] = useState([]); 
 
+  const getProjects = ()=>{
+    try {
+      http.get(`${apiUrl}/projects/stakeholder`).then(({data})=>{
+        setProjects(data);
+      }).catch((err)=>{console.log(err)});
+  } catch (error) {
+      toast.error( error.message);
+  }
+  }
   useEffect(()=>{
-    // dispatch(getAllProejcts());
-  }, [dispatch]) 
+    getProjects();
+  }, []); 
+  const recentProjects = projects.slice(0,2); 
+ 
   return (
     <div className="page-content">
       <div className="dash-container">
         <div className="dash-content">
         <PageHeader  title="Dasboard"  />
-
-          <div className="row">
+          {/* <div className="row"> */}
             <div className="row">
               <div className="col-sm-12">
                 <div className="row">
@@ -173,7 +183,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>

@@ -29,7 +29,8 @@ export default function Header() {
               <Link
                 className="dash-head-link dropdown-toggle arrow-none me-0"
                 data-bs-toggle="dropdown" 
-                role="button"
+                role="button" 
+                href="#" 
                 aria-haspopup="false"
                 aria-expanded="false"
               >
@@ -64,20 +65,6 @@ export default function Header() {
         </div>
         <div className="ms-auto">
           <ul className="list-unstyled">
-            {/* <li className="dropdown dash-h-item drp-notification">
-              <a
-                className="dash-head-link arrow-none me-0"
-                href=""
-                aria-haspopup="false"
-                aria-expanded="false"
-              >
-                <i className="ti ti-brand-hipchat"></i>
-                <span className="bg-danger dash-h-badge message-toggle-msg  message-counter custom_messanger_counter beep">
-                  {" "}
-                  0<span className="sr-only"></span>
-                </span>
-              </a>
-            </li> */}
             <li className="dropdown dash-h-item drp-language">
               <Link
                 className="dash-head-link dropdown-toggle arrow-none me-0"

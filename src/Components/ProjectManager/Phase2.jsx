@@ -56,15 +56,10 @@ export default function Phase2() {
     }
   )
   const [features, setFeatures] = useState('');
-  const [otherRequirements, setOtherRequirements] = useState('');
-  const [isIntro, setIsIntro] = useState(false); // check that intro is already in db
-  const [introId, setIntroId] = useState(false); // setIntroId for update
+  const [otherRequirements, setOtherRequirements] = useState(''); 
 
-  const [isDesc, setIsDesc] = useState(false); // setIsDesc for update
-  const [descId, setDesId] = useState(false); // descId for update
-
-  const [isNonFunctional, setIsNonFunctional] = useState(false); // setIsDesc for update
-  const [nonFunId, setNonFunId] = useState(false); // descId for update
+  
+ 
 
  
 
@@ -72,7 +67,6 @@ export default function Phase2() {
   function getIntro() {
     http.get(`${apiUrl}/project/intro/${projectId}`).then(({ data }) => {
       console.log("Introduction: ", data);
-      setIsIntro(true);
       setIntro({
         purpose: data.purpose,
         conventions: data.conventions,
@@ -80,7 +74,6 @@ export default function Phase2() {
         scope: data.scope,
         references: data.references
       });
-      setIntroId(data._id);
 
     }).catch(err => {
       console.log(err.response.data);
@@ -92,13 +85,11 @@ export default function Phase2() {
         scope: '',
         references: ''
       });
-      setIsIntro(false);
     });
   };
   function getDesc() {
     http.get(`${apiUrl}/project/desc/${projectId}`).then(({ data }) => {
       console.log("Description: ", data);
-      setIsDesc(true);
       setDesc(
         {
           functions: data.functions,
@@ -110,10 +101,7 @@ export default function Phase2() {
           assumptions: data.assumptions,
         }
       );
-      setDesId(data._id);
-
     }).catch(err => {
-
       setDesc({
         functions: '',
         perspective: '',
@@ -123,13 +111,11 @@ export default function Phase2() {
         documentation: '',
         assumptions: '',
       });
-      setIsDesc(false);
     });
   };
   function getNonFunctional() {
     http.get(`${apiUrl}/project/nonfun/${projectId}`).then(({ data }) => {
-      console.log("Non Functional Req: ", data);
-      setIsNonFunctional(true);
+      console.log("Non Functional Req: ", data); 
       setNonFun(
         {
           performance: data.performance,
@@ -138,8 +124,7 @@ export default function Phase2() {
           quality: data.quality,
           business: data.business,
         }
-      );
-      setNonFunId(data._id);
+      ); 
 
     }).catch(err => {
 
@@ -149,8 +134,7 @@ export default function Phase2() {
         security: '',
         quality: '',
         business: ''
-      });
-      setNonFunId(false);
+      }); 
     });
   };
   function getFeatures() {
@@ -270,10 +254,7 @@ export default function Phase2() {
       setErrors(error);
       return false;
     }
-    toast('handleDescSubmit');
-
     setErrors({});
-    toast("reched");
     doDescSubmit();
   }
   const handleNonFunSubmit = e => {
@@ -286,15 +267,11 @@ export default function Phase2() {
     setErrors({});
     doNonFunSubmit();
   }
-  const handleFeaturesSubmit = e => {
-    e.preventDefault(); 
-    doFeaturSubmit();
-  }
+ 
 
   // ------------------------- Submit API CALL --------------------------
   
   const doSubmit = () => {
-    toast(projectId);
     http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
       if (status === 200) {
         toast.success("Successfully Updated.");
@@ -303,34 +280,19 @@ export default function Phase2() {
       }
     }).catch(err => { toast.error(err.response.data) });
   }
-  const doIntroSubmit = () => {
-    if (!isIntro) {
-      // store with new entry  
+  const doIntroSubmit = () => {  
       http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
         .then(res => {
           if (res.status === 200) {
             toast.success("Successfully Updated.");
           }
         }).catch(err => {
-          console.log("Submit error: ", err);
-          toast.error(err);
-        })
-
-    } else {
-      // update with existing recorde 
-      http.put(`${apiUrl}/project/intro`, { '_id': introId, 'projectId': projectId, ...intro })
-        .then(res => {
-          toast(res);
-        }).catch(err => {
           console.log(err);
           toast.error(err);
-        })
-    }
+        }) 
 
   }
   const doDescSubmit = () => {
-    if (!isDesc) {
-      // store with new entry  
       http.post(`${apiUrl}/project/desc`, { projectId: projectId, ...desc })
         .then(res => {
           if (res.status === 200) {
@@ -341,17 +303,7 @@ export default function Phase2() {
           toast.error(err);
         })
 
-    } else {
-      // update with existing recorde
-      toast("update entry", descId);
-      http.put(`${apiUrl}/project/desc`, { '_id': descId, 'projectId': projectId, ...desc })
-        .then(res => {
-          toast(res);
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        })
-    }
+    
 
   }
   const doNonFunSubmit = () => { 
@@ -359,15 +311,15 @@ export default function Phase2() {
       http.post(`${apiUrl}/project/nonfun`, { projectId: projectId, ...nonFun })
         .then(res => {
           if (res.status === 200) {
-            toast.success("Successfully Updated..");
-            setIsNonFunctional(true);
+            toast.success("Successfully Updated.."); 
           }
         }).catch(err => {
           console.log(err);
           toast.error(err);
         })
   }
-  const doFeaturSubmit = () => {  
+  const doFeaturSubmit = e => {  
+    e.preventDefault(); 
       http.post(`${apiUrl}/project/feature`, { projectId: projectId, features })
         .then(res => {
           console.log(res);
@@ -533,13 +485,7 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <Input tag='textarea' name={'perspective'} value={''} label={"2.1 Product Perspective"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'function'} value={''} label={"2.2 Product Functions"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'userClasses'} value={''} label={"2.3 User Classes and Characteristics"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'operating'} value={''} label={"2.4 Operating Environment"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'design'} value={''} label={"2.5 Design and Implementation Constraints"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'documentation'} value={''} label={"2.6 User Documentation"} error={''} onChange={''} />
-                            <Input tag='textarea' name={'assumption'} value={''} label={"2.7 Assumptions and Dependencies"} error={''} onChange={''} />
+                            <Input tag='textarea' name={'perspective'} value={''} label={" Product Perspective"} error={''} onChange={''} /> 
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
@@ -547,7 +493,7 @@ export default function Phase2() {
                     </div>
                     {/* Chapter 4 */}
                     <div id="features" class="card">
-                      <form onSubmit={handleFeaturesSubmit} >
+                      <form onSubmit={doFeaturSubmit} >
                         <div class="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>

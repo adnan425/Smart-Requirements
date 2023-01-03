@@ -7,6 +7,7 @@ const manager = require('../middleware/manager');
 const { introductionValidation, Introduction } = require('../models/introduction');
 const { Description, descriptionValidation } = require('./../models/description');
 const { NonFunctional, nonfunctionalValidation } = require('./../models/nonfunctional');
+const { Features, featuresValidation } = require('./../models/features');
 const { Project } = require('../models/project');
 const router = express.Router();
 
@@ -206,8 +207,69 @@ router.put('/desc', [auth, manager], async (req, res, next) => {
     }
 });
 
-//  -----------  CHAPTER 5 : Other Non Functional Requirements --------------
+//  -----------  CHAPTER 4 : SYSTEM FEATURES  --------------
+router.post('/feature', [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { "userId": req.user._id, ...req.body };
+        const feature = _.pick(bodyData, ['userId', 'projectId', 'features']);
+        const { error } = featuresValidation(feature);
+        if (error) return res.status(400).send(error.details[0].message);
 
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send('Project not found.');
+
+        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
+        if (!isManager) return res.status(403).send('Access denied.');
+
+        // if(req.body.proj)
+        const isUpdate = await Features.find({ projectId: req.body.projectId });
+        console.log(isUpdate[0]);
+
+        if (isUpdate[0]) {  
+            const featureId = isUpdate[0]._id; 
+            console.log(featureId);
+            let update = await Features.findOneAndUpdate({ _id: featureId }, { $set: { features: req.body.features } });
+            res.status(200).send(update);
+
+        } else {
+            console.log("New");
+
+            let features = new Features(feature);
+            await features.save();
+            res.status(200).send(features);
+        }
+
+
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+// GET |  NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
+router.get('/feature/:id', [auth, manager], async (req, res, next) => {
+    try {
+
+        const projectId = req.params.id;
+        const isUnique = await Project.findById(projectId);
+        if (!isUnique) return res.status(400).send('Project not found.');
+
+        const isHas = await Features.findOne({ projectId });
+        if (!isHas) return res.status(400).send('Record not found.');
+
+        const isManager = await Project.findOne({ _id: projectId }, { manager: req.user._id });
+        if (!isManager) return res.status(403).send('Access denied.');
+
+        const feature = await Features.findById(isHas._id)
+        res.status(200).send(feature);
+
+
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+
+//  -----------  CHAPTER 5 : Other Non Functional Requirements --------------
 // POST | ADD PROJECT NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/nonfun', [auth, manager], async (req, res, next) => {
     try {
@@ -224,8 +286,8 @@ router.post('/nonfun', [auth, manager], async (req, res, next) => {
 
         let nonfunction = new NonFunctional(nonFun);
         await nonfunction.save();
-        res.status(200).send(nonfunction); 
-      } catch (err) {
+        res.status(200).send(nonfunction);
+    } catch (err) {
         console.log(err);
         next();
     }
@@ -270,19 +332,19 @@ router.put('/nonfun', [auth, manager], async (req, res, next) => {
         const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
         if (!isManager) return res.status(403).send('Access denied.');
 
-         NonFunctional.findOneAndUpdate({ '_id': req.body._id },
+        NonFunctional.findOneAndUpdate({ '_id': req.body._id },
             {
                 // $set: intro
                 $set: {
-                "userId": req.user._id,
-                "projectId": req.body.projectId,
-                "performance": req.body.perspective,
-                "safety": req.body.functions,
-                "security": req.body.characteristics,
-                "quality": req.body.implementation,
-                "business": req.body.documentation
+                    "userId": req.user._id,
+                    "projectId": req.body.projectId,
+                    "performance": req.body.perspective,
+                    "safety": req.body.functions,
+                    "security": req.body.characteristics,
+                    "quality": req.body.implementation,
+                    "business": req.body.documentation
                 }
-            } , {new:true}).then(ress => {console.log(ress); res.status(200).send(ress)})
+            }, { new: true }).then(ress => { console.log(ress); res.status(200).send(ress) })
             .catch(err => console.log(err));
         ;
     } catch (err) {

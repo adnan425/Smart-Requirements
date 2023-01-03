@@ -55,7 +55,7 @@ export default function Phase2() {
       business: ''
     }
   )
-  const [features, setFeatures] = useState({});
+  const [features, setFeatures] = useState('');
   const [isIntro, setIsIntro] = useState(false); // check that intro is already in db
   const [introId, setIntroId] = useState(false); // setIntroId for update
 
@@ -65,8 +65,7 @@ export default function Phase2() {
   const [isNonFunctional, setIsNonFunctional] = useState(false); // setIsDesc for update
   const [nonFunId, setNonFunId] = useState(false); // descId for update
 
-  const [isFeature, setIsFeature] = useState(false); // setIsDesc for update
-  const [featureId, setFeatureId] = useState(false); // descId for update
+ 
 
   // ------------------------- Get Data From API --------------------------
   function getIntro() {
@@ -155,14 +154,11 @@ export default function Phase2() {
   };
   function getFeatures() {
     http.get(`${apiUrl}/project/feature/${projectId}`).then(({ data }) => {
-      console.log("Non Functional Req: ", data);
-      setIsFeature(true);
-      setFeatures(data);
-      setFeatureId(data._id);
+      setFeatures(data.features); 
 
     }).catch(err => {
-      setFeatureId({});
-      setIsFeature(true);
+      setFeatures(''); 
+      console.log(err);
     });
   };
   // ------------------------- useEffect --------------------------
@@ -170,8 +166,8 @@ export default function Phase2() {
     getIntro();
     getDesc();
     getNonFunctional();
+    getFeatures();
   }, []);
-
   // ------------------------- Schemas --------------------------
   const updateTitleSchema = {
     title: Joi.string().min(5).max(50).required().label("Project Title"),
@@ -202,7 +198,7 @@ export default function Phase2() {
     business: Joi.string().min(5).max(500).required().label("Business Rules"),
   }
   const featureSchema = {
-    features: Joi.string().min(5).max(1500).required().label("System Feature's"),
+    features: Joi.string().min(5).max(1500).required().label("System Feature"),
   }
   // ------------------------- Validations --------------------------
 
@@ -240,11 +236,15 @@ export default function Phase2() {
   }
   const featuresValidate = () => {
     const options = { abortEarly: false };
-    const { error } = Joi.validate(nonFun, featureSchema, options);
-    if (!error) return null;
-    const err = {};
-    for (let item of error.details) err[item.path] = item.message;
-    return err;
+    // const { error } = Joi.validate(features, featureSchema, options);
+    // if (!error) return null;
+    return null;
+    // const err = {};
+    // console.log("details", error.details);
+    // for (let item of error.details) err[item.path] = item.message;
+    // console.log(err);
+    // return err; 
+
   }
 
   // ------------------------- Handle Submit --------------------------
@@ -294,11 +294,11 @@ export default function Phase2() {
   const handleFeaturesSubmit = e => {
     e.preventDefault();
     const error = featuresValidate();
-    if (error) {
+    if (error) { 
       setErrors(error);
       return false;
     }
-    setErrors({});
+    setErrors({}); 
     doFeaturSubmit();
   }
 
@@ -392,31 +392,18 @@ export default function Phase2() {
     }
 
   }
-  const doFeaturSubmit = () => {
-    if (!isNonFunctional) {
-      // store with new entry  
-      http.post(`${apiUrl}/project/feature`, { projectId: projectId, ...features })
+  const doFeaturSubmit = () => { 
+    console.log("features");
+      http.post(`${apiUrl}/project/feature`, { projectId: projectId, features })
         .then(res => {
+          console.log(res);
           if (res.status === 200) {
-            toast.success("Successfully added.");
-            setIsFeature(true);
+            toast.success("Successfully Updated."); 
           }
         }).catch(err => {
-          console.log(err);
-          toast.error(err);
+          console.log(err.response);
+          setErrors({features: err.response.data});
         })
-
-    } else {
-      toast.info("Update is on working");
-      // update with existing recorde 
-      http.put(`${apiUrl}/project/features`, { '_id': nonFunId, 'projectId': projectId, ...nonFun })
-        .then(res => {
-          toast(res);
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        })
-    }
 
   }
 
@@ -586,7 +573,7 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row"> 
-                            <Quill value={features} error={errors.features} onChange={setFeatures} />
+                            <Quill name='features' value={features} error={errors.features} onChange={setFeatures} />
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>

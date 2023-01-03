@@ -56,6 +56,7 @@ export default function Phase2() {
     }
   )
   const [features, setFeatures] = useState('');
+  const [otherRequirements, setOtherRequirements] = useState('');
   const [isIntro, setIsIntro] = useState(false); // check that intro is already in db
   const [introId, setIntroId] = useState(false); // setIntroId for update
 
@@ -161,45 +162,51 @@ export default function Phase2() {
       console.log(err);
     });
   };
+   function getOtherReq() {
+    http.get(`${apiUrl}/project/other/${projectId}`).then(({ data }) => {
+      setOtherRequirements(data.requirements); 
+    }).catch(err => {
+      setOtherRequirements(''); 
+      console.log(err);
+    });
+  };
   // ------------------------- useEffect --------------------------
   useEffect(() => {
     getIntro();
     getDesc();
     getNonFunctional();
     getFeatures();
+    getOtherReq();
   }, []);
   // ------------------------- Schemas --------------------------
   const updateTitleSchema = {
     title: Joi.string().min(5).max(50).required().label("Project Title"),
-    author: Joi.string().min(1).max(500).required().label("Prepared By"),
+    author: Joi.string().min(1).max(2000).required().label("Prepared By"),
     organization: Joi.string().min(1).max(26).required().label("organization"),
   }
   const introSchema = {
-    purpose: Joi.string().min(5).max(500).required().label("Purpose"),
-    conventions: Joi.string().min(5).max(500).required().label("Conventions"),
-    audience: Joi.string().min(5).max(500).required().label("Audience"),
-    scope: Joi.string().min(5).max(500).required().label("Scope"),
-    references: Joi.string().min(5).max(500).required().label("References")
+    purpose: Joi.string().min(5).max(2000).required().label("Purpose"),
+    conventions: Joi.string().min(5).max(2000).required().label("Conventions"),
+    audience: Joi.string().min(5).max(2000).required().label("Audience"),
+    scope: Joi.string().min(5).max(2000).required().label("Scope"),
+    references: Joi.string().min(5).max(2000).required().label("References")
   }
   const descSchema = {
-    perspective: Joi.string().min(5).max(500).required().label("Product Perspective"),
-    functions: Joi.string().min(5).max(500).required().label("Product Functions"),
-    characteristics: Joi.string().min(5).max(500).required().label("User Classes and Characteristics"),
-    envirnoment: Joi.string().min(5).max(500).required().label("Operating Environment"),
-    implementation: Joi.string().min(5).max(500).required().label("Design & Implementation Constraints"),
-    documentation: Joi.string().min(5).max(500).required().label("User Documentation"),
-    assumptions: Joi.string().min(5).max(500).required().label("Assumptions & Dependencies")
+    perspective: Joi.string().min(5).max(2000).required().label("Product Perspective"),
+    functions: Joi.string().min(5).max(2000).required().label("Product Functions"),
+    characteristics: Joi.string().min(5).max(2000).required().label("User Classes and Characteristics"),
+    envirnoment: Joi.string().min(5).max(2000).required().label("Operating Environment"),
+    implementation: Joi.string().min(5).max(2000).required().label("Design & Implementation Constraints"),
+    documentation: Joi.string().min(5).max(2000).required().label("User Documentation"),
+    assumptions: Joi.string().min(5).max(2000).required().label("Assumptions & Dependencies")
   }
   const nonFunSchema = {
-    performance: Joi.string().min(5).max(500).required().label("Performance Requirements"),
-    safety: Joi.string().min(5).max(500).required().label("Safety Requirements"),
-    security: Joi.string().min(5).max(500).required().label("Security Requirements"),
-    quality: Joi.string().min(5).max(500).required().label("Software Quality Attributes"),
-    business: Joi.string().min(5).max(500).required().label("Business Rules"),
-  }
-  const featureSchema = {
-    features: Joi.string().min(5).max(1500).required().label("System Feature"),
-  }
+    performance: Joi.string().min(5).max(2000).required().label("Performance Requirements"),
+    safety: Joi.string().min(5).max(2000).required().label("Safety Requirements"),
+    security: Joi.string().min(5).max(2000).required().label("Security Requirements"),
+    quality: Joi.string().min(5).max(2000).required().label("Software Quality Attributes"),
+    business: Joi.string().min(5).max(2000).required().label("Business Rules"),
+  } 
   // ------------------------- Validations --------------------------
 
   const introValidate = () => {
@@ -234,19 +241,7 @@ export default function Phase2() {
     for (let item of error.details) err[item.path] = item.message;
     return err;
   }
-  const featuresValidate = () => {
-    const options = { abortEarly: false };
-    // const { error } = Joi.validate(features, featureSchema, options);
-    // if (!error) return null;
-    return null;
-    // const err = {};
-    // console.log("details", error.details);
-    // for (let item of error.details) err[item.path] = item.message;
-    // console.log(err);
-    // return err; 
-
-  }
-
+ 
   // ------------------------- Handle Submit --------------------------
   const handleIntroSubmit = e => {
     e.preventDefault();
@@ -292,13 +287,7 @@ export default function Phase2() {
     doNonFunSubmit();
   }
   const handleFeaturesSubmit = e => {
-    e.preventDefault();
-    const error = featuresValidate();
-    if (error) { 
-      setErrors(error);
-      return false;
-    }
-    setErrors({}); 
+    e.preventDefault(); 
     doFeaturSubmit();
   }
 
@@ -308,7 +297,7 @@ export default function Phase2() {
     toast(projectId);
     http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
       if (status === 200) {
-        toast.success("Updated.");
+        toast.success("Successfully Updated.");
       } else {
         toast(status);
       }
@@ -320,7 +309,7 @@ export default function Phase2() {
       http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
         .then(res => {
           if (res.status === 200) {
-            toast.success("Successfully added.");
+            toast.success("Successfully Updated.");
           }
         }).catch(err => {
           console.log("Submit error: ", err);
@@ -345,7 +334,7 @@ export default function Phase2() {
       http.post(`${apiUrl}/project/desc`, { projectId: projectId, ...desc })
         .then(res => {
           if (res.status === 200) {
-            toast.success("Successfully added.");
+            toast.success("Successfully Updated..");
           }
         }).catch(err => {
           console.log(err);
@@ -365,35 +354,20 @@ export default function Phase2() {
     }
 
   }
-  const doNonFunSubmit = () => {
-    if (!isNonFunctional) {
+  const doNonFunSubmit = () => { 
       // store with new entry  
       http.post(`${apiUrl}/project/nonfun`, { projectId: projectId, ...nonFun })
         .then(res => {
           if (res.status === 200) {
-            toast.success("Successfully added.");
+            toast.success("Successfully Updated..");
             setIsNonFunctional(true);
           }
         }).catch(err => {
           console.log(err);
           toast.error(err);
         })
-
-    } else {
-      toast.info("Update is on working");
-      // update with existing recorde 
-      http.put(`${apiUrl}/project/nonfun`, { '_id': nonFunId, 'projectId': projectId, ...nonFun })
-        .then(res => {
-          toast(res);
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        })
-    }
-
   }
-  const doFeaturSubmit = () => { 
-    console.log("features");
+  const doFeaturSubmit = () => {  
       http.post(`${apiUrl}/project/feature`, { projectId: projectId, features })
         .then(res => {
           console.log(res);
@@ -406,6 +380,22 @@ export default function Phase2() {
         })
 
   }
+  const doOtherReqSubmit = e => {  
+    e.preventDefault();
+    const requirements = otherRequirements;
+    http.post(`${apiUrl}/project/other`, { projectId: projectId, requirements })
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          toast.success("Successfully Updated."); 
+        }
+        setErrors({});
+      }).catch(err => {
+        console.log(err.response);
+        setErrors({otherRequirements: err.response.data});
+      })
+
+}
 
   return (
     <div className="page-content">
@@ -606,8 +596,9 @@ export default function Phase2() {
                         </div>
                       </form>
                     </div>
+                    {/* Chapter 6 */}
                     <div id="otherrequirements" class="card">
-                      <form >
+                      <form onSubmit={doOtherReqSubmit}>
                         <div class="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
@@ -623,8 +614,9 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <Input tag='textarea' name={'perspective'} value={''} label={"2.1 Product Perspective"} error={''} onChange={''} />
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                          <Quill name='requirements' value={otherRequirements} error={errors.otherRequirements} onChange={setOtherRequirements} />
+                            
+                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>

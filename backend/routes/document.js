@@ -8,6 +8,7 @@ const { introductionValidation, Introduction } = require('../models/introduction
 const { Description, descriptionValidation } = require('./../models/description');
 const { NonFunctional, nonfunctionalValidation } = require('./../models/nonfunctional');
 const { Features, featuresValidation } = require('./../models/features');
+const { OtherRequirements, otherReqValidation } = require('./../models/OtherRequirements');
 const { Project } = require('../models/project');
 const router = express.Router();
 
@@ -208,6 +209,7 @@ router.put('/desc', [auth, manager], async (req, res, next) => {
 });
 
 //  -----------  CHAPTER 4 : SYSTEM FEATURES  --------------
+// POST |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/feature', [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { "userId": req.user._id, ...req.body };
@@ -225,8 +227,8 @@ router.post('/feature', [auth, manager], async (req, res, next) => {
         const isUpdate = await Features.find({ projectId: req.body.projectId });
         console.log(isUpdate[0]);
 
-        if (isUpdate[0]) {  
-            const featureId = isUpdate[0]._id; 
+        if (isUpdate[0]) {
+            const featureId = isUpdate[0]._id;
             console.log(featureId);
             let update = await Features.findOneAndUpdate({ _id: featureId }, { $set: { features: req.body.features } });
             res.status(200).send(update);
@@ -245,7 +247,7 @@ router.post('/feature', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-// GET |  NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
+// GET |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.get('/feature/:id', [auth, manager], async (req, res, next) => {
     try {
 
@@ -284,9 +286,27 @@ router.post('/nonfun', [auth, manager], async (req, res, next) => {
         const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
         if (!isManager) return res.status(403).send('Access denied.');
 
-        let nonfunction = new NonFunctional(nonFun);
-        await nonfunction.save();
-        res.status(200).send(nonfunction);
+        const isUpdate = await NonFunctional.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            let update = await NonFunctional.findOneAndUpdate({ _id: updateId },
+                {
+                    $set: {
+                        "userId": req.user._id,
+                        "projectId": req.body.projectId,
+                        "performance": req.body.perspective,
+                        "safety": req.body.functions,
+                        "security": req.body.characteristics,
+                        "quality": req.body.implementation,
+                        "business": req.body.documentation
+                    }
+                });
+            res.status(200).send(update);
+        } else {
+            let nonfunction = new NonFunctional(nonFun);
+            await nonfunction.save();
+            res.status(200).send(nonfunction);
+        }
     } catch (err) {
         console.log(err);
         next();
@@ -315,16 +335,16 @@ router.get('/nonfun/:id', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-// PUT | UPDATE PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.put('/nonfun', [auth, manager], async (req, res, next) => {
+
+
+//  -----------  CHAPTER 6 : OTHER REQUIREMENTS --------------
+// POST |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
+router.post('/other', [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { "userId": req.user._id, ...req.body };
-        const nonFun = _.pick(bodyData, ['userId', 'projectId', 'performance', 'safety', 'security', 'quality', 'business']);
-        const { error } = nonfunctionalValidation(nonFun);
+        const otherRequir = _.pick(bodyData, ['userId', 'projectId', 'requirements']);
+        const { error } = otherReqValidation(otherRequir);
         if (error) return res.status(400).send(error.details[0].message);
-
-        const isHas = await NonFunctional.findById(req.body._id);
-        if (!isHas) return res.status(400).send('Record not found.');
 
         const isUnique = await Project.findById(req.body.projectId);
         if (!isUnique) return res.status(400).send('Project not found.');
@@ -332,21 +352,42 @@ router.put('/nonfun', [auth, manager], async (req, res, next) => {
         const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
         if (!isManager) return res.status(403).send('Access denied.');
 
-        NonFunctional.findOneAndUpdate({ '_id': req.body._id },
-            {
-                // $set: intro
-                $set: {
-                    "userId": req.user._id,
-                    "projectId": req.body.projectId,
-                    "performance": req.body.perspective,
-                    "safety": req.body.functions,
-                    "security": req.body.characteristics,
-                    "quality": req.body.implementation,
-                    "business": req.body.documentation
-                }
-            }, { new: true }).then(ress => { console.log(ress); res.status(200).send(ress) })
-            .catch(err => console.log(err));
-        ;
+        // if(req.body.proj)
+        const isUpdate = await OtherRequirements.find({ projectId: req.body.projectId });
+        console.log(isUpdate[0]);
+
+        if (isUpdate[0]) {
+            const featureId = isUpdate[0]._id;
+            let update = await OtherRequirements.findOneAndUpdate({ _id: featureId }, { $set: { requirements: req.body.requirements } });
+            res.status(200).send(update);
+
+        } else {
+            let otherReq = new OtherRequirements(otherRequir);
+            await otherReq.save();
+            res.status(200).send(otherReq);
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+// GET |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
+router.get('/other/:id', [auth, manager], async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const isUnique = await Project.findById(projectId);
+        if (!isUnique) return res.status(400).send('Project not found.');
+
+        const isHas = await OtherRequirements.findOne({ projectId });
+        if (!isHas) return res.status(400).send('Record not found.');
+
+        const isManager = await Project.findOne({ _id: projectId }, { manager: req.user._id });
+        if (!isManager) return res.status(403).send('Access denied.');
+
+        const requirements = await OtherRequirements.findById(isHas._id)
+        res.status(200).send(requirements);
+
+
     } catch (err) {
         console.log(err);
         next();

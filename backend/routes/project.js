@@ -1,5 +1,5 @@
 const express = require('express');
-const Joi = require('joi'); 
+const Joi = require('joi');
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
 const stakeholder = require('../middleware/stakeholder');
@@ -86,10 +86,21 @@ router.get('/:id', [auth], async (req, res, next) => {
         const projectId = req.params.id;
         if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
 
-        const project = await Project.findById(projectId);
+        var project = await Project.findById(projectId);
         if (!project) return res.status(404).send("Project not found by this id.");
+        const array = project.stakeholders;
 
-        return res.status(200).send(project);
+        let pro = [];
+        let promises = [];
+
+        array.forEach(async (element) => {
+            promises.push(User.findById(element).select('name email date'));
+        });
+        pro = await Promise.all(promises); 
+        var p = project.toObject();
+        p = { ...p, "stakeholdersDetails": pro };
+        return res.status(200).send(p);
+
     } catch (err) {
         next();
     }
@@ -105,9 +116,9 @@ router.put('/p/:id', [auth, manager], async (req, res, next) => {
         if (!isUnique) return res.status(404).send('Project not found.');
 
         // findOne = looking for one of property
-        const isUniqueTitle = await Project.findOne({ _id: projectId },{ manager: req.user._id });
+        const isUniqueTitle = await Project.findOne({ _id: projectId }, { manager: req.user._id });
         if (!isUniqueTitle) return res.status(403).send('Access denied.');
- 
+
         const projectObj = {
             "managerId": req.user._id,
             "title": req.body.title,
@@ -125,21 +136,21 @@ router.put('/p/:id', [auth, manager], async (req, res, next) => {
 
         const project = await Project.findByIdAndUpdate(projectId, {
             // $set: {
-                title: req.body.title || isUnique.title,
-                author: req.body.author || isUnique.author,
-                organization: req.body.organization || isUnique.organization
+            title: req.body.title || isUnique.title,
+            author: req.body.author || isUnique.author,
+            organization: req.body.organization || isUnique.organization
             // }
         },
-         function(err, result) {
-         if (err) {
-             console.log('Error updating user: ' + err);
-             res.send({'error':'An error has occurred'});
-         } else {
-             console.log('' + result + ' document(s) updated');
-             res.send(project);
-         }
-     });
-                 
+            function (err, result) {
+                if (err) {
+                    console.log('Error updating user: ' + err);
+                    res.send({ 'error': 'An error has occurred' });
+                } else {
+                    console.log('' + result + ' document(s) updated');
+                    res.send(project);
+                }
+            });
+
         return res.status(200).send(project);
     } catch (err) {
         console.log(err);
@@ -156,9 +167,9 @@ router.get('/p/:id', [auth, manager], async (req, res, next) => {
         if (!isUnique) return res.status(404).send('Project not found.');
 
         // findOne = looking for one of property
-        const isUniqueTitle = await Project.findOne({ _id: projectId },{ manager: req.user._id });
+        const isUniqueTitle = await Project.findOne({ _id: projectId }, { manager: req.user._id });
         if (!isUniqueTitle) return res.status(403).send('Access denied.');
-          
+
         return res.status(200).send(isUnique);
     } catch (err) {
         next();

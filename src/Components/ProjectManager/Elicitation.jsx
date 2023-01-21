@@ -46,10 +46,8 @@ export default function Elicitation() {
     const options = { abortEarly: false };
     const { error } = Joi.validate(requirement, requirementSchema, options);
     if (!error) return null;
-
     const err = {};
     for (let item of error.details) err[item.path[0]] = item.message;
-
     console.log(err);
     return err;
   }
@@ -72,20 +70,15 @@ export default function Elicitation() {
           type: 'Functional',
           projectId: projectId,
         })
-
       } else {
         toast(status);
       }
     }).catch(err => { console.log("error ", err.response.data); toast.error(err.response.data) });
-
-
   }
-
   return (
     <div className="page-content">
       <div className="dash-container">
         <div className="dash-content">
-
           <PageHeader title="Requirements Elicitation" />
           <div className="row">
             <PageTitle

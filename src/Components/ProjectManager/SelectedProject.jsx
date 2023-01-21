@@ -16,20 +16,12 @@ const apiUrl = 'http://localhost:3004/api';
 
 
 export default function SelectedProject({ handlePhase }) {
-  const stakeholders = [
-    {
-      id: 1,
-      name : "Adnan Dani"
-    },
-    {
-      id: 2,
-      name : "Tahir ALi"
-
-    }
-
-  ]
+ 
   const project = useSelector((c) => c.projects.selectedProject);
   const projectId = useSelector((c) => c.projects.selectedProject._id);
+  const stakeholders = useSelector((c) => c.projects.selectedProject.stakeholdersDetails);
+
+  console.log(stakeholders);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProjectTitle(projectId));
@@ -262,10 +254,12 @@ export default function SelectedProject({ handlePhase }) {
                   <div className="row timeline-wrapper">
 
                     {stakeholders.map(stakeholder => {
-                      const { id, name } = stakeholder;
+                      const { id, name, date } = stakeholder;
+                      const start_date = moment(date ).fromNow();
                       return (
                         <div className="col-lg-3 col-sm-6 col-md-6" key={id}>
-                          <ProfileCard name={name} />
+                          
+                          <ProfileCard name={name}  date={start_date} />
                         </div>
                       )
                     })}

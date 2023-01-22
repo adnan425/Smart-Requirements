@@ -13,8 +13,9 @@ app.use(cors({
     origin: '*'
 }));
 
-router.post('/', async (req, res)=>{
+router.post('/', async (req, res, next)=>{
     console.log(req)
+try {
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
@@ -28,6 +29,10 @@ router.post('/', async (req, res)=>{
     const token = jwt.sign({_id: user._id, name: user.name, email: user.email, role: user.role }, "myKey");
      
     res.send(token);
+} catch (error) {
+    console.log(error);
+    next();
+}
 
 });
 function validate(req){

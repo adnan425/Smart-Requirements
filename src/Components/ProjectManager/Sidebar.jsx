@@ -54,11 +54,11 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
                     <div className="dash-link">
                       <span className="dash-micon">
                         <i
-                          // className={list.icon ? list.icon : "ti ti-layout-2"}
+                          className={list.icon ? list.icon : "ti ti-layout-2"}
 
                         >
 
-                          <Avatar  size="30" name={list.title}  round="10px"/>
+                          {/* <Avatar  size="30" name={list.title}  round="10px"/> */}
 
                         </i>
                       </span>

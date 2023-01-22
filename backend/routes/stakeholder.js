@@ -29,16 +29,11 @@ router.post('/', [auth, manager], async (req, res, next) => {
         // findOne = looking for one of property
         const user = await User.findOne({ email: req.body.email });
         if (user) {
-
-            const isAdded = await Project.findOne({_id: req.body.projectId}, {stakeholders:  user._id});
-                // {$and : [{_id: req.body.projectId}, { stakeholders: { stakeholderId: user._id} }]});
+            const isAdded = await Project.findOne({_id: req.body.projectId, stakeholders: {$in: [user._id]}});
             if (isAdded) {
                 res.status(200).send("Stakeholder is already added.");
             } else {
-                await Project.findByIdAndUpdate(
-                    req.body.projectId,
-                    { $push: { stakeholders:  isAdded._id } }
-                )
+                await Project.findByIdAndUpdate(req.body.projectId, { $push: { stakeholders: user._id } })
                 res.status(200).send("Successfully added as a stakeholder.");
             }
         } else {

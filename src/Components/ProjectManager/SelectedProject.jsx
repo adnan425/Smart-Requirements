@@ -17,11 +17,11 @@ const apiUrl = 'http://localhost:3004/api';
 
 export default function SelectedProject({ handlePhase }) {
  
-  const project = useSelector((c) => c.projects.selectedProject);
-  const projectId = useSelector((c) => c.projects.selectedProject._id);
-  const stakeholders = useSelector((c) => c.projects.selectedProject.stakeholdersDetails);
+  let project = useSelector((c) => c.projects.selectedProject);
+  let projectId = useSelector((c) => c.projects.selectedProject._id);
+  let stakeholders = useSelector((c) => c.projects.selectedProject.stakeholdersDetails);
+   
 
-  console.log(stakeholders);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProjectTitle(projectId));
@@ -46,7 +46,6 @@ export default function SelectedProject({ handlePhase }) {
     const options = { abortEarly: false };
     const { error } = Joi.validate(stakeholder, stakeholderSchema, options);
     if (!error) return null;
-
     const err = {};
     for (let item of error.details) err[item.path[0]] = item.message;
 
@@ -62,22 +61,23 @@ export default function SelectedProject({ handlePhase }) {
     doSubmit();
   }
   const doSubmit = () => {
+
     const data = {projectId:projectId, ...stakeholder};
-    http.post(`${apiUrl}/projects/stakeholder`, data).then(({ status }) => {
-      if (status === 200) {
-        toast.success("Successfully added.");
-        setShow(false);
+    http.post(`${apiUrl}/projects/stakeholder`, data).then((res) => {
+      console.log(res.data);
+      if (res.status === 200) {
+        toast.success(res.data);
+        setShow(false); 
         setStakeholder({
           name: '',
           email: '',
-          password: '',
-          projectId: projectId,
+          password: ''
         })
 
       } else {
-        toast(status);
+        toast.info(res.data);
       }
-    }).catch(err => { console.log("error ", err.response.data); toast.error(err.response.data) });
+    }).catch(err => { console.log("error ", err.response.data); toast.info(err.response.data) });
 
 
   }
@@ -254,12 +254,12 @@ export default function SelectedProject({ handlePhase }) {
                   <div className="row timeline-wrapper">
 
                     {stakeholders.map(stakeholder => {
-                      const { id, name, date } = stakeholder;
+                      const { id, name, date , email } = stakeholder;
                       const start_date = moment(date ).fromNow();
                       return (
                         <div className="col-lg-3 col-sm-6 col-md-6" key={id}>
                           
-                          <ProfileCard name={name}  date={start_date} />
+                          <ProfileCard name={name} email={email}  date={start_date} />
                         </div>
                       )
                     })}

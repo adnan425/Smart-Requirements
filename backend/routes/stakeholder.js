@@ -31,7 +31,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
         if (user) {
             const isAdded = await Project.findOne({_id: req.body.projectId, stakeholders: {$in: [user._id]}});
             if (isAdded) {
-                res.status(200).send("Stakeholder is already added.");
+                res.status(400).send("Stakeholder is already added.");
             } else {
                 await Project.findByIdAndUpdate(req.body.projectId, { $push: { stakeholders: user._id } })
                 res.status(200).send("Successfully added as a stakeholder.");

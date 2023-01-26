@@ -9,8 +9,8 @@ import axios from "axios";
 import Form from "../Components/Utllils/Form";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-// import Logo from '../Components/Utllils/Logo';
-
+import lightLogo from '../../src/assets/logos/blue.png';
+import darkLogo from '../../src/assets/logos/dark.png';
 
 export default class Signup extends Form {
   keyPoints = [
@@ -60,7 +60,9 @@ export default class Signup extends Form {
         Swal.fire("Failed!", response?.response?.data, "info");
       });
   };
-  render() { 
+  render() {
+    const themeMode = localStorage.getItem('themeMode');
+
     return (
       <>
         <div className="auth-wrapper auth-v3">
@@ -69,8 +71,14 @@ export default class Signup extends Form {
             <nav className="navbar navbar-expand-md navbar-light default">
               <div className="container-fluid pe-2">
                 <a className="navbar-brand" href="/">
-                  <img src="https://demo.rajodiya.com/cmmsgo/storage/logo/logo-dark.png"
-                    className="auth-logo navbar-logo" alt="logo" />
+                  {
+                    !themeMode && <img src={lightLogo}
+                      className="auth-logo navbar-logo" alt="logo" />
+                  }
+                  {
+                    themeMode && <img src={darkLogo}
+                      className="auth-logo navbar-logo" alt="logo" />
+                  }
                 </a>
                 {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                   <span className="navbar-toggler-icon"></span>
@@ -98,38 +106,38 @@ export default class Signup extends Form {
                       <h2 className="mb-3 f-w-600">Register</h2>
                     </div>
                     <form
-                      onSubmit={this.handleSubmit} 
-                      // id="loginForm"
-                      // className="login-form"
+                      onSubmit={this.handleSubmit}
+                    // id="loginForm"
+                    // className="login-form"
                     >
                       <div className="">
                         {this.renderInput("name", "Name")}
                         {this.renderInput("email", "Email", "email")}
                         {this.renderInput("password", "Password", "password")}
                         {this.renderButton("Sign up")}
-                        <p className="mb-2 my-4 text-center">Already have an account? 
-                        <Link to={"/login"}className="f-w-400 text-primary">Login</Link></p>
+                        <p className="mb-2 my-4 text-center">Already have an account?
+                          <Link to={"/login"} className="f-w-400 text-primary">Login</Link></p>
                       </div>
                     </form>
                   </div>
                 </div>
-                     <div className="col-xl-6 img-card-side">
-                      <Carousel showArrows={false} showThumbs={false}>
-                        {this.keyPoints && this.keyPoints.map((point) => {
-                          return (
-                            <div className="auth-img-content" key={point.id}>
+                <div className="col-xl-6 img-card-side">
+                  <Carousel showArrows={false} showThumbs={false}>
+                    {this.keyPoints && this.keyPoints.map((point) => {
+                      return (
+                        <div className="auth-img-content" key={point.id}>
 
-                              <img src={point.pic}
-                                alt="" className="img-fluid" />
-                              <h3 className="text-white mb-4 mt-5">{point.heading}</h3>
-                              <p className="text-white">{point.text}</p>
-                            </div>
+                          <img src={point.pic}
+                            alt="" className="img-fluid" />
+                          <h3 className="text-white mb-4 mt-5">{point.heading}</h3>
+                          <p className="text-white">{point.text}</p>
+                        </div>
 
-                          )
-                        })
-                        }
-                      </Carousel>
-                    </div>
+                      )
+                    })
+                    }
+                  </Carousel>
+                </div>
               </div>
             </div>
 

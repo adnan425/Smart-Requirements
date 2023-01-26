@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const { User, validateUser } = require('../models/user');
 const _ = require('lodash');
 const express = require('express');
@@ -31,6 +30,10 @@ router.post('/', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save();
+
+  
+
+
     res.status(200).send("Successfully registered.");
 })
 

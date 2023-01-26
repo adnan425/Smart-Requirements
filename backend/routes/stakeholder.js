@@ -1,4 +1,5 @@
 const auth = require('../middleware/auth');
+const sendEmail = require('./sendemail');
 const manager = require('../middleware/manager');
 const stakeholder = require('./../middleware/stakeholder')
 const { User, validateUser } = require('../models/user');
@@ -33,7 +34,8 @@ router.post('/', [auth, manager], async (req, res, next) => {
             if (isAdded) {
                 res.status(400).send("Stakeholder is already added.");
             } else {
-                await Project.findByIdAndUpdate(req.body.projectId, { $push: { stakeholders: user._id } })
+                const proj = await Project.findByIdAndUpdate(req.body.projectId, { $push: { stakeholders: user._id } })
+                sendEmail(proj.title,  stakeholder.name, stakeholder.email,  "You can login with your old password");                
                 res.status(200).send("Successfully added as a stakeholder.");
             }
         } else {
@@ -42,11 +44,11 @@ router.post('/', [auth, manager], async (req, res, next) => {
             const salt = await bcrypt.genSalt(10);
             stakeholder.password = await bcrypt.hash(stakeholder.password, salt);
             await stakeholder.save();
-
-            await Project.findByIdAndUpdate(
+            const proj = await Project.findByIdAndUpdate(
                 req.body.projectId,
                 { $push: { stakeholders:  stakeholder._id } }
             )
+            sendEmail(proj.title, stakeholder.name, stakeholder.email, req.body.password);
             res.status(200).send("Successfully added as a stakeholder.");
         }
     } catch (error) {

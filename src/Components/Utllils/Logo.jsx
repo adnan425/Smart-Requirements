@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'; 
-import lightLogo from './../../assets/logos/blue.svg'
-import darkLogo from './../../assets/logos/dark.svg'
+import lightLogo from './../../assets/logos/blue.png'
+import darkLogo from './../../assets/logos/dark.png'
 
 
 export default function Logo({ path = "/" }) {
@@ -12,14 +12,14 @@ export default function Logo({ path = "/" }) {
       {/* ========   change your logo hear   ============ */}
       {
         themeMode && <img
-          src={darkLogo} style={{ "height": '220px' }}
+          src={darkLogo} style={{ "height": '75px' }}
           alt="Logo"
           className="logo logo-lg"
         />
       }
             {
         !themeMode && <img
-          src={lightLogo} style={{ "height": '220px' }}
+          src={lightLogo} style={{ "height": '75px' }}
           alt="Logo"
           className="logo logo-lg"
         />

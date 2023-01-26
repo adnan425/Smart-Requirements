@@ -12,7 +12,9 @@ import pic1 from "./../assets/banners/svg/login1.svg";
 import pic2 from "./../assets/banners/svg/login2.svg";
 import pic3 from "./../assets/banners/svg/login3.svg";
 import Form from "../Components/Utllils/Form";
-import dark_logo from './../assets/logos/blue.svg';
+import darkLogo from './../assets/logos/dark.png';
+import lightLogo from '../../src/assets/logos/blue.png';
+
 
 
 class Login extends Form {
@@ -81,7 +83,9 @@ class Login extends Form {
         Swal.fire("Error!", response?.response?.data, "error");
       });
   };
+
   render() {
+    const themeMode = localStorage.getItem('themeMode');
     return (
       <>
         {this.state.stakeholder && (
@@ -97,9 +101,17 @@ class Login extends Form {
                 <nav className="navbar navbar-expand-md navbar-light default">
                   <div className="container-fluid pe-2">
                     <a className="navbar-brand" href="/">
-                      <img src={dark_logo}
-                        className="auth-logo navbar-logo" style={{ "height": '' }} alt="logo" />
-                    </a> 
+                      {
+                        !themeMode && <img src={lightLogo}
+                          className="auth-logo navbar-logo" style={{ "height": '' }} alt="logo" />
+                      }
+                      {
+                        themeMode && <img src={darkLogo}
+                          className="auth-logo navbar-logo" style={{ "height": '' }} alt="logo" />
+                      }
+
+
+                    </a>
                     {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                       <span className="navbar-toggler-icon"></span>
                     </button> */}
@@ -133,8 +145,8 @@ class Login extends Form {
                           <h2 className="mb-3 f-w-600">Login</h2>
                         </div>
                         <form
-                          onSubmit={this.handleSubmit} 
-                          acceptCharset="UTF-8" 
+                          onSubmit={this.handleSubmit}
+                          acceptCharset="UTF-8"
                         >
                           <div className="">
                             {this.renderInput("email", "Email", "email")}
@@ -158,7 +170,7 @@ class Login extends Form {
                     </div>
                     <div className="col-xl-6 img-card-side">
                       <Carousel showArrows={false} showThumbs={false}>
-                        {       this.keyPoints && this.keyPoints.map((point) => {
+                        {this.keyPoints && this.keyPoints.map((point) => {
                           return (
                             <div className="auth-img-content" key={point.id}>
 

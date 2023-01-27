@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PageHeader from "../Utllils/PageHeader"; 
+import PageHeader from "../Utllils/PageHeader";
 import { Link } from "react-router-dom";
 import Card from "../Utllils/Card";
 import Modal from 'react-bootstrap/Modal';
@@ -9,18 +9,24 @@ import Joi from 'joi-browser';
 import http from '../Services/httpService';
 import ProfileCard from "../Utllils/ProfileCard";
 import { useSelector, useDispatch } from 'react-redux';
-import { getProjectTitle } from './../Store/SRS/srs'; 
+import { getProjectTitle } from './../Store/SRS/srs';
 const moment = require('moment');
 
 const apiUrl = 'http://localhost:3004/api';
 
 
 export default function SelectedProject({ handlePhase }) {
- 
+
   let project = useSelector((c) => c.projects.selectedProject);
   let projectId = useSelector((c) => c.projects.selectedProject._id);
-  let stakeholders = useSelector((c) => c.projects.selectedProject.stakeholdersDetails);
-   
+
+  const s = useSelector((c) => c.projects.selectedProject.stakeholdersDetails);
+  const [stakeholders, setStakeholders] = useState(s);
+
+  useEffect(() => {
+    setStakeholders(s);
+  }, [s])
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,7 +37,7 @@ export default function SelectedProject({ handlePhase }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [errors, setErrors] = useState({});
-  const [stakeholder, setStakeholder] = useState({ 
+  const [stakeholder, setStakeholder] = useState({
     name: '',
     email: '',
     password: ''
@@ -40,7 +46,7 @@ export default function SelectedProject({ handlePhase }) {
   const stakeholderSchema = {
     name: Joi.string().min(5).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
-    password: Joi.string().min(8).max(255).required() 
+    password: Joi.string().min(8).max(255).required()
   }
   const validate = () => {
     const options = { abortEarly: false };
@@ -61,13 +67,12 @@ export default function SelectedProject({ handlePhase }) {
     doSubmit();
   }
   const doSubmit = () => {
-
-    const data = {projectId:projectId, ...stakeholder};
+    const data = { projectId: projectId, ...stakeholder };
     http.post(`${apiUrl}/projects/stakeholder`, data).then((res) => {
       console.log(res.data);
       if (res.status === 200) {
         toast.success(res.data);
-        setShow(false); 
+        setShow(false);
         setStakeholder({
           name: '',
           email: '',
@@ -78,8 +83,20 @@ export default function SelectedProject({ handlePhase }) {
         toast.info(res.data);
       }
     }).catch(err => { console.log("error ", err.response.data); toast.info(err.response.data) });
-
-
+  }
+  const handleDelete = (id) => {
+    const data = { projectId: projectId, userId: id };
+    console.log(data);
+    http.delete(`${apiUrl}/projects/stakeholder`, { data }).then((res) => {
+      console.log(res.data);
+      if (res.status === 200) {
+        toast.success(res.data);
+        //  let s = stakeholders.map(user=>user.id!==id);
+        // setStakeholders(stakeholders.map(user => user.id !== id));
+      } else {
+        toast.info(res.data);
+      }
+    }).catch(err => { console.log("error ", err.response.data); toast.info(err.response.data) });
   }
   const { _id, title: projectTitle, date } = project;
   const start_date = moment(date).format("MMM Do YYYY");
@@ -116,6 +133,7 @@ export default function SelectedProject({ handlePhase }) {
 
     },
   ];
+
   return (
     <div className="dash-container">
       <div className="dash-content">
@@ -210,7 +228,7 @@ export default function SelectedProject({ handlePhase }) {
                                       <a
                                         href="#!"
                                         className="dropdown-item"
-                                      
+
                                         data-bs-whatever="Add Label"
                                       >
                                         <i className="ti ti-sticker"></i>
@@ -244,6 +262,7 @@ export default function SelectedProject({ handlePhase }) {
 
             {/* <!-- [ sample-page ] end --> */}
           </div>
+
         </div>
         {
           stakeholders &&
@@ -254,24 +273,25 @@ export default function SelectedProject({ handlePhase }) {
                   <div className="row timeline-wrapper">
 
                     {stakeholders.map(stakeholder => {
-                      const { id, name, date , email } = stakeholder;
-                      const start_date = moment(date ).fromNow();
+                      const { _id, name, date, email } = stakeholder;
+                      const start_date = moment(date).fromNow();
                       return (
-                        <div className="col-lg-3 col-sm-6 col-md-6" key={id}>
-                          
-                          <ProfileCard name={name} email={email}  date={start_date} />
+                        <div className="col-lg-3 col-sm-6 col-md-6" key={_id+98}>
+
+                          <ProfileCard id={_id} name={name} email={email} date={start_date} handleClick={handleDelete} />
                         </div>
                       )
                     })}
-                    <div className="col-md-3">
-                      <button onClick={handleShow} className="btn-addnew-project"
+                     
+                    <div className="col-xl-3 col-lg-4 col-sm-6">
+                      <Link onClick={handleShow} className="btn-addnew-project"
                         data-bs-toggle="tooltip" data-bs-placement="top" title="project" >
                         <div className="bg-primary proj-add-icon">
                           <i className="ti ti-plus"></i>
                         </div>
                         <h6 className="mt-4 mb-2">New User</h6>
                         <p className="text-muted text-center">Click here to add New User</p>
-                      </button>
+                      </Link>
                       <Modal show={show} size="lg" onHide={handleClose}>
                         <Modal.Header closeButton>
                           <Modal.Title>Requirements</Modal.Title>

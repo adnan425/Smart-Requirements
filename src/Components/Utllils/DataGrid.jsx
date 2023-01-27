@@ -1,152 +1,122 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { getCurrentUser } from "../Services/authService";
+import Avatar from 'react-avatar';
+import { toast } from "react-toastify";
 
 const moment = require('moment');
 
 export default function DataGrid({ list }) {
   const userRole = getCurrentUser();
+  const handleDelete = (id)=>{
+    console.log(id);
+    toast.info("On Working");
+  }
   return (
     <>
-      {list && list.length!==0 && list.map((project) => {
+      <section className="section">
+        <div className="filters-content">
+          <div className="row grid" style={{ position: "relative", height: "386.375px" }}>
+            {
+              list && list.length !== 0 && list.map((project) => {
+                const { _id, title, date, status, description, stakeholders } = project;
+                const start_date = moment(date).format("MMM Do YYYY");
+                return (
+                  <>
+                    <div className="col-md-3 ">
+                      <div className="card">
+                        <div className="card-header border-0 pb-0">
+                          <div className="d-flex align-items-center">
+                            <Link>
+                              <Avatar name={title} size={"30px"} round="20%" />
+                            </Link>
+                            <h5 className="mb-0 px-2">
+                              <Link  title="UI development">{title}</Link>
+                            </h5>
+                          </div>
+                          <div className="card-header-right">
+                            <div className="btn-group card-option">
+                              <button type="button" className="btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i className="ti ti-dots-vertical"></i>
+                              </button>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                {/* <a href="#/" className="dropdown-item" >
+                                  <i className="ti ti-user-plus"></i> <span>Invite Users</span>
+                                </a> */}
+                                <Link onClick={(e)=>{handleDelete(_id)}} className="dropdown-item text-danger delete-popup bs-pass-para" >
+                                  <i className="ti ti-trash"></i>  <span>Delete</span>
+                                </Link>
 
-        const { _id, title, date, status } = project;
-        const start_date = moment(date).format("MMM Do YYYY");;
-        return (
-          <>
-            <div className="col-xl-3 col-lg-4 col-sm-6" key={_id}>
-              <div className="card hover-shadow-lg">
-                <div className="card-header border-0 pb-0">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6
-                        className="mb-0"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Start Date "
-                      >
-                        {start_date}
-                      </h6>
-                    </div>
-                    <div className="text-right">
-                      <div className="actions">
-                        <h6
-                          className="mb-0"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Due Date "
-                        >
-                          {status}
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-body text-center">
-                  <h5 className=" my-4">
-                    <Link to={"project/" + project.id} className="text-dark">
-                      {title}
-                    </Link>
-                  </h5>
-                  <div className="avatar-group hover-avatar-ungroup mb-3">
-                    <Link href="#" className="user-group1">
-                      <img
-                        src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-4.jpg"
-                        className=""
-                        data-bs-toggle="tooltip"
-                        title=""
-                        data-bs-original-title="Anthony B Renfroe"
-                        aria-label="Anthony B Renfroe"
-                      />
-                    </Link>
-                    <Link href="#" className="user-group1">
-                      <img
-                        src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-3_1663328248_1663672251.jpg"
-                        className=""
-                        data-bs-toggle="tooltip"
-                        title=""
-                        data-bs-original-title="Keire"
-                        aria-label="Keire"
-                      />
-                    </Link>
-                    <Link href="#" className="user-group1">
-                      <img
-                        src="https://demo.rajodiya.com/crmgo-saas/storage/uploads/avatar/avatar-5.jpg"
-                        className=""
-                        data-bs-toggle="tooltip"
-                        title=""
-                        data-bs-original-title="Adrienne J Reed"
-                        aria-label="Adrienne J Reed"
-                      />
-                    </Link>
-                  </div>
-                  <span className="clearfix"></span>
-                  <span
-                    className={
-                      "badge fix_badges bg-success p-2 px-3 rounded " +
-                      project.classes
-                    }
-                  >
-                    {status}
-                  </span>
-                </div>
-                <div className="card-footer">
-                  <div className="actions d-flex justify-content-between px-4">
-                    {
-                      userRole.role === 'manager' && <> <div className="action-btn bg-info ms-2">
-                        <Link
-                          to="edit"
-                          className="mx-3 btn btn-sm d-inline-flex align-items-center"
-                          data-bs-whatever="Edit Project"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Edit"
-                        >
-                          {" "}
-                          <span className="text-white">
-                            {" "}
-                            <i className="ti ti-edit"></i>
-                          </span>
-                        </Link>
-                      </div>
-                    
 
-                    <div className="action-btn bg-warning ms-2">
-                      <Link
-                        to={"project/" + _id}
-                        className="mx-3 btn btn-sm d-inline-flex align-items-center"
-                        data-bs-whatever="View Project"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="View"
-                      >
-                        {" "}
-                        <span className="text-white">
-                          {" "}
-                          <i className="ti ti-eye"></i>
-                        </span>
-                      </Link>
-                    </div>
-                    <div className="action-btn bg-danger ms-2">
-                        <button className="mx-3 btn btn-sm d-flex align-items-center show_confirm">
-                          <i
-                            className="ti ti-trash text-white"
-                            data-bs-toggle="tooltip"
-                            data-bs-original-title="Delete"
-                          ></i>
-                        </button>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="card-body">
+                          <div className="row g-2 justify-content-between">
+                            <div className="col-auto"><span className="badge rounded-pill bg-secondary">{status}</span>
+                            </div>
+
+                            <div className="col-auto">
+                              <p className="mb-0"><b>Start Date:</b> {start_date}</p>
+                            </div>
+                          </div>
+                          <p className="text-muted text-sm mt-3">{description}</p>
+                          <h6 className="text-muted">MEMBERS</h6>
+                          <div className="user-group mx-2">
+                            {
+                              stakeholders && stakeholders.slice(0, 5).map((stakeholder) => {
+                                return (
+                                  <>
+                                    <Link href="#" className="img_group" key={stakeholder} >
+                                      <Avatar name={title} size={"30px"} round="50%" />
+
+                                    </Link>
+                                  </>
+                                )
+                              })
+                            }
+                            {
+                              stakeholders.length === 0 && <p>Empty.</p>
+                            }
+
+
+
+                          </div>
+                          {/* <div className="card mb-0 mt-3">
+                            <div className="card-body p-3">
+                              <div className="row">
+                                <div className="col-12">
+                                  <h6 className="mb-0">9</h6>
+                                  <p className="text-muted text-sm mb-0">Tasks</p>
+                                </div> 
+                              </div>
+                            </div>
+                          </div> */}
+                        </div>
                       </div>
-                      </>
-}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      })}
+                    </div>
+
+                  </>
+                )
+              })
+            }
+
+
+
+
+          </div>
+        </div>
+
+      </section>
+
       {
-            list && list.length===0 && 
-            <>
-            <div className="card"><div className="card-header"> Project list is empty.</div></div>
-            </>
-          }
+        list && list.length === 0 &&
+        <>
+          <div className="card"><div className="card-header"> Project list is empty.</div></div>
+        </>
+      }
     </>
   );
 }

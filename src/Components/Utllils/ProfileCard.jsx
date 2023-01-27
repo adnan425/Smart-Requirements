@@ -1,8 +1,8 @@
 import React from 'react'
 import Avatar from 'react-avatar';
-export default function ProfileCard({_id="", name="Manager", email="manager@mail.com", date=""}) {
+export default function ProfileCard({id="", name="Manager", email="manager@mail.com", date="", handleClick=""}) {
     return (
-        <div className="card text-center">
+        <div className="card text-center" key={id+"09o3"}>
             <div className="card-header border-0 pb-0">
                 <div className="card-header-right">
                     <div className="card-header-right">
@@ -33,7 +33,9 @@ export default function ProfileCard({_id="", name="Manager", email="manager@mail
                                     <i className="ti ti-pencil"></i>
                                     <span>Edit</span>
                                 </a>  */}
+
                                 <a
+                                onClick={(e)=>{e.preventDefault(); handleClick(id)} }
                                     href="#!"
                                     className="dropdown-item"
                                 >

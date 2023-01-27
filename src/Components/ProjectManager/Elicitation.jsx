@@ -279,7 +279,7 @@ export default function Elicitation() {
                                 <div className="col-sm-12 col-md-10-12 col-xxl-12">
                                   <div class="accordion accordion-flush" id="accordionExample">
                                     {
-                                      requirements && 0 && requirements.map((requirement) => {
+                                      requirements  && requirements.map((requirement) => {
                                         const { _id, title, description, type } = requirement;
                                         if (type === 'Non-Functional') {
                                           return (

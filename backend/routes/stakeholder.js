@@ -30,12 +30,12 @@ router.post('/', [auth, manager], async (req, res, next) => {
         // findOne = looking for one of property
         const user = await User.findOne({ email: req.body.email });
         if (user) {
-            const isAdded = await Project.findOne({_id: req.body.projectId, stakeholders: {$in: [user._id]}});
+            const isAdded = await Project.findOne({ _id: req.body.projectId, stakeholders: { $in: [user._id] } });
             if (isAdded) {
                 res.status(400).send("Stakeholder is already added.");
             } else {
                 const proj = await Project.findByIdAndUpdate(req.body.projectId, { $push: { stakeholders: user._id } })
-                sendEmail(proj.title,  stakeholder.name, stakeholder.email,  "You can login with your old password");                
+                sendEmail(proj.title, stakeholder.name, stakeholder.email, "You can login with your old password");
                 res.status(200).send("Successfully added as a stakeholder.");
             }
         } else {
@@ -46,7 +46,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
             await stakeholder.save();
             const proj = await Project.findByIdAndUpdate(
                 req.body.projectId,
-                { $push: { stakeholders:  stakeholder._id } }
+                { $push: { stakeholders: stakeholder._id } }
             )
             sendEmail(proj.title, stakeholder.name, stakeholder.email, req.body.password);
             res.status(200).send("Successfully added as a stakeholder.");
@@ -57,24 +57,52 @@ router.post('/', [auth, manager], async (req, res, next) => {
     }
 
 });
+//  POST | Delete stakeholder | ProjectID, STAKEHOLDER ID |  | Only Manager Can add | manager middleware for verify 
+router.delete('/', [auth, manager], async (req, res, next) => {
+    try {
+        // PROJECT ID IN WHICH STAKEHOLDER ADD  
+        const userId = req.body.userId; 
+        const projectId = req.body.projectId;
 
+        if (!userId) return res.status(400).send("User Id required!");
+        if (!projectId) return res.status(400).send("Project Id required!");
+
+        if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
+
+        const project = await Project.find({ $and: [{ "manager._id": { $eq: req.user._id } }, { "_id": { $eq: projectId } }] });
+        if (!project) return res.status(403).send("Not access to delete.");
+
+        const isAdded = await Project.findOne({ _id: req.body.projectId, stakeholders: { $in: [userId] } });
+        if (!isAdded) {
+            res.status(403).send("Stakeholder Not Found.");
+        } else {
+            const proj = await Project.findByIdAndUpdate(req.body.projectId, { $pull: { stakeholders: userId } })
+            res.status(200).send("Successfully Deleted.");
+        }
+
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+
+});
 // GET | All Stakeholders By project ID | 2 MIDDLWARE { AUTH , MANAGER } | 
 router.get('/:id', [auth, manager], async (req, res, next) => {
     try {
         const projectId = req.params.id;
-        const project = await Project.find( {_id: projectId})
-                        // .select('stakeholders')
-                        .populate({
-                            path: 'users',
-                            // Get friends of friends - populate the 'friends' array for every friend
-                            populate: { path: 'users' }
-                          }).exec(function(err,f){
-                            if(err){
-                                console.log(err);
-                            }else{
-                                console.log(f);
-                            }
-                          })
+        const project = await Project.find({ _id: projectId })
+            // .select('stakeholders')
+            .populate({
+                path: 'users',
+                // Get friends of friends - populate the 'friends' array for every friend
+                populate: { path: 'users' }
+            }).exec(function (err, f) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(f);
+                }
+            })
         res.status(200).send(project);
     } catch (error) {
         next();
@@ -85,8 +113,8 @@ router.delete('/:id', [auth, manager], async (req, res, next) => {
     try {
         const project = await Project.findById(req.body.projectId);
         const stakeholder = project.stakeholders.id(req.params.id);
-        if(!stakeholder)  return res.status(200).send("Not found stakeholder.");
-        
+        if (!stakeholder) return res.status(200).send("Not found stakeholder.");
+
         stakeholder.remove();
         project.save();
         res.status(200).send("Successfully Deleted");
@@ -95,7 +123,7 @@ router.delete('/:id', [auth, manager], async (req, res, next) => {
     }
 });
 
- 
+
 
 
 module.exports = router;

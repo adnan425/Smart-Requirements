@@ -4,13 +4,54 @@ const _ = require('lodash');
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
 // const admin = require('../middleware/admin');
+const { validateProject, Project } = require('../models/project');
 const { introductionValidation, Introduction } = require('../models/introduction');
 const { Description, descriptionValidation } = require('./../models/description');
 const { NonFunctional, nonfunctionalValidation } = require('./../models/nonfunctional');
 const { Features, featuresValidation } = require('./../models/features');
 const { OtherRequirements, otherReqValidation } = require('./../models/OtherRequirements');
-const { Project } = require('../models/project');
 const router = express.Router();
+
+//  -----------  CHAPTER 0 : TITLE --------------
+// POST | ADD PROJECT TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
+router.post('/title', [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { "managerId": req.user._id, ...req.body, "description": "tesitng" };
+        const title = _.pick(bodyData, ['managerId', 'projectId', 'title', 'author', 'organization', 'description']);
+        const { error } = validateProject(_.pick(title, ['managerId', 'title', 'description']));
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send('Project not found.');
+
+        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
+        if (!isManager) return res.status(403).send('Access denied.');
+
+        const isUpdate = await Project.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            console.log("update");
+            let update = await Project.findOneAndUpdate({ _id: updateId },
+                {
+                    $set: {
+                        title: req.body.title || isUnique.title,
+                        author: req.body.author || isUnique.author,
+                        organization: req.body.organization || isUnique.organization
+                    }
+                });
+            res.status(200).send(update);
+        } else {
+
+            let titlee = new Project(title);
+            await titlee.save();
+            res.status(200).send(titlee);
+
+        }
+    } catch (err) {
+        next();
+    }
+});
+//  -----------  CHAPTER 1 : INTRO --------------
 
 // POST | ADD PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/intro', [auth, manager], async (req, res, next) => {
@@ -41,19 +82,19 @@ router.post('/intro', [auth, manager], async (req, res, next) => {
                         "scope": req.body.scope,
                         "references": req.body.references
                     }
-                }); 
+                });
             res.status(200).send(update);
         } else {
-        let introduction = new Introduction(intro);
-        await introduction.save();
-        res.status(200).send(introduction);
+            let introduction = new Introduction(intro);
+            await introduction.save();
+            res.status(200).send(introduction);
 
         }
     } catch (err) {
         next();
     }
 });
- 
+
 // PUT | GET PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.get('/intro/:id', [auth, manager], async (req, res, next) => {
     try {
@@ -76,9 +117,7 @@ router.get('/intro/:id', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-
 //  -----------  CHAPTER 2 : Overall Description --------------
-
 // POST | ADD PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/desc', [auth, manager], async (req, res, next) => {
     try {
@@ -109,7 +148,7 @@ router.post('/desc', [auth, manager], async (req, res, next) => {
                         "documentation": req.body.documentation,
                         "assumptions": req.body.assumptions,
                     }
-                }); 
+                });
             res.status(200).send(update);
         } else {
             let description = new Description(desc);

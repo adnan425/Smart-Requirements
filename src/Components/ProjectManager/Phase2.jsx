@@ -9,6 +9,7 @@ import http from '../Services/httpService';
 import { useEffect } from 'react';
 import Quill from '../Utllils/Quill';
 const moment = require('moment');
+const _ = require('lodash');
 const apiUrl = "http://localhost:3004/api";
 
 
@@ -57,12 +58,6 @@ export default function Phase2() {
   )
   const [features, setFeatures] = useState('');
   const [otherRequirements, setOtherRequirements] = useState(''); 
-
-  
- 
-
- 
-
   // ------------------------- Get Data From API --------------------------
   function getIntro() {
     http.get(`${apiUrl}/project/intro/${projectId}`).then(({ data }) => {
@@ -209,13 +204,15 @@ export default function Phase2() {
     for (let item of error.details) err[item.path] = item.message;
     return err;
   }
-  const validate = () => {
+  const validate = () => { 
     const options = { abortEarly: false };
-    const { error } = Joi.validate(projectTitle, updateTitleSchema, options);
+    const title = _.pick(projectTitle, ['title', 'author', 'organization']);
+    const { error } = Joi.validate(title, updateTitleSchema, options);
     if (!error) return null;
     const err = {};
     for (let item of error.details) err[item.path] = item.message;
     return err;
+
   }
   const nonFunValidate = () => {
     const options = { abortEarly: false };
@@ -225,7 +222,7 @@ export default function Phase2() {
     for (let item of error.details) err[item.path] = item.message;
     return err;
   }
- 
+
   // ------------------------- Handle Submit --------------------------
   const handleIntroSubmit = e => {
     e.preventDefault();
@@ -272,11 +269,16 @@ export default function Phase2() {
   // ------------------------- Submit API CALL --------------------------
   
   const doSubmit = () => {
-    http.put(`${apiUrl}/projects/${projectId}`, setProjectTitle).then(({ status }) => {
-      if (status === 200) {
+    console.log("submited");
+    const data = { projectId: projectId, ...projectTitle };
+    console.log(data);
+    http.post(`${apiUrl}/project/title`, { projectId: projectId, ...projectTitle }).then((res) => {
+      console.log(projectTitle);
+      if (res.status === 200) {
+      console.log("Title: ", res.data);
         toast.success("Successfully Updated.");
       } else {
-        toast(status);
+        toast(res);
       }
     }).catch(err => { toast.error(err.response.data) });
   }

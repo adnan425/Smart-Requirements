@@ -128,11 +128,7 @@ router.put('/p/:id', [auth, manager], async (req, res, next) => {
         };
         // validating all req body data
         const { error } = validateProject(projectObj);
-        if (error) return res.status(400).send(error.details[0].message);
-
-        // isUnique.title = req.body.title;
-        // isUnique.author = req.body.author;
-        // isUnique.organization = req.body.organization;
+        if (error) return res.status(400).send(error.details[0].message); 
 
         const project = await Project.findByIdAndUpdate(projectId, {
             // $set: {

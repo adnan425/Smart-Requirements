@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import "react-perfect-scrollbar/dist/css/styles.css"; 
+import 'react-tooltip/dist/react-tooltip.css';
 import { Provider } from "react-redux";
 import store from './Components/Store/configureStore';
 

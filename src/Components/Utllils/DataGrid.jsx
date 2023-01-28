@@ -16,7 +16,7 @@ export default function DataGrid({ list }) {
     <>
       <section className="section">
         <div className="filters-content">
-          <div className="row grid" style={{ position: "relative", height: "386.375px" }}>
+          <div className="row grid " style={{ position: "relative", height: "386.375px" }}>
             {
               list && list.length !== 0 && list.map((project) => {
                 const { _id, title, date, status, description, stakeholders } = project;
@@ -31,7 +31,7 @@ export default function DataGrid({ list }) {
                               <Avatar name={title} size={"30px"} round="20%" />
                             </Link>
                             <h5 className="mb-0 px-2">
-                              <Link  title="UI development">{title}</Link>
+                              <Link  title={title}>{title}</Link>
                             </h5>
                           </div>
                           <div className="card-header-right">
@@ -45,11 +45,8 @@ export default function DataGrid({ list }) {
                                 </a> */}
                                 <Link onClick={(e)=>{handleDelete(_id)}} className="dropdown-item text-danger delete-popup bs-pass-para" >
                                   <i className="ti ti-trash"></i>  <span>Delete</span>
-                                </Link>
-
-
-
-                              </div>
+                                </Link> 
+                                </div>
                             </div>
                           </div>
                         </div>
@@ -71,7 +68,7 @@ export default function DataGrid({ list }) {
                                   <>
                                     <Link href="#" className="img_group" key={stakeholder} >
                                       <Avatar name={title} size={"30px"} round="50%" />
-
+                                       
                                     </Link>
                                   </>
                                 )
@@ -102,6 +99,9 @@ export default function DataGrid({ list }) {
                 )
               })
             }
+           {
+            list && list.length === 0 && <div className="card-body table-border-style"> Project list is empty.</div>
+          }
 
 
 
@@ -111,12 +111,7 @@ export default function DataGrid({ list }) {
 
       </section>
 
-      {
-        list && list.length === 0 &&
-        <>
-          <div className="card"><div className="card-header"> Project list is empty.</div></div>
-        </>
-      }
+    
     </>
   );
 }

@@ -2,6 +2,8 @@ import React, {useEffect,useState} from "react";
 import PageHeader from "../Utllils/PageHeader";
 import ProfileCard from "../Utllils/ProfileCard";
 import http from './../Services/httpService';
+const moment = require('moment');
+
 export default function Users() {
   const [ users, setUsers ] = useState([]); 
   // console.log(users);
@@ -27,10 +29,13 @@ export default function Users() {
             <div className="col-xxl-12">
               <div className="row">
                 {users && users.map(user => { 
+                  const { _id,  email, name, date } = user;
+  const start_date = moment(date).format("MMM Do YYYY");
+
                   return (
                     <>
                       <div className="col-md-3" >
-                        <ProfileCard user={user} />
+                        <ProfileCard key={_id+"023"}  name={name} email={email} date={start_date}  />
                       </div>
                     </>
                   )

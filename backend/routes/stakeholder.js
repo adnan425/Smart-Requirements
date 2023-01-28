@@ -76,7 +76,7 @@ router.delete('/', [auth, manager], async (req, res, next) => {
         if (!isAdded) {
             res.status(403).send("Stakeholder Not Found.");
         } else {
-            const proj = await Project.findByIdAndUpdate(req.body.projectId, { $pull: { stakeholders: userId } })
+            await Project.findByIdAndUpdate(req.body.projectId, { $pull: { stakeholders: userId } })
             res.status(200).send("Successfully Deleted.");
         }
 

@@ -1,10 +1,16 @@
 import React from 'react'
 import Avatar from 'react-avatar';
+import { getCurrentUser } from "../Services/authService";
+
 export default function ProfileCard({id="", name="Manager", email="manager@mail.com", date="", handleClick=""}) {
+  const userRole = getCurrentUser();
+    
     return (
         <div className="card text-center" key={id+"09o3"}>
             <div className="card-header border-0 pb-0">
-                <div className="card-header-right">
+                {
+                    userRole && userRole.role === 'Manager' && <>
+                        <div className="card-header-right">
                     <div className="card-header-right">
                         <div className="btn-group card-option">
                             <button
@@ -53,6 +59,9 @@ export default function ProfileCard({id="", name="Manager", email="manager@mail.
                         </div>
                     </div>
                 </div>
+                    </>
+                }
+            
             </div>
             <div className="card-body full-card">
                 <div className="img-fluid rounded-circle card-avatar">

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import DataList from "../Utllils/DataList";
 import DataGrid from "../Utllils/DataGrid";
 import PageHeader from "../Utllils/PageHeader"; 
-import PageTitle from './../Utllils/PageTitle';
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom"; 
 import http from "../Services/httpService";
@@ -14,8 +13,9 @@ export default function Projects() {
 
   const getProjects = ()=>{
     try {
-      http.get(`${apiUrl}/projects`).then(({data})=>{
-        setProjects(data);
+      http.get(`${apiUrl}/projects`).then((res)=>{
+        // setProjects([res.data]);
+        console.log("Projects",res.data);
       }).catch((err)=>{console.log(err)});
   } catch (error) {
       toast.error( error.message);
@@ -37,15 +37,12 @@ export default function Projects() {
                   projects.length>0 &&   <div className="btn-group btn-group-toggle" data-toggle="buttons" aria-label="Basic radio toggle button group">
                   <label className="btn btn-primary month-label active">
                     <Link className="text-white">  Pending </Link>
-
                   </label>
-
                   <label className="btn btn-primary year-label">
                     <Link className="text-white">Completed</Link>
                   </label>
                 </div>
                 }
-              
               </div>
             </div>
             {
@@ -56,11 +53,7 @@ export default function Projects() {
 
               </div>
             </div>
-            } {
-              projects.length===0 && <div className="row min-750" id="project_view"> 
-              <PageTitle title=" Project List is empty" />  
-              </div>
-            }
+            }  
             
             {/* <!-- [ Main Content ] end --> */}
           </div>

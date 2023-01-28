@@ -3,8 +3,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import Logo from "../Utllils/Logo";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { closeSidebar } from "../Store/Sidebar/Sidebar";
-import Avatar from 'react-avatar';
+import { closeSidebar } from "../Store/Sidebar/Sidebar"; 
 
 export default function Sidebar({ items: projects, onProjectSelect }) {
   var items = [

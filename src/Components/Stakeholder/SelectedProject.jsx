@@ -110,7 +110,7 @@ export default function SingleProject() {
       setStakeholders(s);
     }, [s])
     
-    const { _id, title: projectTitle, date , status } = project;
+    const { title: projectTitle, date , status } = project;
     const start_date = moment(date).format("MMM Do YYYY");
     return (
         

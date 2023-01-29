@@ -129,7 +129,7 @@ export default function SelectedProject({ handlePhase }) {
     {
       id: 5,
       title: "Generate Report",
-      path: '/manager/phase1'
+      path: '/manager/pdf'
 
     },
   ];

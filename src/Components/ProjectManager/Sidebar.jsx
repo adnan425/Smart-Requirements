@@ -4,7 +4,6 @@ import Logo from "../Utllils/Logo";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { closeSidebar } from "../Store/Sidebar/Sidebar";
-import Avatar from 'react-avatar';
 
 export default function Sidebar({ items: projects, onProjectSelect }) {
   var items = [

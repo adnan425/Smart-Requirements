@@ -1,5 +1,5 @@
-import React from 'react'
-import Theme from './../../Utllils/Theme';
+import React from 'react' 
+import Theme from '../Utllils/Theme';
 import PageHeader from './../Utllils/PageHeader';
 
 export default function Settings() {

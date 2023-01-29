@@ -20,6 +20,9 @@ import NewProject from "../Components/ProjectManager/NewProject";
 import ManagerProject from '../Components/ProjectManager/Projects'
 import Elicitation from "../Components/ProjectManager/Elicitation";
 import Phase2 from "../Components/ProjectManager/Phase2";
+import ManagerSettings from './../Components/ProjectManager/Settings'; 
+import Pdf from './../Components/ProjectManager/Pdf'; 
+
 
 import Stakeholder from '../Components/Stakeholder/Home';
 import StakeDashboard from '../Components/Stakeholder/Dashboard';
@@ -71,8 +74,8 @@ export default function Home() {
               <Route exact path="new" element={<NewProject />} />
               <Route path="phase1" element={<Elicitation />} />
               <Route path="phase2" element={<Phase2 />} />
-              <Route exact path="settings" element={<Settings />} />
-
+              <Route path="pdf" element={<Pdf />} />
+              <Route exact path="settings" element={<ManagerSettings />} />
             </Route>
 
 

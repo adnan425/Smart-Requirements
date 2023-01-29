@@ -268,10 +268,7 @@ export default function Phase2() {
 
   // ------------------------- Submit API CALL --------------------------
   
-  const doSubmit = () => {
-    console.log("submited");
-    const data = { projectId: projectId, ...projectTitle };
-    console.log(data);
+  const doSubmit = () => { 
     http.post(`${apiUrl}/project/title`, { projectId: projectId, ...projectTitle }).then((res) => {
       console.log(projectTitle);
       if (res.status === 200) {

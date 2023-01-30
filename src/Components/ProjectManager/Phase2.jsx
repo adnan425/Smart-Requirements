@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import Joi from 'joi-browser';
+import React, { useState, useEffect , useMemo, useRef} from 'react';
 import { toast } from 'react-toastify';
+import ReactQuill from 'react-quill';
+
 import Button from '../Utllils/Button';
 import Input from '../Utllils/Input';
 import PageHeader from "../Utllils/PageHeader";
-import Joi from 'joi-browser';
 import { useSelector } from 'react-redux';
 import http from '../Services/httpService';
-import { useEffect } from 'react';
 import Quill from '../Utllils/Quill';
 const moment = require('moment');
 const _ = require('lodash');
 const apiUrl = "http://localhost:3004/api";
 
-
 export default function Phase2() {
   const [errors, setErrors] = useState({});
-  const [active, setActive] = useState('Title Page'); 
+  const [active, setActive] = useState('Title Page');
   const projectId = useSelector((c) => c.projects.selectedProject._id);
   if (!projectId || projectId === null || projectId === 'undefined') {
     window.location = './';
@@ -57,7 +57,8 @@ export default function Phase2() {
     }
   )
   const [features, setFeatures] = useState('');
-  const [otherRequirements, setOtherRequirements] = useState(''); 
+  const [interfaceRequirements, setInterfaceRequirements] = useState('');
+  const [otherRequirements, setOtherRequirements] = useState('');
   // ------------------------- Get Data From API --------------------------
   function getIntro() {
     http.get(`${apiUrl}/project/intro/${projectId}`).then(({ data }) => {
@@ -110,7 +111,7 @@ export default function Phase2() {
   };
   function getNonFunctional() {
     http.get(`${apiUrl}/project/nonfun/${projectId}`).then(({ data }) => {
-      console.log("Non Functional Req: ", data); 
+      console.log("Non Functional Req: ", data);
       setNonFun(
         {
           performance: data.performance,
@@ -119,7 +120,7 @@ export default function Phase2() {
           quality: data.quality,
           business: data.business,
         }
-      ); 
+      );
 
     }).catch(err => {
 
@@ -129,23 +130,23 @@ export default function Phase2() {
         security: '',
         quality: '',
         business: ''
-      }); 
+      });
     });
   };
   function getFeatures() {
     http.get(`${apiUrl}/project/feature/${projectId}`).then(({ data }) => {
-      setFeatures(data.features); 
+      setFeatures(data.features);
 
     }).catch(err => {
-      setFeatures(''); 
+      setFeatures('');
       console.log(err);
     });
   };
-   function getOtherReq() {
+  function getOtherReq() {
     http.get(`${apiUrl}/project/other/${projectId}`).then(({ data }) => {
-      setOtherRequirements(data.requirements); 
+      setOtherRequirements(data.requirements);
     }).catch(err => {
-      setOtherRequirements(''); 
+      setOtherRequirements('');
       console.log(err);
     });
   };
@@ -185,7 +186,7 @@ export default function Phase2() {
     security: Joi.string().min(5).max(2000).required().label("Security Requirements"),
     quality: Joi.string().min(5).max(2000).required().label("Software Quality Attributes"),
     business: Joi.string().min(5).max(2000).required().label("Business Rules"),
-  } 
+  }
   // ------------------------- Validations --------------------------
 
   const introValidate = () => {
@@ -204,7 +205,7 @@ export default function Phase2() {
     for (let item of error.details) err[item.path] = item.message;
     return err;
   }
-  const validate = () => { 
+  const validate = () => {
     const options = { abortEarly: false };
     const title = _.pick(projectTitle, ['title', 'author', 'organization']);
     const { error } = Joi.validate(title, updateTitleSchema, options);
@@ -222,7 +223,6 @@ export default function Phase2() {
     for (let item of error.details) err[item.path] = item.message;
     return err;
   }
-
   // ------------------------- Handle Submit --------------------------
   const handleIntroSubmit = e => {
     e.preventDefault();
@@ -264,102 +264,145 @@ export default function Phase2() {
     setErrors({});
     doNonFunSubmit();
   }
- 
-
   // ------------------------- Submit API CALL --------------------------
-  
-  const doSubmit = () => { 
+
+  const doSubmit = () => {
     http.post(`${apiUrl}/project/title`, { projectId: projectId, ...projectTitle }).then((res) => {
       console.log(projectTitle);
       if (res.status === 200) {
-      console.log("Title: ", res.data);
+        console.log("Title: ", res.data);
         toast.success("Successfully Updated.");
       } else {
         toast(res);
       }
     }).catch(err => { toast.error(err.response.data) });
   }
-  const doIntroSubmit = () => {  
-      http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
-        .then(res => {
-          if (res.status === 200) {
-            toast.success("Successfully Updated.");
-          }
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        }) 
+  const doIntroSubmit = () => {
+    http.post(`${apiUrl}/project/intro`, { projectId: projectId, ...intro })
+      .then(res => {
+        if (res.status === 200) {
+          toast.success("Successfully Updated.");
+        }
+      }).catch(err => {
+        console.log(err);
+        toast.error(err);
+      })
 
   }
   const doDescSubmit = () => {
-      http.post(`${apiUrl}/project/desc`, { projectId: projectId, ...desc })
-        .then(res => {
-          if (res.status === 200) {
-            toast.success("Successfully Updated..");
-          }
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        })
+    http.post(`${apiUrl}/project/desc`, { projectId: projectId, ...desc })
+      .then(res => {
+        if (res.status === 200) {
+          toast.success("Successfully Updated..");
+        }
+      }).catch(err => {
+        console.log(err);
+        toast.error(err);
+      })
 
-    
 
-  }
-  const doNonFunSubmit = () => { 
-      // store with new entry  
-      http.post(`${apiUrl}/project/nonfun`, { projectId: projectId, ...nonFun })
-        .then(res => {
-          if (res.status === 200) {
-            toast.success("Successfully Updated.."); 
-          }
-        }).catch(err => {
-          console.log(err);
-          toast.error(err);
-        })
-  }
-  const doFeaturSubmit = e => {  
-    e.preventDefault(); 
-      http.post(`${apiUrl}/project/feature`, { projectId: projectId, features })
-        .then(res => {
-          console.log(res);
-          if (res.status === 200) {
-            toast.success("Successfully Updated."); 
-          }
-        }).catch(err => {
-          console.log(err.response);
-          setErrors({features: err.response.data});
-        })
 
   }
-  const doOtherReqSubmit = e => {  
+  const doNonFunSubmit = () => {
+    // store with new entry  
+    http.post(`${apiUrl}/project/nonfun`, { projectId: projectId, ...nonFun })
+      .then(res => {
+        if (res.status === 200) {
+          toast.success("Successfully Updated..");
+        }
+      }).catch(err => {
+        console.log(err);
+        toast.error(err);
+      })
+  }
+  const doFeaturSubmit = e => {
+    e.preventDefault();
+    http.post(`${apiUrl}/project/feature`, { projectId: projectId, features })
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          toast.success("Successfully Updated.");
+        }
+      }).catch(err => {
+        console.log(err.response);
+        setErrors({ features: err.response.data });
+      })
+
+  }
+  const doOtherReqSubmit = e => {
     e.preventDefault();
     const requirements = otherRequirements;
     http.post(`${apiUrl}/project/other`, { projectId: projectId, requirements })
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          toast.success("Successfully Updated."); 
+          toast.success("Successfully Updated.");
         }
         setErrors({});
       }).catch(err => {
         console.log(err.response);
-        setErrors({otherRequirements: err.response.data});
+        setErrors({ otherRequirements: err.response.data });
       })
 
-}
+  }
+  const quillRef = useRef();
+ 
+  const imageHandler = (e) => {
+    const editor = quillRef.current.getEditor(); 
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
 
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (/^image\//.test(file.type)) { 
+        const formData = new FormData();
+         
+        formData.append("image", file); 
+        console.log(formData); 
+        http.post(`${apiUrl}/project/uploadimg`,  formData,{
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }}
+          ).then(res=>{console.log(res);
+            let url = `http://localhost:3004${res.url}`;
+
+             url = `http://localhost:3000/backend/public/upload/image-1675100951649.png`;
+            console.log(url);
+            editor.insertEmbed(editor.getSelection(), "image", url);
+          }).catch(err=>console.log(err));
+ } else {
+        toast.info('You could only upload images.');
+      }
+    };
+  }
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' },
+        { 'indent': '-1' }, { 'indent': '+1' }],
+        ['image', "link",],
+        [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
+      ],
+      handlers: {
+        image: imageHandler
+      }
+    },
+  }), [])
   return (
     <div className="page-content">
       <div className="dash-container">
         <div className="dash-content">
-
           <PageHeader title="SRS Template" />
           <div className="row">
             <div className="row">
               <div className="col-12">
                 <div className="row">
                   <div className="col-xl-3">
-                    <div className="card sticky-top" style={{ top: '30px' }}>
+                    <div className="card sticky-top" style={{ top: '30px' }}> 
                       <div className="list-group list-group-flush" id="useradd-sidenav">
                         <a href="#title-page" onClick={() => { setActive('Title Page') }} className={`list-group-item list-group-item-action border-0 ${(active === 'Title Page') ? 'active' : ""}`}>Title Page
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
@@ -484,7 +527,9 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <Input tag='textarea' name={'perspective'} value={''} label={" Product Perspective"} error={''} onChange={''} /> 
+                          <div className={`form-group mb-3 ${''}`}>
+                          <ReactQuill theme="snow" ref={quillRef} value={interfaceRequirements || ''} modules={modules} onChange={ setInterfaceRequirements} />
+                          </div>
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
@@ -507,7 +552,7 @@ export default function Phase2() {
                           </div>
                         </div>
                         <div class="card-body">
-                          <div class="row"> 
+                          <div class="row">
                             <Quill name='features' value={features} error={errors.features} onChange={setFeatures} />
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
@@ -559,9 +604,9 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                          <Quill name='requirements' value={otherRequirements} error={errors.otherRequirements} onChange={setOtherRequirements} />
-                            
-                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <Quill name='requirements' value={otherRequirements} error={errors.otherRequirements} onChange={setOtherRequirements} />
+
+                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>

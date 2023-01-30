@@ -1,6 +1,9 @@
 const express = require('express');
 // const Joi = require('joi'); 
 const _ = require('lodash');
+const fs = require("fs");
+const multer = require("multer");
+const path = require('path');
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
 // const admin = require('../middleware/admin');
@@ -10,6 +13,7 @@ const { Description, descriptionValidation } = require('./../models/description'
 const { NonFunctional, nonfunctionalValidation } = require('./../models/nonfunctional');
 const { Features, featuresValidation } = require('./../models/features');
 const { OtherRequirements, otherReqValidation } = require('./../models/OtherRequirements');
+var imageModel = require('./../models/images'); 
 const router = express.Router();
 
 //  -----------  CHAPTER 0 : TITLE --------------
@@ -52,7 +56,6 @@ router.post('/title', [auth, manager], async (req, res, next) => {
     }
 });
 //  -----------  CHAPTER 1 : INTRO --------------
-
 // POST | ADD PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/intro', [auth, manager], async (req, res, next) => {
     try {
@@ -94,7 +97,6 @@ router.post('/intro', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-
 // PUT | GET PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.get('/intro/:id', [auth, manager], async (req, res, next) => {
     try {
@@ -183,8 +185,6 @@ router.get('/desc/:id', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-
-
 //  -----------  CHAPTER 4 : SYSTEM FEATURES  --------------
 // POST |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/feature', [auth, manager], async (req, res, next) => {
@@ -247,7 +247,6 @@ router.get('/feature/:id', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-
 //  -----------  CHAPTER 5 : Other Non Functional Requirements --------------
 // POST | ADD PROJECT NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/nonfun', [auth, manager], async (req, res, next) => {
@@ -312,8 +311,6 @@ router.get('/nonfun/:id', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-
-
 //  -----------  CHAPTER 6 : OTHER REQUIREMENTS --------------
 // POST |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/other', [auth, manager], async (req, res, next) => {
@@ -370,4 +367,48 @@ router.get('/other/:id', [auth, manager], async (req, res, next) => {
         next();
     }
 });
+let newFileName;
+const storage = multer.diskStorage({
+    destination: './public/upload',
+    filename: function (req, file, cb) {
+        newFileName = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+        cb(null, newFileName);
+    }
+});
+// initialize upload
+const upload = multer({
+    storage: storage,
+    limits: { fieldSize: 100000 }
+}).single('image');
+
+router.post("/uploadimg", [auth], (req, res, next) => {
+ try {
+    upload(req, res, async function (err) {
+        if (err) {
+            res.status(500).send({ error: err });
+        }
+        if (req.file == null) {
+            res.send('Select Image.');
+        } else {
+            // read the img file from tmp in-memory location
+            var newImg = fs.readFileSync(req.file.path);
+            // encode the file as a base64 string.
+            // var encImg = newImg.toString('base64');
+            var newItem = { 
+                url: `/public/upload/${newFileName}`
+            };
+            let img = new imageModel(newItem);
+            await img.save() 
+            console.log("Saved To database"); 
+            res.send(newItem.url); 
+        }
+    });
+ } catch (err) {
+    console.log(err);
+    next();
+ }
+
+
+})
+
 module.exports = router;

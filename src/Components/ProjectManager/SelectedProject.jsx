@@ -227,9 +227,7 @@ export default function SelectedProject({ handlePhase }) {
                                     <div className="dropdown-menu dropdown-menu-end">
                                       <a
                                         href="#!"
-                                        className="dropdown-item"
-
-                                        data-bs-whatever="Add Label"
+                                        className="dropdown-item" 
                                       >
                                         <i className="ti ti-sticker"></i>
                                         <span>Add Label</span>
@@ -243,8 +241,8 @@ export default function SelectedProject({ handlePhase }) {
                                 <div className="d-flex align-items-center justify-content-between">
                                   <ul className="list-inline mb-0">
                                     <li className="list-inline-item d-inline-flex align-items-center">
-                                      <i className="f-16 text-primary ti ti-message-2"></i>
-                                      Oct 23, 2021
+                                      {/* <i className="f-16 text-primary ti ti-message-2"></i> */}
+                                      {/* Oct 23, 2021 */}
                                     </li>
                                   </ul>
                                 </div>

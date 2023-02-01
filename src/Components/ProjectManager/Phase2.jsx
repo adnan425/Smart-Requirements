@@ -299,9 +299,6 @@ export default function Phase2() {
         console.log(err);
         toast.error(err);
       })
-
-
-
   }
   const doNonFunSubmit = () => {
     // store with new entry  
@@ -449,6 +446,7 @@ export default function Phase2() {
                         </div>
                       </form>
                     </div>
+                    {/* Chapter 1 */}
                     <div id="intro" class="card">
                       <form onSubmit={handleIntroSubmit}>
                         <div class="card-header">
@@ -481,6 +479,7 @@ export default function Phase2() {
                         </div>
                       </form>
                     </div>
+                    {/* Chapter 2 */}
                     <div id="description" class="card">
                       <form onSubmit={handleDescSubmit} >
                         <div class="card-header">
@@ -510,8 +509,9 @@ export default function Phase2() {
                         </div>
                       </form>
                     </div>
+                    {/* Chapter 3 */}
                     <div id="interface" class="card">
-                      <form >
+                      <form onSubmit={ e => e.preventDefault() } >
                         <div class="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
@@ -530,7 +530,7 @@ export default function Phase2() {
                           <div className={`form-group mb-3 ${''}`}>
                           <ReactQuill theme="snow" ref={quillRef} value={interfaceRequirements || ''} modules={modules} onChange={ setInterfaceRequirements} />
                           </div>
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div class="card-footer text-end pb-0"><Button label='Save Changes' onClick={e => e.preventDefault()} /> </div>
                           </div>
                         </div>
                       </form>

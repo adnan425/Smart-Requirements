@@ -13,43 +13,43 @@ const descriptionSchema = new mongoose.Schema({
     perspective: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 2000,
         trim: true,
     },
     functions: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 2000,
         trim: true,
     },
     characteristics:{
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 2000,
         trim: true,
     },
     envirnoment: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 2000,
         trim: true,
     },
     implementation: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 2000,
         trim: true,
     },
     documentation: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 2000,
         trim: true,
     },
     assumptions: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 2000,
         trim: true,
     },
     locked: {
@@ -67,13 +67,13 @@ function descriptionValidation(intro){
     const schema = Joi.object({
         userId:  Joi.objectId().required(),
         projectId: Joi.objectId().required(),
-        perspective: Joi.string().min(5).max(500).required(),
-        functions: Joi.string().min(5).max(500).required(),
-        characteristics: Joi.string().min(5).max(500).required(),
-        envirnoment: Joi.string().min(5).max(500).required(),
-        implementation: Joi.string().min(5).max(500).required(),
-        documentation: Joi.string().min(5).max(500).required(), 
-        assumptions: Joi.string().min(5).max(500).required(), 
+        perspective: Joi.string().min(5).max(2000).required(),
+        functions: Joi.string().min(5).max(2000).required(),
+        characteristics: Joi.string().min(5).max(2000).required(),
+        envirnoment: Joi.string().min(5).max(2000).required(),
+        implementation: Joi.string().min(5).max(2000).required(),
+        documentation: Joi.string().min(5).max(2000).required(), 
+        assumptions: Joi.string().min(5).max(2000).required(), 
     });
     return schema.validate(intro);
 

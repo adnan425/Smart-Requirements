@@ -38,7 +38,7 @@ function validateRequirement(requirement){
     const schema = Joi.object({
         projectId: Joi.objectId().required(),
         title: Joi.string().min(5).max(50).required(),
-        description: Joi.string().min(3).max(255).required(),
+        description: Joi.string().min(3).max(500).required(),
         type: Joi.string().min(10).max(30).required()
     });
     return schema.validate(requirement);

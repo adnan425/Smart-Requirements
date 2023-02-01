@@ -13,31 +13,31 @@ const introductionSchema = new mongoose.Schema({
     purpose: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 3000,
         trim: true,
     },
     conventions:{
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 3000,
         trim: true,
     },
     audience: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 3000,
         trim: true,
     },
     scope: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 3000,
         trim: true,
     },
     references: {
         type: String,
         minLength: 3,
-        maxLength: 500,
+        maxLength: 3000,
         trim: true,
     },
     locked: {
@@ -55,11 +55,11 @@ function introductionValidation(intro){
     const schema = Joi.object({
         userId:  Joi.objectId().required(),
         projectId: Joi.objectId().required(),
-        purpose: Joi.string().min(5).max(500).required(),
-        conventions: Joi.string().min(5).max(500).required(),
-        audience: Joi.string().min(5).max(500).required(),
-        scope: Joi.string().min(5).max(500).required(),
-        references: Joi.string().min(5).max(500).required(), 
+        purpose: Joi.string().min(5).max(3000).required(),
+        conventions: Joi.string().min(5).max(3000).required(),
+        audience: Joi.string().min(5).max(3000).required(),
+        scope: Joi.string().min(5).max(3000).required(),
+        references: Joi.string().min(5).max(3000).required(), 
     });
     return schema.validate(intro);
 

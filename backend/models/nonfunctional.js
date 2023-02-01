@@ -13,31 +13,31 @@ const nonfunctionalSchema = new mongoose.Schema({
     performance: {
         type: String,
         minLength: 3,
-        maxLength: 2000,
+        maxLength: 3000,
         trim: true,
     },
     safety: {
         type: String,
         minLength: 3,
-        maxLength: 2000,
+        maxLength: 3000,
         trim: true,
     },
     security:{
         type: String,
         minLength: 3,
-        maxLength: 2000,
+        maxLength: 3000,
         trim: true,
     },
     quality: {
         type: String,
         minLength: 3,
-        maxLength: 2000,
+        maxLength: 3000,
         trim: true,
     },
     business: {
         type: String,
         minLength: 3,
-        maxLength: 2000,
+        maxLength: 3000,
         trim: true,
     },  
     locked: {
@@ -55,11 +55,11 @@ function nonfunctionalValidation(nonFun){
     const schema = Joi.object({
         userId:  Joi.objectId().required(),
         projectId: Joi.objectId().required(),
-        performance: Joi.string().min(5).max(2000).required(),
-        safety: Joi.string().min(5).max(2000).required(),
-        security: Joi.string().min(5).max(2000).required(),
-        quality: Joi.string().min(5).max(2000).required(),
-        business: Joi.string().min(5).max(2000).required(),
+        performance: Joi.string().min(5).max(3000).required(),
+        safety: Joi.string().min(5).max(3000).required(),
+        security: Joi.string().min(5).max(3000).required(),
+        quality: Joi.string().min(5).max(3000).required(),
+        business: Joi.string().min(5).max(3000).required(),
     });
     return schema.validate(nonFun);
 

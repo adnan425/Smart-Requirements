@@ -14,20 +14,20 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true,
         minLength: 3,
-        maxLength: 50,
+        maxLength: 250,
         trim: true,
         unique: true
     },
     description:{
         type: String,
         minLength: 3,
-        maxLength: 250,
+        maxLength: 500,
         trim: true, 
     },
     author: {
         type: String,
         minLength: 3,
-        maxLength: 150,
+        maxLength: 200,
         trim: true,
         default: "Manager"
     },
@@ -53,8 +53,8 @@ const projectSchema = new mongoose.Schema({
 function validateProject(project) {
     const schema = Joi.object({
         managerId: Joi.objectId().required(),
-        title: Joi.string().min(3).max(255).required(),
-        description: Joi.string().min(3).max(255).required()
+        title: Joi.string().min(3).max(250).required(),
+        description: Joi.string().min(3).max(500).required()
     });
     return schema.validate(project);
 

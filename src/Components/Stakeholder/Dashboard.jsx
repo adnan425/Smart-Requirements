@@ -12,28 +12,28 @@ export default function Dashboard() {
       id: "1",
       icon: "ti ti-users",
       heading: "Users",
-      total: 10,
+      total: 1,
       className: "bg-danger",
     },
     {
       id: "2",
       icon: "ti ti-tools",
       heading: "Projects",
-      total: 10,
+      total: 1,
       className: "bg-info",
     },
     {
       id: "3",
       icon: "ti ti-box",
       heading: "Pending Projects",
-      total: 10,
+      total: 1,
       className: "bg-warning",
     },
     {
       id: "4",
       icon: "ti ti-clipboard-check",
       heading: "Completed Projects",
-      total: 10,
+      total: 0,
       className: "bg-primary",
     },
   ];
@@ -84,7 +84,7 @@ export default function Dashboard() {
                       <div className="row">
                         { cardData &&  cardData.map((card) => {
                           return (
-                            <div className="col-lg-3 col-6 d-flex">
+                            <div className="col-lg-3 col-6 d-flex" key={card.id}>
                               <div className="card w-100">
                                 <div className="card-body">
                                   <div className={"theme-avtar " +  card.className }>

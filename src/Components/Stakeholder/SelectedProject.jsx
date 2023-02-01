@@ -9,9 +9,7 @@ import Joi from 'joi-browser';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import { projectRequirements } from '../Store/Projects/projects';
-
-import Avatar from 'react-avatar';
-import { Link } from "react-router-dom";
+ 
 const apiUrl = 'http://localhost:3004/api';
 const moment = require('moment');
 
@@ -123,39 +121,39 @@ export default function SingleProject() {
                             <div className="row">
                                 <div className="row" id="printableArea">
                                     {/* Intro of Project */}
-                                    <div class="col-xxl-12">
-                                        <div class="card bg-primary">
-                                            <div class="card-body">
-                                                <div class="d-block d-sm-flex align-items-center justify-content-between">
-                                                    <h4 class="text-white"> {projectTitle}</h4>
-                                                    <div class="d-flex  align-items-center">
-                                                        <div class="px-3">
-                                                            <span class="text-white text-sm">Start Date:</span>
-                                                            <h5 class="text-white text-nowrap">{start_date}</h5>
+                                    <div className="col-xxl-12">
+                                        <div className="card bg-primary">
+                                            <div className="card-body">
+                                                <div className="d-block d-sm-flex align-items-center justify-content-between">
+                                                    <h4 className="text-white"> {projectTitle}</h4>
+                                                    <div className="d-flex  align-items-center">
+                                                        <div className="px-3">
+                                                            <span className="text-white text-sm">Start Date:</span>
+                                                            <h5 className="text-white text-nowrap">{start_date}</h5>
                                                         </div>
-                                                        <div class="px-3">
-                                                            <span class="text-white text-sm">Due Date:</span>
-                                                            <h5 class="text-white">{status}</h5>
+                                                        <div className="px-3">
+                                                            <span className="text-white text-sm">Due Date:</span>
+                                                            <h5 className="text-white">{status}</h5>
                                                         </div>
-                                                        <div class="px-3">
-                                                            <span class="text-white text-sm">Total Members:</span>
-                                                            <h5 class="text-white text-nowrap"> { project.stakeholders.length }</h5>
+                                                        <div className="px-3">
+                                                            <span className="text-white text-sm">Total Members:</span>
+                                                            {/* <h5 className="text-white text-nowrap"> { project.stakeholders.length }</h5> */}
                                                         </div>
-                                                        <div class="px-3">
+                                                        <div className="px-3">
 
-                                                            <div class="badge  bg-secondary p-2 px-3 rounded">{status}</div>
+                                                            <div className="badge  bg-secondary p-2 px-3 rounded">{status}</div>
 
                                                         </div>
                                                     </div>
 
 
-                                                    <div class="d-flex align-items-center ">
-                                                        {/* <button class="btn btn-light d-flex align-items-between me-3">
+                                                    <div className="d-flex align-items-center ">
+                                                        {/* <button className="btn btn-light d-flex align-items-between me-3">
                                                             <a href="#/" >
-                                                                <i class="ti ti-edit"> </i>
+                                                                <i className="ti ti-edit"> </i>
                                                             </a>
                                                         </button> */}
-                                                        {/* <button class="btn btn-light d"><a href="#/" class="bs-pass-para" data-toggle="popover" title="Delete" ><i class="ti ti-trash"> </i></a></button> */}
+                                                        {/* <button className="btn btn-light d"><a href="#/" className="bs-pass-para" data-toggle="popover" title="Delete" ><i className="ti ti-trash"> </i></a></button> */}
 
                                                     </div>                 
 
@@ -394,7 +392,7 @@ export default function SingleProject() {
                                     </div>
 
                                     {/* Stakeholders */}
-                                    <div className="col-xl-6">
+                                    {/* <div className="col-xl-6">
                                         <div className="card activity-scroll">
                                             <div className="card-header">
                                                 <div className="d-flex align-items-center justify-content-between">
@@ -434,9 +432,9 @@ export default function SingleProject() {
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     {/* Changes date time  */}
-                                    <div className="col-xl-6">
+                                    {/* <div className="col-xl-6">
                                         <div className="card activity-scroll">
                                             <div className="card-header">
                                                 <h5>Requirements</h5>
@@ -859,7 +857,7 @@ export default function SingleProject() {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

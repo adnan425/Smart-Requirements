@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require('path');
 const auth = require('../middleware/auth');
 const manager = require('../middleware/manager');
+const child_process = require("child_process");
 // const admin = require('../middleware/admin');
 const { validateProject, Project } = require('../models/project');
 const { introductionValidation, Introduction } = require('../models/introduction');
@@ -13,7 +14,7 @@ const { Description, descriptionValidation } = require('./../models/description'
 const { NonFunctional, nonfunctionalValidation } = require('./../models/nonfunctional');
 const { Features, featuresValidation } = require('./../models/features');
 const { OtherRequirements, otherReqValidation } = require('./../models/OtherRequirements');
-var imageModel = require('./../models/images'); 
+var imageModel = require('./../models/images');
 const router = express.Router();
 
 //  -----------  CHAPTER 0 : TITLE --------------
@@ -382,33 +383,146 @@ const upload = multer({
 }).single('image');
 
 router.post("/uploadimg", [auth], (req, res, next) => {
- try {
-    upload(req, res, async function (err) {
-        if (err) {
-            res.status(500).send({ error: err });
-        }
-        if (req.file == null) {
-            res.send('Select Image.');
-        } else {
-            // read the img file from tmp in-memory location
-            var newImg = fs.readFileSync(req.file.path);
-            // encode the file as a base64 string.
-            // var encImg = newImg.toString('base64');
-            var newItem = { 
-                url: `/public/upload/${newFileName}`
-            };
-            let img = new imageModel(newItem);
-            await img.save() 
-            console.log("Saved To database"); 
-            res.send(newItem.url); 
-        }
-    });
- } catch (err) {
-    console.log(err);
-    next();
- }
+    try {
+        upload(req, res, async function (err) {
+            if (err) {
+                res.status(500).send({ error: err });
+            }
+            if (req.file == null) {
+                res.send('Select Image.');
+            } else {
+                // read the img file from tmp in-memory location
+                var newImg = fs.readFileSync(req.file.path);
+                // encode the file as a base64 string.
+                // var encImg = newImg.toString('base64');
+                var newItem = {
+                    url: `/public/upload/${newFileName}`
+                };
+                let img = new imageModel(newItem);
+                await img.save()
+                console.log("Saved To database");
+                res.send(newItem.url);
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
 
 
 })
 
+
+function generateTexFile(data) {
+    let jsonData = {
+        title: "My Report",
+        author: "John Doe",
+        date: "January 1, 2021",
+        data: [
+            {
+                name: "Item 1",
+                value: 100
+            },
+            {
+                name: "Item 2",
+                value: 200
+            }
+        ]
+    };
+    let texFile = `
+    \\documentclass{scrreprt} 
+    \\usepackage{listings}
+    \\usepackage{underscore}
+    \\usepackage{graphicx}
+    \\usepackage[bookmarks=true]{hyperref}
+    \\usepackage[utf8]{inputenc}
+    \\usepackage[english]{babel}
+    \\hypersetup{
+        bookmarks=false,    % show bookmarks bar?
+        pdftitle={Software Requirement Specification},    % title
+        pdfauthor={Jean-Philippe Eisenbarth},                     % author
+        pdfsubject={TeX and LaTeX},                        % subject of the document
+        pdfkeywords={TeX, LaTeX, graphics, images}, % list of keywords
+        colorlinks=true,       % false: boxed links; true: colored links
+        linkcolor=blue,       % color of internal links
+        citecolor=black,       % color of links to bibliography
+        filecolor=black,        % color of file links
+        urlcolor=purple,        % color of external links
+        linktoc=page            % only page is linked
+    }% 
+    \\def\\myversion{${jsonData.title}}
+    \\date{}
+    
+    \\begin{document}
+    
+    \\begin{flushright}
+        \\rule{16cm}{5pt}\\vskip1cm
+        \\begin{bfseries}
+            \\Huge{SOFTWARE REQUIREMENTS\\ SPECIFICATION}\\
+            \\vspace{1.5cm} 
+            \\\\for\\\\
+            \\vspace{1.5cm}
+            IICT WEBSITE\\\\
+            \\vspace{1.5cm}
+            Prepared by : 1. Md. Yasmi Tohabar (2016831021)\\\\
+            2. Akaash (2016831034) 
+            \\vspace{1.5cm}
+            Submitted to : Fazle Mohammed Tawsif \\\\Lecturer\\\\
+            \\vspace{1.5cm}
+            \\today\\
+        \\end{bfseries}
+    \\end{flushright}
+    \\tableofcontents
+
+\\chapter{Introduction}
+
+\\section{Purpose}
+This is very much difficult to maintain all the data of a course as a hard copy. Any data can be changed, deleted, added at any time. Such as - A new teacher can be assigned for a course, he also can be changed ; And so many student are getting admitted every semester. So, "IICT WEBSITE" is the solution. "IICT WEBSITE" is a official website based on marking and resulting system of IICT authorized. The main concept of "IICT WEBSITE" is to devitalized PGD, MIT courses, their students and teachers data maintenance. 
+\\section{Intended Audience and Reading Suggestions}
+This SRS is for developers, project managers, users and testers. Further the discussion will provide all the internal, external, functional and also non-functional informations about "IICT WEBSITE".
+
+\\section{Project Scope}
+"IICT WEBSITE" creates a space for Director, Teachers, Students and Office Staffs for maintaining particular programs like - PGD, MIT. 
+\\newline
+After getting admitted to a programs a student has been given a registration number, by using which he/she can inter from-fill-up page. It will take his/her personal informations, admitted fee imformations.He will be added as a student of that particuler programs after completing his/her payment process. After that he/she can select course of the program and then pay the fee for that. Student profile will contain all his personal informations, past results, recent result and notifications.
+\\newline
+Office staff only post result publicly and also notice. But off course with the permission of Director.  
+\\newline
+Directors' main work is to assign teachers to the courses they will take, create teachers profile and approve mark-sheet. He can move a teacher from one course to another. He also can be a teacher and can also can take the courses and perform all the functionality of teacher like- marking papers. He can also directly post notice to the website, teachers and also students.
+\\newline
+Teachers' account are created by director. They (Teachers) entry marks of the students, can view all the marks of the students and change it after submitted it to the director. Every student of that particular course will be under the teacher who is assigned to that course. 
+\\newline
+  
+\\newline
+Teachers' account are created by director. They (Teachers) entry marks of the students, can view all the marks of the students and change it after submitted it to the director. Every student of that particular course will be under the teacher who is assigned to that course. 
+ 
+    \\end{document}`;
+    return texFile;
+}
+router.get("/generatepdf", auth, (req, res) => {
+    try {
+        const data = "adnan";
+        // Convert the JSON data to a .tex file
+        const texFile = generateTexFile(data);
+        const projectId = "23x4";
+
+        const filename = "srs_" + projectId + ".pdf";
+        const texFileName = path.resolve(filename);
+
+        fs.writeFileSync(texFileName, texFile);
+        // Convert the .tex file to a .pdf file
+        child_process.execSync(`pdflatex ${texFileName}`);
+        const pdfFile = path.resolve(texFileName);
+        if (fs.existsSync(pdfFile)) {
+            // Return the generated .pdf file
+            console.log(pdfFile);
+            res.contentType("application/pdf");
+            res.status(200).sendFile(pdfFile, { headers: { "Content-Disposition": "attachment" } });
+        } else {
+            res.status(500).send("Error: PDF file not found.");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 module.exports = router;

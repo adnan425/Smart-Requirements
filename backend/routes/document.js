@@ -1,205 +1,266 @@
-const express = require('express');
-// const Joi = require('joi'); 
-const _ = require('lodash');
+const express = require("express");
+// const Joi = require('joi');
+const _ = require("lodash");
 const fs = require("fs");
 const multer = require("multer");
-const path = require('path');
-const auth = require('../middleware/auth');
-const manager = require('../middleware/manager');
+const path = require("path");
+const auth = require("../middleware/auth");
+const manager = require("../middleware/manager");
 const child_process = require("child_process");
+const { exec } = require('child_process');
+
 // const admin = require('../middleware/admin');
-const { validateProject, Project } = require('../models/project');
-const { introductionValidation, Introduction } = require('../models/introduction');
-const { Description, descriptionValidation } = require('./../models/description');
-const { NonFunctional, nonfunctionalValidation } = require('./../models/nonfunctional');
-const { Features, featuresValidation } = require('./../models/features');
-const { OtherRequirements, otherReqValidation } = require('./../models/OtherRequirements');
-var imageModel = require('./../models/images');
+const { validateProject, Project } = require("../models/project");
+const {
+    introductionValidation,
+    Introduction,
+} = require("../models/introduction");
+const {
+    Description,
+    descriptionValidation,
+} = require("./../models/description");
+const {
+    NonFunctional,
+    nonfunctionalValidation,
+} = require("./../models/nonfunctional");
+const { Features, featuresValidation } = require("./../models/features");
+const {
+    OtherRequirements,
+    otherReqValidation,
+} = require("./../models/OtherRequirements");
+var imageModel = require("./../models/images");
 const router = express.Router();
 
 //  -----------  CHAPTER 0 : TITLE --------------
-// POST | ADD PROJECT TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.post('/title', [auth, manager], async (req, res, next) => {
+// POST | ADD PROJECT TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.post("/title", [auth, manager], async (req, res, next) => {
     try {
-        const bodyData = { "managerId": req.user._id, ...req.body, "description": "tesitng" };
-        const title = _.pick(bodyData, ['managerId', 'projectId', 'title', 'author', 'organization', 'description']);
-        const { error } = validateProject(_.pick(title, ['managerId', 'title', 'description']));
+        const bodyData = {
+            managerId: req.user._id,
+            ...req.body,
+            description: "tesitng",
+        };
+        const title = _.pick(bodyData, [
+            "managerId",
+            "projectId",
+            "title",
+            "author",
+            "organization",
+            "description",
+        ]);
+        const { error } = validateProject(
+            _.pick(title, ["managerId", "title", "description"])
+        );
         if (error) return res.status(400).send(error.details[0].message);
 
         const isUnique = await Project.findById(req.body.projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
         const isUpdate = await Project.find({ projectId: req.body.projectId });
         if (isUpdate[0]) {
             const updateId = isUpdate[0]._id;
             console.log("update");
-            let update = await Project.findOneAndUpdate({ _id: updateId },
+            let update = await Project.findOneAndUpdate(
+                { _id: updateId },
                 {
                     $set: {
                         title: req.body.title || isUnique.title,
                         author: req.body.author || isUnique.author,
-                        organization: req.body.organization || isUnique.organization
-                    }
-                });
+                        organization: req.body.organization || isUnique.organization,
+                    },
+                }
+            );
             res.status(200).send(update);
         } else {
-
             let titlee = new Project(title);
             await titlee.save();
             res.status(200).send(titlee);
-
         }
     } catch (err) {
         next();
     }
 });
 //  -----------  CHAPTER 1 : INTRO --------------
-// POST | ADD PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.post('/intro', [auth, manager], async (req, res, next) => {
+// POST | ADD PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.post("/intro", [auth, manager], async (req, res, next) => {
     try {
-        const bodyData = { "userId": req.user._id, ...req.body };
-        const intro = _.pick(bodyData, ['userId', 'projectId', 'purpose', 'conventions', 'audience', 'scope', 'references']);
+        const bodyData = { userId: req.user._id, ...req.body };
+        const intro = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "purpose",
+            "conventions",
+            "audience",
+            "scope",
+            "references",
+        ]);
         const { error } = introductionValidation(intro);
         if (error) return res.status(400).send(error.details[0].message);
 
         const isUnique = await Project.findById(req.body.projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
         const isUpdate = await Introduction.find({ projectId: req.body.projectId });
         if (isUpdate[0]) {
             const updateId = isUpdate[0]._id;
             console.log("update");
-            let update = await Introduction.findOneAndUpdate({ _id: updateId },
+            let update = await Introduction.findOneAndUpdate(
+                { _id: updateId },
                 {
                     $set: {
-                        "userId": req.user._id,
-                        "projectId": req.body.projectId,
-                        "purpose": req.body.purpose,
-                        "conventions": req.body.conventions,
-                        "audience": req.body.audience,
-                        "scope": req.body.scope,
-                        "references": req.body.references
-                    }
-                });
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        purpose: req.body.purpose,
+                        conventions: req.body.conventions,
+                        audience: req.body.audience,
+                        scope: req.body.scope,
+                        references: req.body.references,
+                    },
+                }
+            );
             res.status(200).send(update);
         } else {
             let introduction = new Introduction(intro);
             await introduction.save();
             res.status(200).send(introduction);
-
         }
     } catch (err) {
         next();
     }
 });
-// PUT | GET PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.get('/intro/:id', [auth, manager], async (req, res, next) => {
+// PUT | GET PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.get("/intro/:id", [auth, manager], async (req, res, next) => {
     try {
         const projectId = req.params.id;
         const isUnique = await Project.findById(projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
         const isHas = await Introduction.findOne({ projectId });
-        if (!isHas) return res.status(400).send('Record not found.');
+        if (!isHas) return res.status(400).send("Record not found.");
 
-        const isManager = await Project.findOne({ _id: projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
-        const intro = await Introduction.findById(isHas._id)
+        const intro = await Introduction.findById(isHas._id);
         res.status(200).send(intro);
-
-
     } catch (err) {
         console.log(err);
         next();
     }
 });
 //  -----------  CHAPTER 2 : Overall Description --------------
-// POST | ADD PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.post('/desc', [auth, manager], async (req, res, next) => {
+// POST | ADD PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.post("/desc", [auth, manager], async (req, res, next) => {
     try {
-        const bodyData = { "userId": req.user._id, ...req.body };
-        const desc = _.pick(bodyData, ['userId', 'projectId', 'perspective', 'functions', 'characteristics', 'envirnoment', 'implementation', 'documentation', 'assumptions']);
+        const bodyData = { userId: req.user._id, ...req.body };
+        const desc = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "perspective",
+            "functions",
+            "characteristics",
+            "envirnoment",
+            "implementation",
+            "documentation",
+            "assumptions",
+        ]);
         const { error } = descriptionValidation(desc);
         if (error) return res.status(400).send(error.details[0].message);
 
         const isUnique = await Project.findById(req.body.projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
         const isUpdate = await Description.find({ projectId: req.body.projectId });
         if (isUpdate[0]) {
             const updateId = isUpdate[0]._id;
             console.log("update");
-            let update = await Description.findOneAndUpdate({ _id: updateId },
+            let update = await Description.findOneAndUpdate(
+                { _id: updateId },
                 {
                     $set: {
-                        "userId": req.user._id,
-                        "projectId": req.body.projectId,
-                        "perspective": req.body.perspective,
-                        "functions": req.body.functions,
-                        "characteristics": req.body.characteristics,
-                        "implementation": req.body.implementation,
-                        "documentation": req.body.documentation,
-                        "assumptions": req.body.assumptions,
-                    }
-                });
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        perspective: req.body.perspective,
+                        functions: req.body.functions,
+                        characteristics: req.body.characteristics,
+                        implementation: req.body.implementation,
+                        documentation: req.body.documentation,
+                        assumptions: req.body.assumptions,
+                    },
+                }
+            );
             res.status(200).send(update);
         } else {
             let description = new Description(desc);
             await description.save();
             res.status(200).send(description);
-
         }
     } catch (err) {
         console.log(err);
         next();
     }
 });
-// PUT | GET PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.get('/desc/:id', [auth, manager], async (req, res, next) => {
+// PUT | GET PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.get("/desc/:id", [auth, manager], async (req, res, next) => {
     try {
         const projectId = req.params.id;
         const isUnique = await Project.findById(projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
         const isHas = await Description.findOne({ projectId });
-        if (!isHas) return res.status(400).send('Record not found.');
+        if (!isHas) return res.status(400).send("Record not found.");
 
-        const isManager = await Project.findOne({ _id: projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
-        const desc = await Description.findById(isHas._id)
+        const desc = await Description.findById(isHas._id);
         res.status(200).send(desc);
-
-
     } catch (err) {
         console.log(err);
         next();
     }
 });
 //  -----------  CHAPTER 4 : SYSTEM FEATURES  --------------
-// POST |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.post('/feature', [auth, manager], async (req, res, next) => {
+// POST |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.post("/feature", [auth, manager], async (req, res, next) => {
     try {
-        const bodyData = { "userId": req.user._id, ...req.body };
-        const feature = _.pick(bodyData, ['userId', 'projectId', 'features']);
+        const bodyData = { userId: req.user._id, ...req.body };
+        const feature = _.pick(bodyData, ["userId", "projectId", "features"]);
         const { error } = featuresValidation(feature);
         if (error) return res.status(400).send(error.details[0].message);
 
         const isUnique = await Project.findById(req.body.projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
         // if(req.body.proj)
         const isUpdate = await Features.find({ projectId: req.body.projectId });
@@ -208,9 +269,11 @@ router.post('/feature', [auth, manager], async (req, res, next) => {
         if (isUpdate[0]) {
             const featureId = isUpdate[0]._id;
             console.log(featureId);
-            let update = await Features.findOneAndUpdate({ _id: featureId }, { $set: { features: req.body.features } });
+            let update = await Features.findOneAndUpdate(
+                { _id: featureId },
+                { $set: { features: req.body.features } }
+            );
             res.status(200).send(update);
-
         } else {
             console.log("New");
 
@@ -218,66 +281,79 @@ router.post('/feature', [auth, manager], async (req, res, next) => {
             await features.save();
             res.status(200).send(features);
         }
-
-
     } catch (err) {
         console.log(err);
         next();
     }
 });
-// GET |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.get('/feature/:id', [auth, manager], async (req, res, next) => {
+// GET |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.get("/feature/:id", [auth, manager], async (req, res, next) => {
     try {
-
         const projectId = req.params.id;
         const isUnique = await Project.findById(projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
         const isHas = await Features.findOne({ projectId });
-        if (!isHas) return res.status(400).send('Record not found.');
+        if (!isHas) return res.status(400).send("Record not found.");
 
-        const isManager = await Project.findOne({ _id: projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
-        const feature = await Features.findById(isHas._id)
+        const feature = await Features.findById(isHas._id);
         res.status(200).send(feature);
-
-
     } catch (err) {
         console.log(err);
         next();
     }
 });
 //  -----------  CHAPTER 5 : Other Non Functional Requirements --------------
-// POST | ADD PROJECT NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.post('/nonfun', [auth, manager], async (req, res, next) => {
+// POST | ADD PROJECT NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.post("/nonfun", [auth, manager], async (req, res, next) => {
     try {
-        const bodyData = { "userId": req.user._id, ...req.body };
-        const nonFun = _.pick(bodyData, ['userId', 'projectId', 'performance', 'safety', 'security', 'quality', 'business']);
+        const bodyData = { userId: req.user._id, ...req.body };
+        const nonFun = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "performance",
+            "safety",
+            "security",
+            "quality",
+            "business",
+        ]);
         const { error } = nonfunctionalValidation(nonFun);
         if (error) return res.status(400).send(error.details[0].message);
 
         const isUnique = await Project.findById(req.body.projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
-        const isUpdate = await NonFunctional.find({ projectId: req.body.projectId });
+        const isUpdate = await NonFunctional.find({
+            projectId: req.body.projectId,
+        });
         if (isUpdate[0]) {
             const updateId = isUpdate[0]._id;
-            let update = await NonFunctional.findOneAndUpdate({ _id: updateId },
+            let update = await NonFunctional.findOneAndUpdate(
+                { _id: updateId },
                 {
                     $set: {
-                        "userId": req.user._id,
-                        "projectId": req.body.projectId,
-                        "performance": req.body.perspective,
-                        "safety": req.body.functions,
-                        "security": req.body.characteristics,
-                        "quality": req.body.implementation,
-                        "business": req.body.documentation
-                    }
-                });
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        performance: req.body.perspective,
+                        safety: req.body.functions,
+                        security: req.body.characteristics,
+                        quality: req.body.implementation,
+                        business: req.body.documentation,
+                    },
+                }
+            );
             res.status(200).send(update);
         } else {
             let nonfunction = new NonFunctional(nonFun);
@@ -289,53 +365,64 @@ router.post('/nonfun', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-// GET |  NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.get('/nonfun/:id', [auth, manager], async (req, res, next) => {
+// GET |  NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.get("/nonfun/:id", [auth, manager], async (req, res, next) => {
     try {
-
         const projectId = req.params.id;
         const isUnique = await Project.findById(projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
         const isHas = await NonFunctional.findOne({ projectId });
-        if (!isHas) return res.status(400).send('Record not found.');
+        if (!isHas) return res.status(400).send("Record not found.");
 
-        const isManager = await Project.findOne({ _id: projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
-        const intro = await NonFunctional.findById(isHas._id)
+        const intro = await NonFunctional.findById(isHas._id);
         res.status(200).send(intro);
-
-
     } catch (err) {
         console.log(err);
         next();
     }
 });
 //  -----------  CHAPTER 6 : OTHER REQUIREMENTS --------------
-// POST |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.post('/other', [auth, manager], async (req, res, next) => {
+// POST |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.post("/other", [auth, manager], async (req, res, next) => {
     try {
-        const bodyData = { "userId": req.user._id, ...req.body };
-        const otherRequir = _.pick(bodyData, ['userId', 'projectId', 'requirements']);
+        const bodyData = { userId: req.user._id, ...req.body };
+        const otherRequir = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "requirements",
+        ]);
         const { error } = otherReqValidation(otherRequir);
         if (error) return res.status(400).send(error.details[0].message);
 
         const isUnique = await Project.findById(req.body.projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne({ _id: req.body.projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
         // if(req.body.proj)
-        const isUpdate = await OtherRequirements.find({ projectId: req.body.projectId });
+        const isUpdate = await OtherRequirements.find({
+            projectId: req.body.projectId,
+        });
         console.log(isUpdate[0]);
 
         if (isUpdate[0]) {
             const featureId = isUpdate[0]._id;
-            let update = await OtherRequirements.findOneAndUpdate({ _id: featureId }, { $set: { requirements: req.body.requirements } });
+            let update = await OtherRequirements.findOneAndUpdate(
+                { _id: featureId },
+                { $set: { requirements: req.body.requirements } }
+            );
             res.status(200).send(update);
-
         } else {
             let otherReq = new OtherRequirements(otherRequir);
             await otherReq.save();
@@ -346,23 +433,24 @@ router.post('/other', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-// GET |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
-router.get('/other/:id', [auth, manager], async (req, res, next) => {
+// GET |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.get("/other/:id", [auth, manager], async (req, res, next) => {
     try {
         const projectId = req.params.id;
         const isUnique = await Project.findById(projectId);
-        if (!isUnique) return res.status(400).send('Project not found.');
+        if (!isUnique) return res.status(400).send("Project not found.");
 
         const isHas = await OtherRequirements.findOne({ projectId });
-        if (!isHas) return res.status(400).send('Record not found.');
+        if (!isHas) return res.status(400).send("Record not found.");
 
-        const isManager = await Project.findOne({ _id: projectId }, { manager: req.user._id });
-        if (!isManager) return res.status(403).send('Access denied.');
+        const isManager = await Project.findOne(
+            { _id: projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
 
-        const requirements = await OtherRequirements.findById(isHas._id)
+        const requirements = await OtherRequirements.findById(isHas._id);
         res.status(200).send(requirements);
-
-
     } catch (err) {
         console.log(err);
         next();
@@ -370,17 +458,18 @@ router.get('/other/:id', [auth, manager], async (req, res, next) => {
 });
 let newFileName;
 const storage = multer.diskStorage({
-    destination: './public/upload',
+    destination: "./public/upload",
     filename: function (req, file, cb) {
-        newFileName = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+        newFileName =
+            file.fieldname + "-" + Date.now() + path.extname(file.originalname);
         cb(null, newFileName);
-    }
+    },
 });
 // initialize upload
 const upload = multer({
     storage: storage,
-    limits: { fieldSize: 100000 }
-}).single('image');
+    limits: { fieldSize: 100000 },
+}).single("image");
 
 router.post("/uploadimg", [auth], (req, res, next) => {
     try {
@@ -389,17 +478,17 @@ router.post("/uploadimg", [auth], (req, res, next) => {
                 res.status(500).send({ error: err });
             }
             if (req.file == null) {
-                res.send('Select Image.');
+                res.send("Select Image.");
             } else {
                 // read the img file from tmp in-memory location
                 var newImg = fs.readFileSync(req.file.path);
                 // encode the file as a base64 string.
                 // var encImg = newImg.toString('base64');
                 var newItem = {
-                    url: `/public/upload/${newFileName}`
+                    url: `/public/upload/${newFileName}`,
                 };
                 let img = new imageModel(newItem);
-                await img.save()
+                await img.save();
                 console.log("Saved To database");
                 res.send(newItem.url);
             }
@@ -408,27 +497,10 @@ router.post("/uploadimg", [auth], (req, res, next) => {
         console.log(err);
         next();
     }
+});
 
-
-})
-
-
-function generateTexFile(data) {
-    let jsonData = {
-        title: "My Report",
-        author: "John Doe",
-        date: "January 1, 2021",
-        data: [
-            {
-                name: "Item 1",
-                value: 100
-            },
-            {
-                name: "Item 2",
-                value: 200
-            }
-        ]
-    };
+function generateTexFile(jsonData) {
+     
     let texFile = `
     \\documentclass{scrreprt} 
     \\usepackage{listings}
@@ -464,65 +536,250 @@ function generateTexFile(data) {
             \\vspace{1.5cm}
             IICT WEBSITE\\\\
             \\vspace{1.5cm}
-            Prepared by : 1. Md. Yasmi Tohabar (2016831021)\\\\
-            2. Akaash (2016831034) 
+            \\LARGE{Version \\myversion}\\\\
+            \\vspace{1.5cm}
+            Prepared by : 1. Md. Yasmi Tohabar (2016831021)\\
+            2. Akaash (2016831034)\\\\
             \\vspace{1.5cm}
             Submitted to : Fazle Mohammed Tawsif \\\\Lecturer\\\\
             \\vspace{1.5cm}
             \\today\\
         \\end{bfseries}
     \\end{flushright}
+    
+    
     \\tableofcontents
-
-\\chapter{Introduction}
-
-\\section{Purpose}
-This is very much difficult to maintain all the data of a course as a hard copy. Any data can be changed, deleted, added at any time. Such as - A new teacher can be assigned for a course, he also can be changed ; And so many student are getting admitted every semester. So, "IICT WEBSITE" is the solution. "IICT WEBSITE" is a official website based on marking and resulting system of IICT authorized. The main concept of "IICT WEBSITE" is to devitalized PGD, MIT courses, their students and teachers data maintenance. 
-\\section{Intended Audience and Reading Suggestions}
-This SRS is for developers, project managers, users and testers. Further the discussion will provide all the internal, external, functional and also non-functional informations about "IICT WEBSITE".
-
-\\section{Project Scope}
-"IICT WEBSITE" creates a space for Director, Teachers, Students and Office Staffs for maintaining particular programs like - PGD, MIT. 
-\\newline
-After getting admitted to a programs a student has been given a registration number, by using which he/she can inter from-fill-up page. It will take his/her personal informations, admitted fee imformations.He will be added as a student of that particuler programs after completing his/her payment process. After that he/she can select course of the program and then pay the fee for that. Student profile will contain all his personal informations, past results, recent result and notifications.
-\\newline
-Office staff only post result publicly and also notice. But off course with the permission of Director.  
-\\newline
-Directors' main work is to assign teachers to the courses they will take, create teachers profile and approve mark-sheet. He can move a teacher from one course to another. He also can be a teacher and can also can take the courses and perform all the functionality of teacher like- marking papers. He can also directly post notice to the website, teachers and also students.
-\\newline
-Teachers' account are created by director. They (Teachers) entry marks of the students, can view all the marks of the students and change it after submitted it to the director. Every student of that particular course will be under the teacher who is assigned to that course. 
-\\newline
-  
-\\newline
-Teachers' account are created by director. They (Teachers) entry marks of the students, can view all the marks of the students and change it after submitted it to the director. Every student of that particular course will be under the teacher who is assigned to that course. 
- 
+    
+    \\chapter{Introduction}
+    
+    \\section{Purpose}
+    This is very much difficult to maintain all the data of a course as a hard copy. Any data can be changed, deleted, added at any time. Such as - A new teacher can be assigned for a course, he also can be changed ; And so many student are getting admitted every semester. So, "IICT WEBSITE" is the solution. "IICT WEBSITE" is a official website based on marking and resulting system of IICT authorized. The main concept of "IICT WEBSITE" is to devitalized PGD, MIT courses, their students and teachers data maintenance. 
+    \\section{Intended Audience and Reading Suggestions}
+    This SRS is for developers, project managers, users and testers. Further the discussion will provide all the internal, external, functional and also non-functional informations about "IICT WEBSITE".
+    
+    \\section{Project Scope}
+    "IICT WEBSITE" creates a space for Director, Teachers, Students and Office Staffs for maintaining particular programs like - PGD, MIT. 
+    \\newline
+    After getting admitted to a programs a student has been given a registration number, by using which he/she can inter from-fill-up page. It will take his/her personal informations, admitted fee imformations.He will be added as a student of that particuler programs after completing his/her payment process. After that he/she can select course of the program and then pay the fee for that. Student profile will contain all his personal informations, past results, recent result and notifications.
+    \\newline
+    Office staff only post result publicly and also notice. But off course with the permission of Director.  
+    \\newline
+    Directors' main work is to assign teachers to the courses they will take, create teachers profile and approve mark-sheet. He can move a teacher from one course to another. He also can be a teacher and can also can take the courses and perform all the functionality of teacher like- marking papers. He can also directly post notice to the website, teachers and also students.
+    \\newline
+    Teachers' account are created by director. They (Teachers) entry marks of the students, can view all the marks of the students and change it after submitted it to the director. Every student of that particular course will be under the teacher who is assigned to that course. 
+    \\newline
+    \\begin{figure}
+        \\centering 
+        \\caption{Entire work-flow}
+        \\label{fig:IICT WEBSITE}
+    \\end{figure}
+    \\newline
+    Figure 1.1 (Entire work-flow) is the overview of the project. Connection of all the entities are dependable to each others.  This gives the simple idea about the functional activities of the project. 
+    \\newline
+    Student cycle, In the Figure 1.1 "Student" takes "Courses" ; "Courses" is guided by "Teachers"; "Teachers" creates "Results". 
+    \\newline
+    Teacher cycle, In the Figure 1.1 "Director" assign "Teachers"; "Teachers" for particular "Courses"; "Director" publish "Results".
+    \\newline
+    So, every entity is vary much interactive with each other.
+    \\section{Product Perspective}
+    "IICT WEBSITE" is the replacement of the manual hard copy result process. The data have been stored in the hard file or papers, this website will store all of those in the website. Main goal of this project is to minimize the work and maximize the result of this result processing system.
+    
+    \\section{User Classes and Characteristics}
+    "IICT WEBSITE" has basically 4 types of users. 
+    \\begin{itemize}
+      \\item Teachers
+        \\begin{itemize}
+            \\item Director
+            \\item Course Teacher
+        \\end{itemize}
+      \\item Students
+      \item Official Staff
+    \\end{itemize}
+    Teacher has 2 types - Director defines the course teachers who will take the courses. Student fulfill all the requirements like- fees, informations can take advantages of the website. 
+    \\begin{figure}
+        \\centering 
+        \\caption{type of users}
+        \\label{fig:type of users}
+    \\end{figure}
+    \\section{Product Functions}
+    "IICT WEBSITE" store all the results of the students of program PGD, MIT. Also others programs can be included if necessary.
+    \\begin{figure}[h!]
+        \centering
+        \includegraphics[width=15cm]{3.JPG}
+        \caption{Data Flow Diagram}
+        \label{fig:Data Flow Diagram}
+    \\end{figure}
+    Before using the main function of the software result process, users have to be registered. 
+    \\newline
+    All users have - login\_parameter, user\_name, first\_name, last\_name, user\_id, role, post, email, phone\_number, present\_address, parmanent\_address, blood\_group, password\_hash and timeStamp.
+    \\newline
+    Students have some extra informations after complete his/her registration , such as - user\_id(foreign key), registration\_id, year, semester, course\_array and drop\_course\_array. These are the information that contains his/her result of his taken courses and program.
+    \\newline
+    Each programs has some data - program\_name, program\_id, course\_id, nunmber\_of\_semester, total\_credit and course\_length. There will be onew or many course\_id in each programs.
+    \\newline
+    Courses table contains - course\_name, course\_id, course\_code, credit, semester and teacher\_id.
+    \\newline
+    Every course has its own Credit Values. Those have been 2 types - lab, theory.
+    \\newline
+    Result is the main feature of all. It contains the values of all the exams of a particular student. It has data field - student\_id, course\_id, term\_test, attendance, marks(A), marks(B), teacher\_id(A), teacher\_id(B), entry\_date(A), entry\_date(B), publish\_date, semester	and result\_state.
+    
+    \\section{Operating Environment}
+    The website will be operate in any Operating Environment - Mac, Windows, Linux etc. 
+    \\section{Design}
+    Student activities have 3 steps -
+    \\begin{itemize}
+        \\item From Fill Up Process
+        \\item Courses Payment
+        \\item Student Profile
+    \\end{itemize}
+    Top selected Student first fill his/her form, bank payment. After verification, student pays for their selected courses. Then he can enter his profile. 
+    \\newline
+    Every student profile contains his/her personal information, results, taken courses, dropped courses and notice.
+    \\newline
+    Notice will contain all the news of IICT.
+    
+    \\begin{figure}[h!]
+        \\centering
+        includegraphics[width=15cm]{4.JPG}
+        \\caption{Student Activities}
+        \\label{fig:Students Activites}
+    \\end{figure}
+    \\newpage
+    Teacher activities have 2 steps - 
+    \\begin{itemize}
+        \\item Director
+        \\item Course Teacher
+    \\end{itemize}
+    Director can re-view the result, publish result, give notice and also create teacher. He can also perform course teacher activities.
+    \\newline
+    Teacher creates results, view students and create notice.
+    \\newline
+    \\begin{figure}[h!]
+        \\centering
+        includegraphics[width=10cm]{5.JPG}
+        \\caption{Teacher Activities}
+        \\label{fig:Teacher Activities}
+    \\end{figure}
+    \\newline
+    Staff has only one activity 
+    \\begin{itemize}
+        \\item Notice
+    \\end{itemize} 
+    \\begin{figure}[h!]
+        \\centering
+        includegraphics[width=5cm]{6.JPG}
+        \\caption{Staff Activities}
+        \\label{fig:Staff Activities}
+    \\end{figure}
+    
+    \\chapter{System Features}
+    "IICT WEBSITE" is a result processing web software. So the main art of this product is to enter data of results and publish. 
+    
+    \\section{Description and Priority}
+    "IICT WEBSITE" has features that are main and also some are sub. But all the feature is necessary for this software.
+    \\newline
+    The features with priority up to down - 
+    \\begin{enumerate}
+        \\item Result Creation : This is the goal feature of this software. It is been operated by teachers. They input the results of the students.
+        \\item Result Re-view : This is done by director.
+        \\item Result Publish : It is basically notice. This is mainly done by director or sometimes by staffs commanded by director.
+        \\item Teacher : Teacher takes the courses and create the results.
+        \\item Student : Student takes the courses of a program.
+        \\item Staff : Their only work is to post notice.
+    \\end{enumerate}
+    \\section{Functional Requirements}
+    The "IICT WEBSITE" website is being build on .NET framework, C\\# language, React, React Redux, JavaScript and MongoDB.
+    \\newline
+    Back-End - .NET framework, C\\# language.
+    \\newline
+    Font-End - React, React Redux, JavaScript.
+    \\newline
+    Database -  MongoDB.
+    
+    
+    \\chapter{Other Nonfunctional Requirements}
+    
+    \\section{Performance Requirements}
+    "IICT WEBSITE" will be used for result system of IICT programs, like - PGD, MIT. So for more interaction .NET, React and MongoDB is used. 
+    
+    \\section{Security Requirements}
+    No one without registered users can inter to the website. One particular user of a section only can perform his/her particular actions. 
+    
+    \\section{Software Quality Attributes}
+    In the development phase also testing and conferences of users is been continued. So that the quality of the software is been maintained and all the requirements are been fulfilled.
+    \\newline
+    Database, logical and also UI test is required. 
+    
+    \\section{Business Rules}
+    "IICT WEBSITE" is for storing students results and publish those results of particular programs.
+    \\newline
+    Basically save working time and pressure. 
+    
+    
+    \\chapter{Other Requirements}
+    "IICT WEBSITE" needs maintenance as it is a long process software. It will need re-factoring and further the requirements can be changed as the field is changing frequently. 
+    
     \\end{document}`;
     return texFile;
 }
 router.get("/generatepdf", auth, (req, res) => {
-    try {
-        const data = "adnan";
-        // Convert the JSON data to a .tex file
-        const texFile = generateTexFile(data);
-        const projectId = "23x4";
-
-        const filename = "srs_" + projectId + ".pdf";
+    
+        let jsonData = {
+            title: "My Report",
+            author: "John Doe",
+            date: "January 1, 2021",
+            data: [
+                {
+                    name: "Item 1",
+                    value: 100
+                },
+                {
+                    name: "Item 2",
+                    value: 200
+                }
+            ]
+        };
+        const projectId = "63d9f3eb9d3284c80d853a30";
+        const srsData  = null;
+        
+        const texFile = generateTexFile(jsonData);  
+    
+        const filename = "srs_" + projectId + ".tex";
         const texFileName = path.resolve(filename);
+        fs.writeFile(texFileName, texFile, (err) => {
+            if (err) {
+                console.error("An error occurred while writing the file.");
+                res.status(500).send("An error occurred while writing the file.");
+                return;
+            }
+            console.log("File has been successfully written.");
+            exec(`pdflatex ${texFileName}`, (err, stdout, stderr) => {
+                if (err) {
+                    console.error(`Error: ${err}`);
+                    res.status(500).send(`Error: ${err}`);
+                    return;
+                }
+                console.error(`stdout: ${stdout}`);
+                console.error(`stderr: ${stderr}`);
+                if (stderr) {
+                    console.error(`LaTeX compiling errors: ${stderr}`);
+                    res.status(500).send(`LaTeX compiling errors: ${stderr}`);
+                    return;
+                }
+                const pdfFile = path.resolve(filename.replace(".tex", ".pdf"));
+                if (!fs.existsSync(pdfFile)) {
+                    console.error("Error: PDF file not found.");
+                    return res.status(500).send("Error: PDF file not found.");
+                }
+                console.log("File has been successfully converted to PDF.");
+                res.contentType("application/pdf");
+                res.setHeader("Content-Disposition", "attachment");
+                return res.status(200).sendFile(pdfFile);
+            });
+        });
+       
+  });
+  
 
-        fs.writeFileSync(texFileName, texFile);
-        // Convert the .tex file to a .pdf file
-        child_process.execSync(`pdflatex ${texFileName}`);
-        const pdfFile = path.resolve(texFileName);
-        if (fs.existsSync(pdfFile)) {
-            // Return the generated .pdf file
-            console.log(pdfFile);
-            res.contentType("application/pdf");
-            res.status(200).sendFile(pdfFile, { headers: { "Content-Disposition": "attachment" } });
-        } else {
-            res.status(500).send("Error: PDF file not found.");
-        }
-    } catch (error) {
-        console.log(error);
-    }
-});
+  
 module.exports = router;

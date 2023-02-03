@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.2)  3 FEB 2023 11:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.2)  3 FEB 2023 14:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_23x4.pdf
-(C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_23x4.pdf
+**C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_23x4.tex
+(C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_23x4.tex
 LaTeX2e <2022-06-01> patch level 5
 L3 programming layer <2022-07-04>
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrreprt.cl
@@ -483,7 +483,14 @@ Overfull \hbox (36.98853pt too wide) in paragraph at lines 28--28
 [1
 
 {C:/Users/Adnan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-(srs_23x4.toc)
+(srs_23x4.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 3.
+)
 \tf@toc=\write4
 \openout4 = `srs_23x4.toc'.
 
@@ -506,40 +513,62 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              a package that still implements the
 (scrreprt)              deprecated \float@addtolist interface.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 54--64
-
- []
-
 [3
 
 ]
+Overfull \hbox (8.89828pt too wide) in paragraph at lines 102--122
+\OT1/cmr/m/n/10.95 Courses ta-ble con-tains - course[]-name, course[]-id, cours
+e[]-code, credit, semester and teacher[]-
+ []
 
-! LaTeX Error: There's no line here to end.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.65 \newline
-             
-? 
-! Emergency stop.
- ...                                              
-                                                  
-l.65 \newline
-             
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+Overfull \hbox (20.50552pt too wide) in paragraph at lines 102--122
+\OT1/cmr/m/n/10.95 marks(B), teacher[]-id(A), teacher[]-id(B), en-try[]-date(A)
+, en-try[]-date(B), pub-lish[]-date, semester
+ []
 
- 
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[4]
+Overfull \hbox (9.1904pt too wide) in paragraph at lines 132--137
+\OT1/cmr/m/n/10.95 Every stu-dent pro-file con-tains his/her per-sonal in-for-m
+a-tion, re-sults, taken courses, dropped
+ []
+
+[5] [6]
+chapter 2.
+[7
+
+]
+chapter 3.
+[8
+
+]
+chapter 4.
+[9
+
+] (srs_23x4.aux)
+Package rerunfilecheck Info: File `srs_23x4.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+ ) 
 Here is how much of TeX's memory you used:
- 13884 strings out of 478334
- 250794 string characters out of 5836657
- 707242 words of memory out of 5000000
- 32160 multiletter control sequences out of 15000+600000
- 471361 words of font info for 35 fonts, out of 8000000 for 9000
+ 13962 strings out of 478334
+ 251559 string characters out of 5836657
+ 710242 words of memory out of 5000000
+ 32199 multiletter control sequences out of 15000+600000
+ 474448 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,7n,106p,10678b,478s stack positions out of 10000i,1000n,20000p,200000b,200000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 108i,7n,106p,10678b,472s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Adnan\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1095.pk><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmbx12.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmssbx10.pfb>
+Output written on srs_23x4.pdf (9 pages, 97565 bytes).
+PDF statistics:
+ 182 PDF objects out of 1000 (max. 8388607)
+ 40 named destinations out of 1000 (max. 500000)
+ 145 words of extra memory for PDF output out of 10000 (max. 10000000)
+

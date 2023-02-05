@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.2)  3 FEB 2023 19:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.2)  5 FEB 2023 12:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_63d9f3eb9d3284c80d853a3
-0-.tex
+**C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_363d9f3eb9d3284c80d853a
+30.tex
 
-(C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_63d9f3eb9d3284c80d853a30
--.tex
+(C:/Users/Adnan/Desktop/Smart-Requirements/backend/srs_363d9f3eb9d3284c80d853a3
+0.tex
 LaTeX2e <2022-06-01> patch level 5
 L3 programming layer <2022-07-04>
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrreprt.cl
@@ -384,9 +384,8 @@ tex.def
 File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count282
 \l__pdf_internal_box=\box55
-)
-No file srs_63d9f3eb9d3284c80d853a30-.aux.
-\openout1 = `srs_63d9f3eb9d3284c80d853a30-.aux'.
+) (srs_363d9f3eb9d3284c80d853a30.aux)
+\openout1 = `srs_363d9f3eb9d3284c80d853a30.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
@@ -460,8 +459,9 @@ Package color Info: Driver file: pdftex.def on input line 149.
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 )
 Package hyperref Info: Link coloring ON on input line 25.
+ (srs_363d9f3eb9d3284c80d853a30.out) (srs_363d9f3eb9d3284c80d853a30.out)
 \@outlinefile=\write3
-\openout3 = `srs_63d9f3eb9d3284c80d853a30-.out'.
+\openout3 = `srs_363d9f3eb9d3284c80d853a30.out'.
 
 Class scrreprt Info: loading recommended package `bookmark'.
 (scrreprt)           Using `bookmark' together with `hyperref' is recommended,
@@ -471,110 +471,9 @@ Class scrreprt Info: loading recommended package `bookmark'.
 (scrreprt)           you can avoid this message adding:
 (scrreprt)             \usepackage{bookmark}
 (scrreprt)           before \begin{document} on input line 25.
- (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
+
+(C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
 
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bkm-pdftex.def
-File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count290
-))
-Overfull \hbox (36.98853pt too wide) in paragraph at lines 28--28
- []
- []
-
-[1
-
-{C:/Users/Adnan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-No file srs_63d9f3eb9d3284c80d853a30-.toc.
-\tf@toc=\write4
-\openout4 = `srs_63d9f3eb9d3284c80d853a30-.toc'.
-
-[2
-
-]
-chapter 1.
-
-Class scrreprt Warning: \float@addtolists detected!
-(scrreprt)              Implementation of \float@addtolist became
-(scrreprt)              deprecated in KOMA-Script v3.01 2008/11/14 and
-(scrreprt)              has been replaced by several more flexible
-(scrreprt)              features of package `tocbasic`.
-(scrreprt)              Since Version 3.12 support for deprecated
-(scrreprt)              \float@addtolist interface has been
-(scrreprt)              restricted to only some of the KOMA-Script
-(scrreprt)              features and been removed from others.
-(scrreprt)              Loading of package `scrhack' may help to
-(scrreprt)              avoid this warning, if you are using a
-(scrreprt)              a package that still implements the
-(scrreprt)              deprecated \float@addtolist interface.
-
-[3
-
-]
-Overfull \hbox (8.89828pt too wide) in paragraph at lines 102--122
-\OT1/cmr/m/n/10.95 Courses ta-ble con-tains - course[]-name, course[]-id, cours
-e[]-code, credit, semester and teacher[]-
- []
-
-
-Overfull \hbox (20.50552pt too wide) in paragraph at lines 102--122
-\OT1/cmr/m/n/10.95 marks(B), teacher[]-id(A), teacher[]-id(B), en-try[]-date(A)
-, en-try[]-date(B), pub-lish[]-date, semester
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[4]
-Overfull \hbox (9.1904pt too wide) in paragraph at lines 132--137
-\OT1/cmr/m/n/10.95 Every stu-dent pro-file con-tains his/her per-sonal in-for-m
-a-tion, re-sults, taken courses, dropped
- []
-
-[5] [6]
-chapter 2.
-[7
-
-]
-chapter 3.
-[8
-
-]
-chapter 4.
-[9
-
-] (srs_63d9f3eb9d3284c80d853a30-.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `srs_63d9f3eb9d3284c80d853a30-.out' has ch
-anged.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `srs_63d9f3eb9d3284c80d853a30-.out':
-
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
- ) 
-Here is how much of TeX's memory you used:
- 13934 strings out of 478334
- 251285 string characters out of 5836657
- 701926 words of memory out of 5000000
- 32185 multiletter control sequences out of 15000+600000
- 472009 words of font info for 37 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 108i,7n,106p,10699b,472s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Adnan\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
-1095.pk><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmbx10.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmbx12.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmssbx10.pfb>
-Output written on srs_63d9f3eb9d3284c80d853a30-.pdf (9 pages, 93124 bytes).
-PDF statistics:
- 164 PDF objects out of 1000 (max. 8388607)
- 40 named destinations out of 1000 (max. 500000)
- 145 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+File: bkm-pdftex.def 2020-11-06 v1.29 bookm

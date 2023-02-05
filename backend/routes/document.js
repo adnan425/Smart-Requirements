@@ -205,6 +205,7 @@ router.post("/desc", [auth, manager], async (req, res, next) => {
                         perspective: req.body.perspective,
                         functions: req.body.functions,
                         characteristics: req.body.characteristics,
+                        envirnoment: req.body.envirnoment,
                         implementation: req.body.implementation,
                         documentation: req.body.documentation,
                         assumptions: req.body.assumptions,
@@ -506,8 +507,6 @@ const htmlToLatex = async (html) => {
   
   
  function generateTexFile(srsData) {
-    
-
     let jsonData = {
         title: "My Report",
         author: "John Doe",
@@ -560,7 +559,7 @@ const htmlToLatex = async (html) => {
             \\vspace{1.5cm}
             \\LARGE{Version \\myversion}\\\\
             \\vspace{1.5cm}
-            Prepared by : ${srsData.project.author}\\ 
+            Prepared by : ${srsData.project.author}\\\\ 
             \\vspace{1.5cm}
             \\today\\
         \\end{bfseries}
@@ -572,14 +571,14 @@ const htmlToLatex = async (html) => {
     \\chapter{Introduction} 
     \\section{Purpose}
     ${srsData.intro[0].purpose}
-    \\section{Document Conventions}
-    ${srsData.intro[0].conventions}
+    \\section{Document Conventions} 
+    ${srsData.conventionLatex}
     \\section{Intended Audience and Reading Suggestions}
-    ${srsData.intro[0].audience}
+    ${srsData.conventionLatex}
     \\section{Product Scope}
-    ${srsData.intro[0].scope}
-    \\section{References}
-    ${srsData.intro[0].references}
+    ${srsData.scopeLatex}
+    \\section{References} 
+    ${srsData.referencesLatex}
     
     \\chapter{Overall Description} 
     \\section{Product Perspective}
@@ -611,6 +610,11 @@ const htmlToLatex = async (html) => {
     ${srsData.nonFun[0].quality}  
     \\section{Business Rules} 
     ${srsData.nonFun[0].business}
+
+    \\chapter{Other Requirements}
+    ${srsData.otherReqLatex}
+
+
     \\end{document}`;
     return texFile;
 }
@@ -620,22 +624,34 @@ router.get("/generatepdf", auth, async (req, res) => {
     const query = { projectId: projectId };
     const project = await Project.findById(projectId).select('-description -status -stakeholders');
     const intro = await Introduction.find(query).select('-_id -userId -projectId -locked');
+    const conventionLatex = await htmlToLatex(intro[0].conventions);
+    const audienceLatex = await htmlToLatex(intro[0].audience);
+    const scopeLatex = await htmlToLatex(intro[0].scope);
+    const referencesLatex = await htmlToLatex(intro[0].references);
+
     const desc = await Description.find(query).select('-_id -userId -projectId -locked');
     const features = await Features.find(query).select('-_id -userId -projectId -locked');
+    const featuresLatex = await htmlToLatex(features[0].features); 
      
     const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
     const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
-    const featuresLatex = await htmlToLatex(features[0].features);
+    const otherReqLatex = await htmlToLatex(otherReq[0].requirements); 
+
+
     srsData = { ...srsData, project };
     srsData = { ...srsData, intro };
+    srsData = { ...srsData, conventionLatex };
+    srsData = { ...srsData, audienceLatex };
+    srsData = { ...srsData, scopeLatex };
+    srsData = { ...srsData, referencesLatex };
     srsData = { ...srsData, desc };
     srsData = { ...srsData, featuresLatex };
     srsData = { ...srsData, nonFun };
-    srsData = { ...srsData, otherReq };
-
+    srsData = { ...srsData, otherReqLatex };
+console.log(srsData);
     const texFile = generateTexFile(srsData);
 
-    const filename = "srs_1" + projectId + ".tex";
+    const filename = "srs_" + projectId + ".tex";
     const texFileName = path.resolve(filename);
     fs.writeFile(texFileName, texFile, (err) => {
         if (err) {

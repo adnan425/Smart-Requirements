@@ -1,5 +1,5 @@
 import Joi from 'joi-browser';
-import React, { useState, useEffect , useMemo, useRef} from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill';
 
@@ -343,9 +343,15 @@ export default function Phase2() {
 
   }
   const quillRef = useRef();
- 
+  const handleQuillChange = (value, field) => {
+    setIntro({
+      ...intro,
+      [field]: value
+    });
+  }
+
   const imageHandler = (e) => {
-    const editor = quillRef.current.getEditor(); 
+    const editor = quillRef.current.getEditor();
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
@@ -353,23 +359,25 @@ export default function Phase2() {
 
     input.onchange = async () => {
       const file = input.files[0];
-      if (/^image\//.test(file.type)) { 
+      if (/^image\//.test(file.type)) {
         const formData = new FormData();
-         
-        formData.append("image", file); 
-        console.log(formData); 
-        http.post(`${apiUrl}/project/uploadimg`,  formData,{
+
+        formData.append("image", file);
+        console.log(formData);
+        http.post(`${apiUrl}/project/uploadimg`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
-          }}
-          ).then(res=>{console.log(res);
-            let url = `http://localhost:3004${res.url}`;
+          }
+        }
+        ).then(res => {
+          console.log(res);
+          let url = `http://localhost:3004${res.url}`;
 
-             url = `http://localhost:3000/backend/public/upload/image-1675100951649.png`;
-            console.log(url);
-            editor.insertEmbed(editor.getSelection(), "image", url);
-          }).catch(err=>console.log(err));
- } else {
+          url = `http://localhost:3000/backend/public/upload/image-1675100951649.png`;
+          console.log(url);
+          editor.insertEmbed(editor.getSelection(), "image", url);
+        }).catch(err => console.log(err));
+      } else {
         toast.info('You could only upload images.');
       }
     };
@@ -399,7 +407,7 @@ export default function Phase2() {
               <div className="col-12">
                 <div className="row">
                   <div className="col-xl-3">
-                    <div className="card sticky-top" style={{ top: '30px' }}> 
+                    <div className="card sticky-top" style={{ top: '30px' }}>
                       <div className="list-group list-group-flush" id="useradd-sidenav">
                         <a href="#title-page" onClick={() => { setActive('Title Page') }} className={`list-group-item list-group-item-action border-0 ${(active === 'Title Page') ? 'active' : ""}`}>Title Page
                           <div className="float-end"><i className="ti ti-chevron-right"></i></div></a>
@@ -470,10 +478,10 @@ export default function Phase2() {
                         <div class="card-body">
                           <div class="row">
                             <Input tag='textarea' name={'purpose'} value={intro.purpose} label={"1.1 purpose"} error={errors.purpose} onChange={e => setIntro({ ...intro, purpose: e.target.value })} />
-                            <Input tag='textarea' name={'conventions'} value={intro.conventions} label={"1.2 Document Conventions"} error={errors.conventions} onChange={e => setIntro({ ...intro, conventions: e.target.value })} />
-                            <Input tag='textarea' name={'audience'} value={intro.audience} label={"1.3 Intended Audience and Reading Suggestions"} error={errors.audience} onChange={e => setIntro({ ...intro, audience: e.target.value })} />
-                            <Input tag='textarea' name={'scope'} value={intro.scope} label={"1.4 Product Scope"} error={errors.scope} onChange={e => setIntro({ ...intro, scope: e.target.value })} />
-                            <Input tag='textarea' name={'references'} value={intro.references} label={"1.5 References"} error={errors.references} onChange={e => setIntro({ ...intro, references: e.target.value })} />
+                            <Quill name='conventions' label={"1.2 Document Conventions"} value={intro.conventions} error={errors.conventions}  onChange={(content, delta, source, editor) => setIntro({...intro, conventions:editor.getHTML()})}  />
+                            <Quill name='audience' label={"1.3 Intended Audience and Reading Suggestions"} value={intro.audience} error={errors.audience} onChange={(content, delta, source, editor) => setIntro({...intro, audience:editor.getHTML()})} />
+                            <Quill name='scope' label={"1.4 Product Scope"} value={intro.scope} error={errors.scope} onChange={(content, delta, source, editor) => setIntro({...intro, scope:editor.getHTML()})} />
+                            <Quill name='references' label={"1.5 References"} value={intro.references} error={errors.references} onChange={(content, delta, source, editor) => setIntro({...intro, references:editor.getHTML()})} />
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
@@ -511,7 +519,7 @@ export default function Phase2() {
                     </div>
                     {/* Chapter 3 */}
                     <div id="interface" class="card">
-                      <form onSubmit={ e => e.preventDefault() } >
+                      <form onSubmit={e => e.preventDefault()} >
                         <div class="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
@@ -527,9 +535,9 @@ export default function Phase2() {
                         </div>
                         <div class="card-body">
                           <div class="row">
-                          <div className={`form-group mb-3 ${''}`}>
-                          <ReactQuill theme="snow" ref={quillRef} value={interfaceRequirements || ''} modules={modules} onChange={ setInterfaceRequirements} />
-                          </div>
+                            <div className={`form-group mb-3 ${''}`}>
+                              <ReactQuill theme="snow" ref={quillRef} value={interfaceRequirements || ''} modules={modules} onChange={setInterfaceRequirements} />
+                            </div>
                             <div class="card-footer text-end pb-0"><Button label='Save Changes' onClick={e => e.preventDefault()} /> </div>
                           </div>
                         </div>

@@ -27,6 +27,7 @@ import Pdf from './../Components/ProjectManager/Pdf';
 import Stakeholder from '../Components/Stakeholder/Home';
 import StakeDashboard from '../Components/Stakeholder/Dashboard';
 import StakeholderSettings from './../Components/Stakeholder/Settings'; 
+import Analysis from "../Components/ProjectManager/Analysis";
 
 
 const Login = lazy(() => import('./Login'));
@@ -72,6 +73,7 @@ export default function Home() {
             <Route path="manager" element={<Manager />} >
               <Route index element={<ManagerProject />} />
               <Route exact path="new" element={<NewProject />} />
+              <Route path="analysis" element={<Analysis />} />
               <Route path="phase1" element={<Elicitation />} />
               <Route path="phase2" element={<Phase2 />} />
               <Route path="pdf" element={<Pdf />} />

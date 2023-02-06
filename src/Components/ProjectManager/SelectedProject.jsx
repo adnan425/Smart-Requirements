@@ -111,7 +111,7 @@ export default function SelectedProject({ handlePhase }) {
     {
       id: 2,
       title: "Requirements Analaysis",
-      path: '/manager/phase2'
+      path: '/manager/analysis'
 
     },
     {
@@ -190,7 +190,7 @@ export default function SelectedProject({ handlePhase }) {
                 {phases && phases.map((phase) => {
                   return (
 
-                    <div className="col" id={phase.id}  >
+                    <div className="col" id={phase.id} key={phase.id}  >
 
                       <div className="card">
                         <div className="card-header">

@@ -11,14 +11,21 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <title>Smart Requirements</title>  
-    <link rel="stylesheet" href="https://demo.rajodiya.com/erpgo-saas/css/custom.css">
-      <!-- <link
+    <title>Smart Requirements</title>
+    <link
+      rel="stylesheet"
+      href="https://demo.rajodiya.com/erpgo-saas/css/custom.css"
+    />
+    <!-- <link
       rel="stylesheet"
       type="text/css"
       href="assets/css/css-responsive.css"
-    />      -->
-    <link href="https://cdn.syncfusion.com/ej2/20.3.47/material.css" rel="stylesheet">
+    />      --> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="//cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css"
+    />
   </head>
 
   <body class="">
@@ -36,28 +43,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.2/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> 
-    <script src="./../src/assets/js/dash.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./../src/assets/js/dash.js"></script>
     <script>
-      $(document).ready(()=>{
+      $(document).ready(() => {
         const themeMode = localStorage.getItem("themeMode");
-      if (themeMode === "dark") {
-        $('head').append('<link rel="stylesheet" href="https://demo.rajodiya.com/taskly-saas/assets/css/style-dark.css">')
-      }
-      })
-    </script> 
+        if (themeMode === "dark") {
+          $("head").append(
+            '<link rel="stylesheet" href="https://demo.rajodiya.com/taskly-saas/assets/css/style-dark.css">'
+          );
+        }
+      });
+    </script>
     <script>
       function rmovermenu() {
-  document
-    .querySelector(".dash-sidebar")
-    .classList.remove("dash-over-menu-active");
-  if (document.querySelector(".topbar")) {
-    document.querySelector(".topbar").classList.remove("mob-sidebar-active");
-  }
-  document.querySelector(".dash-sidebar .dash-menu-overlay").remove();
-  document.querySelector(".topbar .dash-menu-overlay").remove();
-}
-
+        document
+          .querySelector(".dash-sidebar")
+          .classList.remove("dash-over-menu-active");
+        if (document.querySelector(".topbar")) {
+          document
+            .querySelector(".topbar")
+            .classList.remove("mob-sidebar-active");
+        }
+        document.querySelector(".dash-sidebar .dash-menu-overlay").remove();
+        document.querySelector(".topbar .dash-menu-overlay").remove();
+      }
     </script>
 
     <script type="text/javascript">
@@ -70,28 +80,8 @@
           $("html").removeClass("scroll_hide");
         }
       });
-   
     </script>
- 
-    <!-- <script> 
-      var pctoggle = document.querySelector("#pct-toggler");
-      if (pctoggle) {
-        pctoggle.addEventListener("click", function () {
-          if (
-            !document
-              .querySelector(".pct-customizer")
-              .classList.contains("active")
-          ) {
-            document.querySelector(".pct-customizer").classList.add("active");
-          } else {
-            document
-              .querySelector(".pct-customizer")
-              .classList.remove("active");
-          }
-        });
-      }
-    </script> -->
 
-    <script src="https://demo.rajodiya.com/crmgo-saas/assets/js/plugins/apexcharts.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script> 
   </body>
 </html>

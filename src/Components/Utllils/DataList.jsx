@@ -11,7 +11,7 @@ export default function DataList({ list }) {
           {
             list && list.length !== 0 && <div className="card-body table-border-style">
               <div className="table-responsive">
-                <table className="table datatable">
+                <table className="table datatable table-hover">
                   <thead>
                     <tr>
                       <th>Project</th>

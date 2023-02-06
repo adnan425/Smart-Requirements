@@ -27,13 +27,13 @@ const featuresSchema = new mongoose.Schema({
     }
 });
 
-function featuresValidation(intro){
+function featuresValidation(feature){
     const schema = Joi.object({
         userId:  Joi.objectId().required(),
         projectId: Joi.objectId().required(),
         features: Joi.string().min(5).max(3000).required() 
     });
-    return schema.validate(intro);
+    return schema.validate(feature);
 
 }
 

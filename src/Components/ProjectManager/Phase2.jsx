@@ -398,13 +398,13 @@ export default function Phase2() {
     },
   }), [])
   return (
-    <div className="page-content">
-      <div className="dash-container">
-        <div className="dash-content">
-          <PageHeader title="SRS Template" />
-          <div className="row">
-            <div className="row">
-              <div className="col-12">
+    // <div className="page-content">
+    //   <div className="dash-container">
+    //     <div className="dash-content">
+    //       <PageHeader title="SRS Template" />
+    //       <div className="row">
+    //         <div className="row">
+    //           <div className="col-12">
                 <div className="row">
                   <div className="col-xl-3">
                     <div className="card sticky-top" style={{ top: '30px' }}>
@@ -621,12 +621,11 @@ export default function Phase2() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <!-- [ Main Content ] end --> */}
-      </div>
-    </div>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div> 
+    //   </div>
+    // </div>
   );
 }

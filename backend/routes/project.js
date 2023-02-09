@@ -6,7 +6,21 @@ const stakeholder = require('../middleware/stakeholder');
 const admin = require('../middleware/admin');
 const { validateProject, Project } = require('../models/project');
 const { User } = require('../models/user');
+const {
+    Introduction,
+} = require("../models/introduction");
+const {
+    Description,
+} = require("./../models/description");
+const {
+    NonFunctional,
+} = require("./../models/nonfunctional");
+const { Features } = require("./../models/features");
+const {
+    OtherRequirements,
+} = require("./../models/OtherRequirements");
 const router = express.Router();
+const Fawn = require('fawn');
 
 // POST | ADD PROJECT | TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/', [auth, manager], async (req, res, next) => {
@@ -96,12 +110,50 @@ router.get('/:id', [auth], async (req, res, next) => {
         array.forEach(async (element) => {
             promises.push(User.findById(element).select('name email date'));
         });
-        pro = await Promise.all(promises); 
+        pro = await Promise.all(promises);
         var p = project.toObject();
         p = { ...p, "stakeholdersDetails": pro };
         return res.status(200).send(p);
 
     } catch (err) {
+        next();
+    }
+
+});
+ 
+//  DELETE | DELETE Project BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
+router.delete('/:id', [auth], async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        if (!Joi.objectId(projectId)) return res.status(400).send("Invalid Project Id!");
+
+        var project = await Project.findById(projectId);
+        if (!project) return res.status(404).send("Project not found by this id.");
+
+        if (project.manager === req.user._id) {
+            return res.status(403).send("Access denied.");
+        }
+        const query = { projectId: projectId };
+        try {
+            const task = Fawn.Task();
+            task
+                .remove('introduction', query)
+                .remove('description', query)
+                .remove('features', query)
+                .remove('nonFunctional', query)
+                .remove('otherRequirements', query)
+                .remove('project', { _id: projectId })
+                .run({ useMongoose: true });
+                return res.status(200).send('deleted');
+        } catch (error) {
+            console.log(error);
+        }
+
+
+        
+
+    } catch (err) {
+        console.log(err);
         next();
     }
 
@@ -128,7 +180,7 @@ router.put('/p/:id', [auth, manager], async (req, res, next) => {
         };
         // validating all req body data
         const { error } = validateProject(projectObj);
-        if (error) return res.status(400).send(error.details[0].message); 
+        if (error) return res.status(400).send(error.details[0].message);
 
         const project = await Project.findByIdAndUpdate(projectId, {
             // $set: {

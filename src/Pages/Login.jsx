@@ -49,11 +49,13 @@ class Login extends Form {
     admin: false,
     manager: false,
     stakeholder: false,
+    loading: false
   };
 
   doSubmit = async () => {
     // call server
     // await auth.login(this.state.data.email, this.state.data.password);
+    this.setState({ loading: true });
     axios
       .post(
         "http://localhost:3004/api/auth",
@@ -61,6 +63,8 @@ class Login extends Form {
       )
 
       .then((response) => {
+        this.setState({ loading: false });
+
         if (response?.status === 200) {
           toast.success('Welcome Back');
           localStorage.setItem("token", response?.data);
@@ -80,6 +84,7 @@ class Login extends Form {
         }
       })
       .catch((response) => {
+        this.setState({ loading: false });
         Swal.fire("Error!", response?.response?.data, "error");
       });
   };
@@ -109,32 +114,8 @@ class Login extends Form {
                         themeMode && <img src={darkLogo}
                           className="auth-logo navbar-logo" style={{ "height": '' }} alt="logo" />
                       }
-
-
                     </a>
-                    {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                      <span className="navbar-toggler-icon"></span>
-                    </button> */}
-                    {/* <div className="collapse navbar-collapse" id="navbarTogglerDemo01" style={{ flexGrow: "0" }}>
-                      <ul className="navbar-nav align-items-center ms-auto mb-2 mb-lg-0">
-
-
-                        <li className="nav-item">
-
-                          <div className="btn-group align-items-center">
-                            <select name="language" id="language"
-                              className="btn  btn-primary dropdown-toggle" >
-
-                              <option className="login_lang" selected="" >EN</option>
-
-                            </select>
-                          </div>
-
-                        </li>
-
-                      </ul>
-                    </div> */}
-                  </div>
+                 </div>
                 </nav>
 
                 <div className="card">
@@ -159,7 +140,14 @@ class Login extends Form {
                               <Link to={"/forget-password"}
                                 className="small text-muted text-underline--dashed border-primar">Forgot Your Password?</Link>
                             </div>
-                            {this.renderButton("Sign In")}
+                            
+                            {
+                              this.state.loading ? (<div className="d-grid">
+                                <button disabled
+                                  className="btn btn-primary btn-block mt-2"
+                                >Sign In</button>
+                              </div>) : (<>{this.renderButton("Sign In")}</>)
+                            }
                             <p className="my-4 text-center">Don't have an account?
                               <Link to={"/signup"}
                                 className="my-4 text-primary">Register</Link>

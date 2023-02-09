@@ -13,7 +13,6 @@ app.use(cors({
 }));
 
 router.post('/', async (req, res, next)=>{
-    console.log(req)
 try {
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -23,16 +22,15 @@ try {
 
     let validPassword = await bcrypt.compare(req.body.password, user.password);
     if(!validPassword) return res.status(400).send("Invalid email or password");
-
     // jwt 
     const token = jwt.sign({_id: user._id, name: user.name, email: user.email, role: user.role }, "myKey");
-     
+    console.log("Loogied In");
     res.send(token);
+    
 } catch (error) {
     console.log(error);
     next();
 }
-
 });
 function validate(req){
     const schema = Joi.object({

@@ -6,15 +6,16 @@ import PageTitle from "../Utllils/PageTitle";
 import { Link } from "react-router-dom";
 import SentimentAnalyze from "../NLP/Sentiment";
 import { toast } from 'react-toastify';
-import Chart from 'react-apexcharts';
+import Compromise from "../NLP/Compromise";
 import Phase2 from "./Phase2";
+import DonutChart from "../Utllils/DonutChart";
 const moment = require("moment");
 
 export default function Analysis() {
 
+    // ===== Requirements Redux Call =====
     const projectId = useSelector((c) => c.projects.selectedProject._id);
     const requirements = useSelector((c) => c.projects.requirements);
-    console.log(requirements);
     if (!projectId) {
         window.location = "../manager";
     }
@@ -22,6 +23,10 @@ export default function Analysis() {
     useEffect(() => {
         dispatch(projectRequirements(projectId));
     }, [dispatch, projectId]);
+    // === x == Requirements Redux Call == X ===
+
+
+    // ===== Sentiment Analysis =====
     const [negative, setNegative] = useState(0);
     const [positive, setPositive] = useState(0);
     const [score, setScore] = useState(0); 
@@ -45,27 +50,9 @@ export default function Analysis() {
     useEffect(() => {
         Sentiment();
     }, [])
+    // === X == Sentiment Analysis == X ===
 
-    const chartData = {
-        options: {
-            labels: ['Score', 'Positive Words', 'Negative Words'],
-            plotOptions: {
-                pie: {
-                    donut: {
-                        labels: {
-                            show: false,
-                        }
-                    },
- 
-                },
-            }, dataLabels: {
-                enabled: false
-            },
-
-        },
-        series: [score, positive, negative],
-
-    }
+    
     return (
         <>
             <div className="page-content">
@@ -80,16 +67,16 @@ export default function Analysis() {
                                         description="This step helps to determine the quality of the requirements. It involves identifying whether the requirements are unclear, incomplete, ambiguous, and contradictory."
                                     />
                                     <div className="row">
-                                        <div class="card">
-                                            <div class="card-body">
+                                        <div className="card">
+                                            <div className="card-body">
                                                 <ul
-                                                    class="nav nav-pills "
+                                                    className="nav nav-pills "
                                                     id="pills-tab"
                                                     role="tablist"
                                                 >
-                                                    <li class="nav-item">
+                                                    <li className="nav-item">
                                                         <a
-                                                            class="nav-link active"
+                                                            className="nav-link active"
                                                             id="pills-Dashboard-tab"
                                                             data-bs-toggle="pill"
                                                             href="#sentiment_analysis"
@@ -100,10 +87,22 @@ export default function Analysis() {
                                                             Sentiment Analysis
                                                         </a>
                                                     </li>
-
-                                                    <li class="nav-item">
+                                                    <li className="nav-item">
                                                         <a
-                                                            class="nav-link"
+                                                            className="nav-link"
+                                                            id="pills-profile-tab"
+                                                            data-bs-toggle="pill"
+                                                            href="#ner"
+                                                            role="tab"
+                                                            aria-controls="pills-profile"
+                                                            aria-selected="false"
+                                                        >
+                                                            Named Entity Recognition (NER)
+                                                        </a>
+                                                    </li>
+                                                    <li className="nav-item">
+                                                        <a
+                                                            className="nav-link"
                                                             id="pills-profile-tab"
                                                             data-bs-toggle="pill"
                                                             href="#srs_template"
@@ -119,20 +118,20 @@ export default function Analysis() {
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div class="tab-content" id="pills-tabContent">
+                                        <div className="tab-content" id="pills-tabContent">
                                             <div
-                                                class="tab-pane fade active show"
+                                                className="tab-pane fade active show"
                                                 id="sentiment_analysis"
                                                 role="tabpanel"
                                                 aria-labelledby="pills-home-tab"
                                             >
                                                 <div className="row">
                                                     <div className="col-xxl-7">
-                                                        <div class="card ">
-                                                            <div class="card-header">
-                                                                <div class="row">
-                                                                    <div class="col-9">
-                                                                        <h5 class="">Requirements</h5>
+                                                        <div className="card ">
+                                                            <div className="card-header">
+                                                                <div className="row">
+                                                                    <div className="col-9">
+                                                                        <h5 className="">Requirements</h5>
                                                                     </div>
                                                                     <div className="col-3">
                                                                         <div className="float-end">
@@ -145,9 +144,9 @@ export default function Analysis() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body ">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-centered table-hover mb-0 animated">
+                                                            <div className="card-body ">
+                                                                <div className="table-responsive">
+                                                                    <table className="table table-centered table-hover mb-0 animated">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th style={{ width: "6.1724%" }}>
@@ -188,9 +187,9 @@ export default function Analysis() {
 
                                                                                     return (
                                                                                         <tr key={_id}>
-                                                                                            <td class="Id">
+                                                                                            <td className="Id">
                                                                                                 <Link
-                                                                                                    class="btn btn-outline-primary"
+                                                                                                    className="btn btn-outline-primary"
                                                                                                 >
                                                                                                     {type === "Functional"
                                                                                                         ? "#FR"
@@ -204,7 +203,7 @@ export default function Analysis() {
                                                                                             </td> */}
                                                                                             <td>{date}</td>
                                                                                             <td title="Sentiment Analysis Score">
-                                                                                                <i class="fas fa-circle text-success"></i> {SentimentAnalyze(description).score}
+                                                                                                <i className="fas fa-circle text-success"></i> {SentimentAnalyze(description).score}
                                                                                             </td>
                                                                                         </tr>
                                                                                     );
@@ -221,10 +220,10 @@ export default function Analysis() {
                                                         </div>
                                                     </div>
                                                     <div className="col-xxl-5">
-                                                        <div class="card ">
-                                                            <div class="card-header">
-                                                            <div class="row">
-                                                                    <div class="col-9">
+                                                        <div className="card ">
+                                                            <div className="card-header">
+                                                            <div className="row">
+                                                                    <div className="col-9">
                                                                     <h5>Sentiment Analysis</h5>
                                                                     </div>
                                                                     <div className="col-3">
@@ -240,25 +239,21 @@ export default function Analysis() {
                                                                 
                                                             </div>
                                                             <div className="card-body">
-                                                                <div id="chart">
-                                                                    <div className="donut">
-                                                                        <Chart options={chartData.options} series={chartData.series} type="donut" width="380" />
-                                                                    </div>
-                                                                </div>
+                                                               <DonutChart label={['Score', 'Positive Words', 'Negative Words']} series={[score, positive, negative]} />
 
-                                                                {/* <div class="project-details" style={{ marginTop: "15px;" }}>
-                                                                    <div class="row">
-                                                                        <div class="col text-center">
-                                                                            <div class="tx-gray-500 small">Score</div>
-                                                                            <div class="font-weight-bold">{  Math.floor(score) || 'N/A'}</div>
+                                                                {/* <div className="project-details" style={{ marginTop: "15px;" }}>
+                                                                    <div className="row">
+                                                                        <div className="col text-center">
+                                                                            <div className="tx-gray-500 small">Score</div>
+                                                                            <div className="font-weight-bold">{  Math.floor(score) || 'N/A'}</div>
                                                                         </div>
-                                                                        <div class="col text-center">
-                                                                            <div class="tx-gray-500 small">Negative Words</div>
-                                                                            <div class="font-weight-bold">{negative || 'N/A'}</div>
+                                                                        <div className="col text-center">
+                                                                            <div className="tx-gray-500 small">Negative Words</div>
+                                                                            <div className="font-weight-bold">{negative || 'N/A'}</div>
                                                                         </div>
-                                                                        <div class="col text-center">
-                                                                            <div class="tx-gray-500 small">Positive Words</div>
-                                                                            <div class="font-weight-bold">{positive || 'N/A'}</div>
+                                                                        <div className="col text-center">
+                                                                            <div className="tx-gray-500 small">Positive Words</div>
+                                                                            <div className="font-weight-bold">{positive || 'N/A'}</div>
                                                                         </div>
                                                                     </div>
                                                                 </div> */}
@@ -268,7 +263,19 @@ export default function Analysis() {
                                                 </div>
                                             </div>
                                             <div
-                                                class="tab-pane fade"
+                                                className="tab-pane fade"
+                                                role="tabpanel"
+                                                id="ner"
+                                                aria-labelledby="pills-profile-tab"
+                                            >
+                                                 <div className="card">
+                                                    <div className="card-header">
+                                                        <Compromise/>
+                                                    </div>
+                                                 </div>
+                                            </div>
+                                            <div
+                                                className="tab-pane fade"
                                                 role="tabpanel"
                                                 id="srs_template"
                                                 aria-labelledby="pills-profile-tab"

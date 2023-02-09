@@ -166,7 +166,7 @@ export default function SelectedProject({ handlePhase }) {
                       <div className="badge  bg-secondary p-2 px-3 rounded">Ongoing</div>
                     </div>
                   </div>
-                  <div className="col-md-3 px-3">
+                  {/* <div className="col-md-3 px-3">
                     <div className="d-flex align-items-center py-2">
                       <button className="btn btn-light">
                         <a href="/" className="bs-pass-para">
@@ -174,7 +174,7 @@ export default function SelectedProject({ handlePhase }) {
                       </button>
 
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
 

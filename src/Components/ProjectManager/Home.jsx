@@ -27,10 +27,8 @@ export default function Home() {
   }
   useEffect(()=>{
     getProjects();
-  }, []); 
-
- 
-
+  }, []);  
+  
   const handleSelectProject = (project) => {
     // IF ADD PROJECT THEN SHOW ADD FORM
     switch (project.title) {

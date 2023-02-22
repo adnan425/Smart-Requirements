@@ -6,12 +6,9 @@ import { toast } from "react-toastify";
 
 const moment = require('moment');
 
-export default function DataGrid({ list }) {
+export default function DataGrid({ list, handleDelete }) {
   const userRole = getCurrentUser();
-  const handleDelete = (id)=>{
-    console.log(id);
-    toast.info("On Working");
-  }
+
   return (
     <>
       <section className="section">
@@ -43,9 +40,13 @@ export default function DataGrid({ list }) {
                                 {/* <a href="#/" className="dropdown-item" >
                                   <i className="ti ti-user-plus"></i> <span>Invite Users</span>
                                 </a> */}
-                                <Link onClick={(e)=>{handleDelete(_id)}} className="dropdown-item text-danger delete-popup bs-pass-para" >
+
+                                {
+                                  userRole && userRole.role==='manager' && <Link onClick={(e)=>{handleDelete(_id)}} className="dropdown-item text-danger delete-popup bs-pass-para" >
                                   <i className="ti ti-trash"></i>  <span>Delete</span>
                                 </Link> 
+                                }
+                                
                                 </div>
                             </div>
                           </div>

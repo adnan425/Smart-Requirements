@@ -24,6 +24,16 @@ export default function Projects() {
   }, []);
   const [gridView, setGridView] = useState(true);
   console.log(projects);
+  const handleDelete = id => {
+      try {
+      http.delete(`${apiUrl}/projects/${id}`).then(({ data }) => { 
+        console.log(data);
+        toast.success(data.message);
+      }).catch((err) => { console.log(err) });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
   return (
     <>
       <div className="page-content">
@@ -33,7 +43,7 @@ export default function Projects() {
             <div className="col-xl-12 col-lg-12 col-md-12 d-flex Palign-items-center justify-content-end mb-3">
               <div className="row">
                 <div className="btn-group btn-group-toggle" data-toggle="buttons" aria-label="Basic radio toggle button group">
-                <label className="btn btn-primary month-label active">
+                  <label className="btn btn-primary month-label active">
                     <Link className="text-white">  All </Link>
 
                   </label>
@@ -45,15 +55,15 @@ export default function Projects() {
                   <label className="btn btn-primary year-label">
                     <Link className="text-white">Completed</Link>
 
-                  </label> 
+                  </label>
                 </div>
               </div>
             </div>
-             
+
             <div className="row min-750" id="project_view">
               <div className="row">
-                {!gridView && <DataList list={projects} />}
-                {gridView && <DataGrid list={projects} />}
+                {!gridView && <DataList list={projects} handleDelete={handleDelete} />}
+                {gridView && <DataGrid list={projects} handleDelete={handleDelete} />}
 
               </div>
             </div>

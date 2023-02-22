@@ -120,7 +120,7 @@ router.get('/:id', [auth], async (req, res, next) => {
     }
 
 });
- 
+
 //  DELETE | DELETE Project BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.delete('/:id', [auth], async (req, res, next) => {
     try {
@@ -133,26 +133,22 @@ router.delete('/:id', [auth], async (req, res, next) => {
         if (project.manager === req.user._id) {
             return res.status(403).send("Access denied.");
         }
+
         const query = { projectId: projectId };
-        try {
-            const task = Fawn.Task();
-            task
-                .remove('introduction', query)
-                .remove('description', query)
-                .remove('features', query)
-                .remove('nonFunctional', query)
-                .remove('otherRequirements', query)
-                .remove('project', { _id: projectId })
-                .run({ useMongoose: true });
-                return res.status(200).send('deleted');
-        } catch (error) {
-            console.log(error);
+        
+        // Define the names of the collections to delete documents from
+        const collections = ['introduction', 'description', 'features', 'nonFunctional', 'otherRequirements', 'project'];
+        // Delete documents from each collection using the projectId as the criteria
+      
+        const result = await Project.findByIdAndDelete(projectId);
+        if(result){
+            res.status(200).send("Successfully Deleted.");
+        }else{
+            res.status(400).send("Failed to Deleted.");
         }
 
-
-        
-
-    } catch (err) {
+    }
+    catch (err) {
         console.log(err);
         next();
     }

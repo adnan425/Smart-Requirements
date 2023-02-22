@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Avatar from 'react-avatar';
+import { getCurrentUser } from "../Services/authService";
+
 const moment = require('moment');
 
-export default function DataList({ list }) {
+export default function DataList({ list, handleDelete }) {
+  const userRole = getCurrentUser();
+
   return (
     <>
       <div className="col-xl-12">
@@ -139,19 +143,21 @@ export default function DataList({ list }) {
                             </button>
                           </div> */}
 
-                            <div className="action-btn bg-danger ms-2">
-
-                              <button
-                                href="#!"
-                                className="mx-3 btn btn-sm d-flex align-items-center show_confirm"
-                              >
-                                <i
-                                  className="ti ti-trash text-white"
-                                  data-bs-toggle="tooltip"
-                                  data-bs-original-title="Delete"
-                                ></i>
-                              </button>
-                            </div>
+                            
+                            {
+                              userRole && userRole.role==='manager' && <div className="action-btn bg-danger ms-2"><button
+                              onClick={(e)=>{handleDelete(_id)}}
+                             className="mx-3 btn btn-sm d-flex align-items-center show_confirm"
+                           >
+                             <i
+                               className="ti ti-trash text-white"
+                               data-bs-toggle="tooltip"
+                               data-bs-original-title="Delete"
+                             ></i>
+                           </button></div>
+                            }
+                              
+                            
                           </td>
                         </tr>
                       );

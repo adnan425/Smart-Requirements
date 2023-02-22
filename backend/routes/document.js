@@ -504,8 +504,7 @@ router.post("/uploadimg", [auth], (req, res, next) => {
 const htmlToLatex = async (html) => {
     return await convertText(html);
   }
-  
-  
+
  function generateTexFile(srsData) {
     let jsonData = {
         title: "My Report",

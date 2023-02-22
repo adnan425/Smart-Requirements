@@ -1,295 +1,314 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Accordion from "../Utllils/Accordion";
 import PageHeader from "../Utllils/PageHeader";
-import { projectRequirements } from "../Store/Projects/projects";
-import { useSelector, useDispatch } from "react-redux";
-import PageTitle from "../Utllils/PageTitle";
-import { Link } from "react-router-dom";
-import SentimentAnalyze from "../NLP/Sentiment";
-import { toast } from 'react-toastify';
-import Compromise from "../NLP/Compromise";
-import Phase2 from "./Phase2";
-import DonutChart from "../Utllils/DonutChart";
-const moment = require("moment");
+import PageTitle from "./../Utllils/PageTitle";
+import http from '../Services/httpService';
+import Joi from 'joi-browser';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from "react-toastify";
+import { projectRequirements } from '../Store/Projects/projects';
 
-export default function Analysis() {
+const apiUrl = 'http://localhost:3004/api';
 
-    // ===== Requirements Redux Call =====
-    const projectId = useSelector((c) => c.projects.selectedProject._id);
-    const requirements = useSelector((c) => c.projects.requirements);
-    if (!projectId) {
-        window.location = "../manager";
+export default function Elicitation() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const projectId = useSelector(c => c.projects.selectedProject._id);
+  const requirements = useSelector(c => c.projects.requirements);
+  if (!projectId) {
+    window.location = '../manager';
+  }
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(projectRequirements(projectId));
+  }, [dispatch, projectId])
+
+  const [requirement, setRequirement] = useState({
+    title: '',
+    description: '',
+    type: 'Functional',
+    projectId: projectId
+  });
+  const [errors, setErrors] = useState({});
+
+
+  const requirementSchema = {
+    title: Joi.string().min(5).max(50).required().label("Short Title"),
+    description: Joi.string().min(1).max(500).required().label("Description"),
+    type: Joi.string().min(1).max(26).required().label("Requirement Type"),
+    projectId: Joi.string().min(11).max(25).required()
+  }
+  const validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(requirement, requirementSchema, options);
+    if (!error) return null;
+    const err = {};
+    for (let item of error.details) err[item.path[0]] = item.message;
+    console.log(err);
+    return err;
+  }
+  const handleSubmit = () => {
+    const error = validate();
+    if (error) {
+      setErrors(error);
+      return false;
     }
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(projectRequirements(projectId));
-    }, [dispatch, projectId]);
-    // === x == Requirements Redux Call == X ===
+    doSubmit();
+  }
+  const doSubmit = () => {
+    http.post(`${apiUrl}/manager/requirement`, requirement).then(({ status }) => {
+      if (status === 200) {
+        toast.success("Added your requirement.");
+        setShow(false);
+        setRequirement({
+          title: '',
+          description: '',
+          type: 'Functional',
+          projectId: projectId,
+        })
+      } else {
+        toast(status);
+      }
+    }).catch(err => { console.log("error ", err.response.data); toast.error(err.response.data) });
+  }
+  return (
+    <div className="page-content">
+      <div className="dash-container">
+        <div className="dash-content">
+          <PageHeader title="Requirement Analysis" />
+          <div className="row">
+            <PageTitle
+              title="Requirements"
+              description="In requirements engineering, requirements elicitation is the practice of researching and discovering the requirements of a system from users, customers, and other stakeholders."
+            >
+              {/* <button className="btn btn-sm btn-primary" onClick={handleShow} title="Create">
+                <i className="ti ti-plus"></i></button> */}
+            </PageTitle>
 
-
-    // ===== Sentiment Analysis =====
-    const [negative, setNegative] = useState(0);
-    const [positive, setPositive] = useState(0);
-    const [score, setScore] = useState(0); 
-
-    const Sentiment = () => {
-        let totalScore = 0;
-        let negativeWords = 0;
-        let positiveWords = 0; 
-
-        requirements && requirements.forEach(element => {
-            const result = SentimentAnalyze(element.description);
-            totalScore += result.score;
-            if (result.negative !== '') { negativeWords++ };
-            if (result.positive !== '') { positiveWords++ }; 
-        });
- 
-        setScore(totalScore / requirements.length);
-        setNegative(negativeWords / requirements.length);
-        setPositive(positiveWords / requirements.length); 
-    }
-    useEffect(() => {
-        Sentiment();
-    }, [])
-    // === X == Sentiment Analysis == X ===
-
-    
-    return (
-        <>
-            <div className="page-content">
-                <div className="dash-container">
-                    <div className="dash-content">
-                        <PageHeader title="Requirement Analysis" />
-                        <div className="row">
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <PageTitle
-                                        title="Requirements"
-                                        description="This step helps to determine the quality of the requirements. It involves identifying whether the requirements are unclear, incomplete, ambiguous, and contradictory."
-                                    />
-                                    <div className="row">
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <ul
-                                                    className="nav nav-pills "
-                                                    id="pills-tab"
-                                                    role="tablist"
-                                                >
-                                                    <li className="nav-item">
-                                                        <a
-                                                            className="nav-link active"
-                                                            id="pills-Dashboard-tab"
-                                                            data-bs-toggle="pill"
-                                                            href="#sentiment_analysis"
-                                                            role="tab"
-                                                            aria-controls="pills-home"
-                                                            aria-selected="true"
-                                                        >
-                                                            Sentiment Analysis
-                                                        </a>
-                                                    </li>
-                                                    <li className="nav-item">
-                                                        <a
-                                                            className="nav-link"
-                                                            id="pills-profile-tab"
-                                                            data-bs-toggle="pill"
-                                                            href="#ner"
-                                                            role="tab"
-                                                            aria-controls="pills-profile"
-                                                            aria-selected="false"
-                                                        >
-                                                            Named Entity Recognition (NER)
-                                                        </a>
-                                                    </li>
-                                                    <li className="nav-item">
-                                                        <a
-                                                            className="nav-link"
-                                                            id="pills-profile-tab"
-                                                            data-bs-toggle="pill"
-                                                            href="#srs_template"
-                                                            role="tab"
-                                                            aria-controls="pills-profile"
-                                                            aria-selected="false"
-                                                        >
-                                                            SRS Template
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="tab-content" id="pills-tabContent">
-                                            <div
-                                                className="tab-pane fade active show"
-                                                id="sentiment_analysis"
-                                                role="tabpanel"
-                                                aria-labelledby="pills-home-tab"
-                                            >
-                                                <div className="row">
-                                                    <div className="col-xxl-7">
-                                                        <div className="card ">
-                                                            <div className="card-header">
-                                                                <div className="row">
-                                                                    <div className="col-9">
-                                                                        <h5 className="">Requirements</h5>
-                                                                    </div>
-                                                                    <div className="col-3">
-                                                                        <div className="float-end">
-                                                                            <button className="btn btn-sm btn-primary mx-2" onClick={e => {
-                                                                                e.preventDefault();
-                                                                                toast.info('1.1 Purpose: Identify the product whose software requirements are specified in this document, including the revision or release number. Describe the scope of the product that is covered by this SRS, particularly if this SRS describes only part of the system or a single subsystem.>')
-                                                                            }} title="Lock It.">
-                                                                                <i className="ti ti-help"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="card-body ">
-                                                                <div className="table-responsive">
-                                                                    <table className="table table-centered table-hover mb-0 animated">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th style={{ width: "6.1724%" }}>
-                                                                                    <Link>Type</Link>
-                                                                                </th>
-                                                                                <th style={{ width: "12.54991%" }}>
-                                                                                    <Link>Written By</Link>
-                                                                                </th>
-                                                                                <th style={{ width: "15.0307%" }}>
-                                                                                    <Link>Title</Link>
-                                                                                </th>
-                                                                                {/* <th style={{ width: "15.0307%" }}>
-                                                                                    <Link>Description</Link>
-                                                                                </th> */}
-                                                                                <th style={{ width: "15.3629%" }}>
-                                                                                    <Link>Written On</Link>
-                                                                                </th>
-
-                                                                                <th style={{ width: "17.1068%" }}>
-                                                                                    <Link>Score</Link>
-                                                                                </th>
-
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            {requirements &&
-                                                                                requirements.map((requirement, index) => {
-                                                                                    const {
-                                                                                        _id,
-                                                                                        title,
-                                                                                        description,
-                                                                                        type,
-                                                                                        name,
-                                                                                    } = requirement;
-                                                                                    const date = moment(
-                                                                                        requirement.date
-                                                                                    ).format("MMM Do YYYY");
-
-                                                                                    return (
-                                                                                        <tr key={_id}>
-                                                                                            <td className="Id">
-                                                                                                <Link
-                                                                                                    className="btn btn-outline-primary"
-                                                                                                >
-                                                                                                    {type === "Functional"
-                                                                                                        ? "#FR"
-                                                                                                        : "#NF"}
-                                                                                                </Link>
-                                                                                            </td>
-                                                                                            <td>{name}</td>
-                                                                                            <td>{title}</td>
-                                                                                            {/* <td>
-                                                                                                {description.slice(0, 40) + "..."}
-                                                                                            </td> */}
-                                                                                            <td>{date}</td>
-                                                                                            <td title="Sentiment Analysis Score">
-                                                                                                <i className="fas fa-circle text-success"></i> {SentimentAnalyze(description).score}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    );
-                                                                                })}
-                                                                            {requirements.length === 0 && (
-                                                                                <tr>
-                                                                                    <td> Requirements List is Empty</td>{" "}
-                                                                                </tr>
-                                                                            )}
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xxl-5">
-                                                        <div className="card ">
-                                                            <div className="card-header">
-                                                            <div className="row">
-                                                                    <div className="col-9">
-                                                                    <h5>Sentiment Analysis</h5>
-                                                                    </div>
-                                                                    <div className="col-3">
-                                                                        <div className="float-end">
-                                                                            <button className="btn btn-sm btn-primary mx-2" onClick={e => {
-                                                                                e.preventDefault();
-                                                                                toast.info('Sentiment Analysis of all requirements.')
-                                                                            }} title="Lock It.">
-                                                                                <i className="ti ti-help"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <div className="card-body">
-                                                               <DonutChart label={['Score', 'Positive Words', 'Negative Words']} series={[score, positive, negative]} />
-
-                                                                {/* <div className="project-details" style={{ marginTop: "15px;" }}>
-                                                                    <div className="row">
-                                                                        <div className="col text-center">
-                                                                            <div className="tx-gray-500 small">Score</div>
-                                                                            <div className="font-weight-bold">{  Math.floor(score) || 'N/A'}</div>
-                                                                        </div>
-                                                                        <div className="col text-center">
-                                                                            <div className="tx-gray-500 small">Negative Words</div>
-                                                                            <div className="font-weight-bold">{negative || 'N/A'}</div>
-                                                                        </div>
-                                                                        <div className="col text-center">
-                                                                            <div className="tx-gray-500 small">Positive Words</div>
-                                                                            <div className="font-weight-bold">{positive || 'N/A'}</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> */}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="tab-pane fade"
-                                                role="tabpanel"
-                                                id="ner"
-                                                aria-labelledby="pills-profile-tab"
-                                            >
-                                                 <div className="card">
-                                                    <div className="card-header">
-                                                        <Compromise/>
-                                                    </div>
-                                                 </div>
-                                            </div>
-                                            <div
-                                                className="tab-pane fade"
-                                                role="tabpanel"
-                                                id="srs_template"
-                                                aria-labelledby="pills-profile-tab"
-                                            >
-                                                <Phase2/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            {/* <Modal show={show} size="lg" onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Requirements</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="col-md-12 form-group">
+                  <label forhtml="title" className="col-form-label">Short Title</label>
+                  <input className="form-control" value={requirement.title} onChange={e => setRequirement({ ...requirement, title: e.target.value })} placeholder="Enter short title of requirement"
+                    required="required" id='title' type="text" />
+                  {errors && <small className="small  text-danger ">{errors['title']}</small>}
                 </div>
+                <div className="col-md-12 form-group">
+                  <label forhtml="desc" className="col-form-label">Description</label>
+                  <textarea className="form-control" placeholder="Enter description" value={requirement.description} onChange={e => setRequirement({ ...requirement, description: e.target.value })}
+                    required="required" id='desc' type="text" />
+                  {errors.description && <small className="small  text-danger ">{errors.description}</small>}
+
+                </div>
+                <div className="form-group col-md-12">
+                  <label forhtml="type" className="col-form-label">Requirement Type</label>
+                  <select className="form-control" required="required" id="type" onChange={e => setRequirement({ ...requirement, type: e.target.value })}>
+                    <option value="Functional">Functional</option><option value="Non-Functional">Non-Functional</option></select>
+                  {errors.type && <small className="small  text-danger ">{errors.type}</small>}
+
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleSubmit}>
+                  Add
+                </Button>
+              </Modal.Footer>
+            </Modal> */}
+            <div className="row">
+              <div className="p-3 card">
+                <ul
+                  className="nav nav-pills nav-fill"
+                  id="pills-tab"
+                  role="tablist"
+                >
+                  <li className="nav-item" role="presentation">
+
+                    <button
+                      className="nav-link active"
+                      id="pills-user-tab-3"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-user-3"
+                      type="button"
+                    >
+                      All Requirements
+                    </button>
+                  </li>
+                  <li className="nav-item" role="presentation">
+
+                    <button
+                      className="nav-link"
+                      id="pills-user-tab-1"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-user-1"
+                      type="button"
+                    >
+                      Functional Requirements
+                    </button>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <button
+                      className="nav-link"
+                      id="pills-user-tab-2"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-user-2"
+                      type="button"
+                    >
+                      Non -Functional Requirements
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div className="px-0">
+                <div style={{ position: "relative" }}>
+                  <div className="tab-content no-padding" id="myTab2Content">
+                    <div
+                      className="tab-pane fade show active"
+                      id="lang3"
+                      role="tabpanel"
+                      aria-labelledby="home-tab4"
+                    >
+                      <div className="tab-content" id="myTabContent">
+                        <div
+                          className="tab-pane fade active show"
+                          id="pills-user-3"
+                          role="tabpanel"
+                          aria-labelledby="pills-user-tab-3"
+                        >
+                          {/* All Requirements */}
+                          <div className="card">
+                            <div className="card-header">
+                              <h5>All Requirements</h5>
+                              <small className="text-muted">
+                                These details will be used to collect invoice
+                                payments. Each invoice will have a payment
+                                button based on the below configuration.
+                              </small>
+                            </div>
+                            <div className="card-body">
+                              <div className="faq justify-content-center">
+                                <div className="col-sm-12 col-md-10-12 col-xxl-12">
+                                  <div class="accordion accordion-flush" id="accordionExample">
+                                    {
+                                      requirements && requirements.map((requirement) => {
+                                        const { _id, title, description, type } = requirement;
+                                        return (
+                                          <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
+                                        )
+                                      })
+                                    }
+                                    {
+                                      (requirements.length === 0) && <Accordion title='Requirements List is Empty' />
+
+                                    }
+                                  </div>
+
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="tab-pane fade"
+                          id="pills-user-1"
+                          role="tabpanel"
+                          aria-labelledby="pills-user-tab-1"
+                        >
+                          <div className="card">
+                            <div className="card-header">
+                              <h5>Functional Requirements</h5>
+                              <small className="text-muted">
+                                These details will be used to collect invoice
+                                payments. Each invoice will have a payment
+                                button based on the below configuration.
+                              </small>
+                            </div>
+                            <div className="card-body">
+                              <div className="faq justify-content-center">
+                                <div className="col-sm-12 col-md-10-12 col-xxl-12">
+                                  <div class="accordion accordion-flush" id="accordionExample">
+                                    {
+                                      requirements && requirements.map((requirement) => {
+                                        const { _id, title, description, type } = requirement;
+                                        if (type === 'Functional') {
+                                          return (
+                                            <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
+                                          )
+                                        }
+                                      })
+                                    }
+                                    {
+                                      (requirements.length === 0) && <Accordion title='Requirements List is Empty' />
+
+                                    }
+
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="tab-pane fade"
+                          id="pills-user-2"
+                          role="tabpanel"
+                          aria-labelledby="pills-user-tab-2"
+                        >
+                          <div className="card">
+                            <div className="card-header">
+                              <h5>Non Functional Requirements</h5>
+                              <small className="text-muted">
+                                These details will be used to collect invoice
+                                payments. Each invoice will have a payment
+                                button based on the below configuration.
+                              </small>
+                            </div>
+                            <div className="card-body">
+                              <div className="faq justify-content-center">
+                                <div className="col-sm-12 col-md-10-12 col-xxl-12">
+                                  <div class="accordion accordion-flush" id="accordionExample">
+                                    {
+                                      requirements  && requirements.map((requirement) => {
+                                        const { _id, title, description, type } = requirement;
+                                        if (type === 'Non-Functional') {
+                                          return (
+                                            <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
+                                          )
+                                        }
+                                      })
+                                    }
+                                    {
+                                      (requirements.length === 0) && <Accordion title='Requirements List is Empty' />
+
+                                    }
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </>
-    );
+          </div>
+        </div>
+        {/* <!-- [ Main Content ] end --> */}
+      </div>
+    </div>
+  );
 }

@@ -105,32 +105,33 @@ export default function SelectedProject({ handlePhase }) {
   const phases = [
     {
       id: 1,
-      title: "Requirements Elicitation",
+      title: "Requirement Elicitation",
       path: '/manager/phase1'
     },
     {
       id: 2,
-      title: "Requirements Analaysis",
+      title: "Requirement Analysis",
       path: '/manager/analysis'
-
     },
     {
       id: 3,
-      title: "Requirements Tracability",
+      title: "Requirement Validation",
       path: '/manager/phase1'
-
     },
     {
       id: 4,
-      title: "Requirements Verification",
+      title: "Requirement Management",
       path: '/manager/phase1'
-
     },
     {
       id: 5,
+      title: "Documentation",
+      path: '/manager/documentation'
+    },
+    {
+      id: 6,
       title: "Generate Report",
       path: '/manager/pdf'
-
     },
   ];
 
@@ -149,7 +150,6 @@ export default function SelectedProject({ handlePhase }) {
                     <span className="text-white text-sm mb-2 d-block">Progress : 30%</span>
                     <h5 className="text-white text-nowrap" style={{ padding: "5px !important" }}>
                       <div className="progress custom_progress">
-
                         <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" ariav-aluenow="30" aria-valuemin="0" aria-valuemax="100" style={{ width: "30%" }}>
                         </div>
                       </div></h5>

@@ -142,30 +142,7 @@ export default function Elicitation() {
                     >
                       All Requirements
                     </button>
-                  </li>
-                  <li className="nav-item" role="presentation">
-
-                    <button
-                      className="nav-link"
-                      id="pills-user-tab-1"
-                      data-bs-toggle="pill"
-                      data-bs-target="#pills-user-1"
-                      type="button"
-                    >
-                      Functional Requirements
-                    </button>
-                  </li>
-                  <li className="nav-item" role="presentation">
-                    <button
-                      className="nav-link"
-                      id="pills-user-tab-2"
-                      data-bs-toggle="pill"
-                      data-bs-target="#pills-user-2"
-                      type="button"
-                    >
-                      Non -Functional Requirements
-                    </button>
-                  </li>
+                  </li> 
                 </ul>
               </div>
               <div className="px-0">
@@ -218,87 +195,8 @@ export default function Elicitation() {
                             </div>
                           </div>
                         </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-user-1"
-                          role="tabpanel"
-                          aria-labelledby="pills-user-tab-1"
-                        >
-                          <div className="card">
-                            <div className="card-header">
-                              <h5>Functional Requirements</h5>
-                              <small className="text-muted">
-                                These details will be used to collect invoice
-                                payments. Each invoice will have a payment
-                                button based on the below configuration.
-                              </small>
-                            </div>
-                            <div className="card-body">
-                              <div className="faq justify-content-center">
-                                <div className="col-sm-12 col-md-10-12 col-xxl-12">
-                                  <div class="accordion accordion-flush" id="accordionExample">
-                                    {
-                                      requirements && requirements.map((requirement) => {
-                                        const { _id, title, description, type } = requirement;
-                                        if (type === 'Functional') {
-                                          return (
-                                            <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
-                                          )
-                                        }
-                                      })
-                                    }
-                                    {
-                                      (requirements.length === 0) && <Accordion title='Requirements List is Empty' />
-
-                                    }
-
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-user-2"
-                          role="tabpanel"
-                          aria-labelledby="pills-user-tab-2"
-                        >
-                          <div className="card">
-                            <div className="card-header">
-                              <h5>Non Functional Requirements</h5>
-                              <small className="text-muted">
-                                These details will be used to collect invoice
-                                payments. Each invoice will have a payment
-                                button based on the below configuration.
-                              </small>
-                            </div>
-                            <div className="card-body">
-                              <div className="faq justify-content-center">
-                                <div className="col-sm-12 col-md-10-12 col-xxl-12">
-                                  <div class="accordion accordion-flush" id="accordionExample">
-                                    {
-                                      requirements  && requirements.map((requirement) => {
-                                        const { _id, title, description, type } = requirement;
-                                        if (type === 'Non-Functional') {
-                                          return (
-                                            <Accordion id={_id} title={(type === 'Functional') ? `FR - ${title}` : `N-FR - ${title}`} description={description} />
-                                          )
-                                        }
-                                      })
-                                    }
-                                    {
-                                      (requirements.length === 0) && <Accordion title='Requirements List is Empty' />
-
-                                    }
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
+                        
+                        
                       </div>
                     </div>
                   </div>

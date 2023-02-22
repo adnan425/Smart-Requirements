@@ -1,35 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import nlp from 'compromise'; 
+import React, { useState, useEffect } from "react";
+import axios from 'axios'
 
-function Compromise() {
-  const [input, setInput] = useState('This step helps to determine the quality of the requirements. It involves identifying whether the requirements are unclear, incomplete, ambiguous, and contradictory.');
+
+const EntityRecognition = () => {
+  const [text, setText] = useState('This step helps to determine the quality of the requirements. It involves identifying whether the requirements are unclear, incomplete, ambiguous, and contradictory.');
+
   const [entities, setEntities] = useState([]);
 
-  const getData = () => {
-    const doc = nlp(input);
-    const people = doc.people().out('array');
-    const organizations = doc.organizations().out('array');
-    const locations = doc.places().out('array'); 
-    const money = doc.money().out('array');
-    const numbers = doc.numbers().out('array'); 
-    setEntities([...people, ...organizations, ...locations,   ...money, ...numbers, ]);
-    console.log(doc.world);
-    console.log(doc.sentiment);
-  }
+  const getEntities = async (text) => {
+    const response = await axios.post('https://api.openai.com/v1/engines/entity-linker/jobs', {
+      model: "text-davinci-003",
+      prompt: text,
+      max_tokens: 2048,
+      n: 1,
+      stop: ['.', '?', '!'],
+      temperature: 0.5,
+    }, {
+      headers: {
+        'Authorization': `Bearer OPENAI_API_KEY_REMOVED`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    setEntities(response.data.choices[0].text.split(' ').filter(word => word[0] === '(' && word[word.length - 1] === ')'));
+  };
+
 
   return (
-    <div className="Compromise">
-       <button onClick={getData}> BTN </button>
-      <br />
-      <br />
-      <p>Entities:</p>
-      <ul>
-        {entities.map((entity, index) => (
-          <li key={index}>{entity}</li>
+    <div>
+      <button onClick={() => getEntities('Enter your text here.')}>Extract Entities</button>
+
+      <div>
+        {entities.map(entity => (
+          <p key={entity}>{entity}</p>
         ))}
-      </ul>
+      </div>
     </div>
   );
-}
+};
 
-export default Compromise;
+export default EntityRecognition;

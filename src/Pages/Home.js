@@ -13,21 +13,25 @@ import Admin from '../Components/Admin/Admin';
 import Users from "../Components/Admin/Users";
 import Settings from "../Components/Admin/Settings";
 import Projects from "../Components/Admin/Projects";
-import Dashboard from "../Components/Admin/Dashboard"; 
+import Dashboard from "../Components/Admin/Dashboard";
 
 import Manager from '../Components/ProjectManager/Home';
 import NewProject from "../Components/ProjectManager/NewProject";
 import ManagerProject from '../Components/ProjectManager/Projects'
 import Elicitation from "../Components/ProjectManager/Elicitation";
 import Documentation from "../Components/ProjectManager/Documentation";
-import ManagerSettings from './../Components/ProjectManager/Settings'; 
-import Pdf from './../Components/ProjectManager/Pdf'; 
+import ManagerSettings from './../Components/ProjectManager/Settings';
+import Pdf from './../Components/ProjectManager/Pdf';
 import Analysis from "../Components/ProjectManager/Analysis";
 
 
 import Stakeholder from '../Components/Stakeholder/Home';
 import StakeDashboard from '../Components/Stakeholder/Dashboard';
-import StakeholderSettings from './../Components/Stakeholder/Settings'; 
+import StakeholderSettings from './../Components/Stakeholder/Settings';
+
+import ManagerRoutes from "../Components/PrivateRoutes/ManagerRoute";
+import AdminRoute from "../Components/PrivateRoutes/AdminRoute";
+import StakeholderRoute from "../Components/PrivateRoutes/StakeholderRoute";
 
 
 
@@ -63,30 +67,28 @@ export default function Home() {
             <Route path="/forget-password" element={<ForgetPassword />} />
 
             {/* admin routes */}
-            <Route path="admin" element={<Admin />} >
-              <Route index element={<Dashboard />} />
-              <Route exact path="dashboard" element={<Dashboard />} />
-              <Route exact path="users" element={<Users />} />
-              <Route exact path="projects" element={<Projects />} /> 
-              <Route exact path="settings" element={<Settings />} />
+            <Route path="admin" element={<AdminRoute><Admin /></AdminRoute>} >
+              <Route index element={<AdminRoute><Dashboard /></AdminRoute>} />
+              <Route exact path="dashboard" element={<AdminRoute><Dashboard /></AdminRoute>} />
+              <Route exact path="users" element={<AdminRoute><Users /></AdminRoute>} />
+              <Route exact path="projects" element={<AdminRoute><Projects /></AdminRoute>} />
+              <Route exact path="settings" element={<AdminRoute><Settings /></AdminRoute>} />
             </Route>
 
-            <Route path="manager" element={<Manager />} >
-              <Route index element={<ManagerProject />} />
-              <Route exact path="new" element={<NewProject />} />
-              <Route path="analysis" element={<Analysis />} />
-              <Route path="phase1" element={<Elicitation />} />
-              <Route path="documentation" element={<Documentation />} />
-              <Route path="pdf" element={<Pdf />} />
-              <Route exact path="settings" element={<ManagerSettings />} />
+            <Route path="manager" element={<ManagerRoutes><Manager /></ManagerRoutes>} >
+              <Route index element={<ManagerRoutes><ManagerProject /></ManagerRoutes>} />
+              <Route exact path="new" element={<ManagerRoutes><NewProject /></ManagerRoutes>} />
+              <Route path="analysis" element={<ManagerRoutes><Analysis /></ManagerRoutes>} />
+              <Route path="phase1" element={<ManagerRoutes><Elicitation /></ManagerRoutes>} />
+              <Route path="documentation" element={<ManagerRoutes><Documentation /></ManagerRoutes>} />
+              <Route path="pdf" element={<ManagerRoutes><Pdf /></ManagerRoutes>} />
+              <Route exact path="settings" element={<ManagerRoutes><ManagerSettings /></ManagerRoutes>} />
             </Route>
 
 
-            <Route path="/stakeholder" element={<Stakeholder />} >
-              <Route index element={<StakeDashboard />} />
-              <Route exact path="settings" element={<StakeholderSettings />} /> 
-              
-
+            <Route path="/stakeholder" element={<StakeholderRoute><Stakeholder /></StakeholderRoute>} >
+              <Route index element={<StakeholderRoute><StakeDashboard /></StakeholderRoute>} />
+              <Route exact path="settings" element={<StakeholderRoute><StakeholderSettings /></StakeholderRoute>} />
             </Route>
           </Routes>
         </ConfigProvider>

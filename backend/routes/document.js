@@ -504,7 +504,8 @@ router.post("/uploadimg", [auth], (req, res, next) => {
 const htmlToLatex = async (html) => {
     return await convertText(html);
   }
-
+  
+  
  function generateTexFile(srsData) {
     let jsonData = {
         title: "My Report",
@@ -655,22 +656,20 @@ console.log(srsData);
     fs.writeFile(texFileName, texFile, (err) => {
         if (err) {
             console.error("An error occurred while writing the file.");
-            res.status(500).send("An error occurred while writing the file.");
-            return;
+            return res.status(500).send("An error occurred while writing the file.");
+            
         }
         console.log("File has been successfully written.");
         exec(`pdflatex ${texFileName}`, (err, stdout, stderr) => {
             if (err) {
                 console.error(`Error: ${err}`);
-                res.status(500).send(`Error: ${err}`);
-                return;
+                return res.status(500).send(`Error: ${err}`);
             }
             console.error(`stdout: ${stdout}`);
             console.error(`stderr: ${stderr}`);
             if (stderr) {
                 console.error(`LaTeX compiling errors: ${stderr}`);
-                res.status(500).send(`LaTeX compiling errors: ${stderr}`);
-                return;
+                return res.status(500).send(`LaTeX compiling errors: ${stderr}`);
             }
             const pdfFile = path.resolve(filename.replace(".tex", ".pdf"));
             if (!fs.existsSync(pdfFile)) {

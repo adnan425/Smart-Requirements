@@ -7,7 +7,7 @@ const path = require("path");
 const auth = require("../middleware/auth");
 const manager = require("../middleware/manager");
 const { exec } = require('child_process');
-const { convertText } =  require('html-to-latex');
+const { convertText } = require('html-to-latex');
 
 
 // const admin = require('../middleware/admin');
@@ -503,10 +503,10 @@ router.post("/uploadimg", [auth], (req, res, next) => {
 
 const htmlToLatex = async (html) => {
     return await convertText(html);
-  }
-  
-  
- function generateTexFile(srsData) {
+}
+
+
+function generateTexFile(srsData) {
     let jsonData = {
         title: "My Report",
         author: "John Doe",
@@ -631,11 +631,11 @@ router.get("/generatepdf", auth, async (req, res) => {
 
     const desc = await Description.find(query).select('-_id -userId -projectId -locked');
     const features = await Features.find(query).select('-_id -userId -projectId -locked');
-    const featuresLatex = await htmlToLatex(features[0].features); 
-     
+    const featuresLatex = await htmlToLatex(features[0].features);
+
     const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
     const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
-    const otherReqLatex = await htmlToLatex(otherReq[0].requirements); 
+    const otherReqLatex = await htmlToLatex(otherReq[0].requirements);
 
 
     srsData = { ...srsData, project };
@@ -648,19 +648,24 @@ router.get("/generatepdf", auth, async (req, res) => {
     srsData = { ...srsData, featuresLatex };
     srsData = { ...srsData, nonFun };
     srsData = { ...srsData, otherReqLatex };
-console.log(srsData);
+    console.log(srsData);
+    // Generate the .tex file
     const texFile = generateTexFile(srsData);
+    // Generating dynamic file name and folder according to project id
+    const filename = `srs_${projectId}.tex`;
+    const projectDir = path.resolve('backend/documents', projectId);
+    const texFileName = path.resolve(projectDir, filename);
+    
+    fs.mkdirSync(projectDir, { recursive: true });
 
-    const filename = "srs_" + projectId + ".tex";
-    const texFileName = path.resolve(filename);
     fs.writeFile(texFileName, texFile, (err) => {
         if (err) {
             console.error("An error occurred while writing the file.");
             return res.status(500).send("An error occurred while writing the file.");
-            
+
         }
         console.log("File has been successfully written.");
-        exec(`pdflatex ${texFileName}`, (err, stdout, stderr) => {
+        exec(`pdflatex -output-directory=${projectDir} ${texFileName}`, (err, stdout, stderr) => {
             if (err) {
                 console.error(`Error: ${err}`);
                 return res.status(500).send(`Error: ${err}`);
@@ -671,7 +676,7 @@ console.log(srsData);
                 console.error(`LaTeX compiling errors: ${stderr}`);
                 return res.status(500).send(`LaTeX compiling errors: ${stderr}`);
             }
-            const pdfFile = path.resolve(filename.replace(".tex", ".pdf"));
+            const pdfFile = path.resolve(path.dirname(texFileName), filename.replace(".tex", ".pdf"));
             if (!fs.existsSync(pdfFile)) {
                 console.error("Error: PDF file not found.");
                 return res.status(500).send("Error: PDF file not found.");
@@ -684,7 +689,5 @@ console.log(srsData);
     });
 
 });
-
-
 
 module.exports = router;

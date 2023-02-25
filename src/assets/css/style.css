@@ -24389,7 +24389,7 @@ body.theme-4 .team-lists img {
 }
 
 .widget-profile-card-3 {
-    background-image: url("../images/slider5.jpg");
+    /* background-image: url("../images/slider5.jpg"); */
     background-size: cover;
     padding: 50px 0;
     text-align: center;
@@ -24459,7 +24459,7 @@ body.theme-4 .team-lists img {
     color: #fff;
     text-align: center;
     padding-top: 45px;
-    background-image: url("../images/blur-bg.png");
+    /* background-image: url("../images/blur-bg.png"); */
     background-size: cover;
 }
 
@@ -25128,15 +25128,15 @@ body.theme-4 .team-lists img {
 }
 
 .lb-cancel {
-    background: url("./../images/loading.gif") no-repeat;
+    /* background: url("./../images/loading.gif") no-repeat; */
 }
 
 .lb-nav a.lb-prev {
-    background: url("../images/prev.png") left 48% no-repeat;
+    /* background: url("../images/prev.png") left 48% no-repeat; */
 }
 
 .lb-nav a.lb-next {
-    background: url("../images/next.png") right 48% no-repeat;
+    /* background: url("../images/next.png") right 48% no-repeat; */
 }
 
 .lb-data .lb-caption a {
@@ -25144,7 +25144,7 @@ body.theme-4 .team-lists img {
 }
 
 .lb-data .lb-close {
-    background: url("../images/close.png") top right no-repeat;
+    /* background: url("../images/close.png") top right no-repeat; */
 }
 
 .alert-dismissable .close,

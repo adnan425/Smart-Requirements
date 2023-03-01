@@ -343,25 +343,22 @@ export default function Phase2() {
 
   }
   const quillRef = useRef();
-  const handleQuillChange = (value, field) => {
-    setIntro({
-      ...intro,
-      [field]: value
-    });
-  }
-
+  
   const imageHandler = (e) => {
+    if (e && e.preventDefault instanceof Function) {
+      e.preventDefault();
+    }
     const editor = quillRef.current.getEditor();
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();
-
+  
     input.onchange = async () => {
       const file = input.files[0];
       if (/^image\//.test(file.type)) {
         const formData = new FormData();
-
+  
         formData.append("image", file);
         console.log(formData);
         http.post(`${apiUrl}/project/uploadimg`, formData, {
@@ -370,18 +367,18 @@ export default function Phase2() {
           }
         }
         ).then(res => {
-          console.log(res);
-          let url = `http://localhost:3004${res.url}`;
 
-          url = `http://localhost:3000/backend/public/upload/image-1675100951649.png`;
-          console.log(url);
-          editor.insertEmbed(editor.getSelection(), "image", url);
+          console.log(res);
+          // let url = `http://localhost:3004${res.data.url}`;
+          // console.log(url);
+          // editor.insertEmbed(editor.getSelection(), "image", url);
         }).catch(err => console.log(err));
       } else {
         toast.info('You could only upload images.');
       }
     };
-  }
+  };
+  
   const modules = useMemo(() => ({
     toolbar: {
       container: [
@@ -427,9 +424,9 @@ export default function Phase2() {
                     </div>
                   </div>
                   <div className="col-xl-9">
-                    <div id="title-page" class="card">
+                    <div id="title-page" className="card">
                       <form onSubmit={handlSubmitTitle} >
-                        <div class="card-header">
+                        <div className="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <h5>Title Page</h5><small className="text-muted"></small>
@@ -443,21 +440,21 @@ export default function Phase2() {
                             </div>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <div class="row">
+                        <div className="card-body">
+                          <div className="row">
                             <Input name={'title'} value={projectTitle.title} label={"Project Title"} placeholder="Smart Requirements" error={errors.title} onChange={e => setProjectTitle({ ...projectTitle, title: e.target.value })} classes="col-md-6" />
                             <Input name={'prepared_by'} value={projectTitle.author} label={"Prepared By"} placeholder="Adnan" error={errors.author} onChange={e => setProjectTitle({ ...projectTitle, author: e.target.value })} classes="col-md-6" />
                             <Input name={'org'} value={projectTitle.organization} label={"Originzation"} placeholder="SZABIST" error={errors.organization} onChange={e => setProjectTitle({ ...setProjectTitle, organization: e.target.value })} classes="col-md-6" />
                             <Input name={'date'} value={projectTitle.date} label={"Date"} error={''} onChange={''} classes="col-md-6" />
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>
                     </div>
                     {/* Chapter 1 */}
-                    <div id="intro" class="card">
+                    <div id="intro" className="card">
                       <form onSubmit={handleIntroSubmit}>
-                        <div class="card-header">
+                        <div className="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <h5>1. Introduction</h5><small className="text-muted"></small>
@@ -475,22 +472,22 @@ export default function Phase2() {
                             </div>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <div class="row">
+                        <div className="card-body">
+                          <div className="row">
                             <Input tag='textarea' name={'purpose'} value={intro.purpose} label={"1.1 purpose"} error={errors.purpose} onChange={e => setIntro({ ...intro, purpose: e.target.value })} />
                             <Quill name='conventions' label={"1.2 Document Conventions"} value={intro.conventions} error={errors.conventions}  onChange={(content, delta, source, editor) => setIntro({...intro, conventions:editor.getHTML()})}  />
                             <Quill name='audience' label={"1.3 Intended Audience and Reading Suggestions"} value={intro.audience} error={errors.audience} onChange={(content, delta, source, editor) => setIntro({...intro, audience:editor.getHTML()})} />
                             <Quill name='scope' label={"1.4 Product Scope"} value={intro.scope} error={errors.scope} onChange={(content, delta, source, editor) => setIntro({...intro, scope:editor.getHTML()})} />
                             <Quill name='references' label={"1.5 References"} value={intro.references} error={errors.references} onChange={(content, delta, source, editor) => setIntro({...intro, references:editor.getHTML()})} />
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>
                     </div>
                     {/* Chapter 2 */}
-                    <div id="description" class="card">
+                    <div id="description" className="card">
                       <form onSubmit={handleDescSubmit} >
-                        <div class="card-header">
+                        <div className="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <h5>2. Overall Description</h5><small className="text-muted"></small>
@@ -503,8 +500,8 @@ export default function Phase2() {
                             </div>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <div class="row">
+                        <div className="card-body">
+                          <div className="row">
                             <Input tag='textarea' name={'perspective'} value={desc.perspective} label={"2.1 Product Perspective"} error={errors.perspective} onChange={e => setDesc({ ...desc, perspective: e.target.value })} />
                             <Input tag='textarea' name={'functions'} value={desc.functions} label={"2.2 Product Functions"} error={errors.functions} onChange={e => setDesc({ ...desc, functions: e.target.value })} />
                             <Input tag='textarea' name={'characteristics'} value={desc.characteristics} label={"2.3 User Classes and Characteristics"} error={errors.characteristics} onChange={e => setDesc({ ...desc, characteristics: e.target.value })} />
@@ -512,15 +509,15 @@ export default function Phase2() {
                             <Input tag='textarea' name={'implementation'} value={desc.implementation} label={"2.5 Design and Implementation Constraints"} error={errors.implementation} onChange={e => setDesc({ ...desc, implementation: e.target.value })} />
                             <Input tag='textarea' name={'documentation'} value={desc.documentation} label={"2.6 User Documentation"} error={errors.documentation} onChange={e => setDesc({ ...desc, documentation: e.target.value })} />
                             <Input tag='textarea' name={'assumption'} value={desc.assumptions} label={"2.7 Assumptions and Dependencies"} error={errors.assumptions} onChange={e => setDesc({ ...desc, assumptions: e.target.value })} />
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>
                     </div>
                     {/* Chapter 3 */}
-                    <div id="interface" class="card">
+                    <div id="interface" className="card">
                       <form onSubmit={e => e.preventDefault()} >
-                        <div class="card-header">
+                        <div className="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <h5>3. External Interface Requirements</h5><small className="text-muted"></small>
@@ -533,20 +530,20 @@ export default function Phase2() {
                             </div>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <div class="row">
+                        <div className="card-body">
+                          <div className="row">
                             <div className={`form-group mb-3 ${''}`}>
                               <ReactQuill theme="snow" ref={quillRef} value={interfaceRequirements || ''} modules={modules} onChange={setInterfaceRequirements} />
                             </div>
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' onClick={e => e.preventDefault()} /> </div>
+                            <div className="card-footer text-end pb-0"><Button label='Save Changes' onClick={e => e.preventDefault()} /> </div>
                           </div>
                         </div>
                       </form>
                     </div>
                     {/* Chapter 4 */}
-                    <div id="features" class="card">
+                    <div id="features" className="card">
                       <form onSubmit={doFeaturSubmit} >
-                        <div class="card-header">
+                        <div className="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <h5>4. System Features</h5><small className="text-muted"></small>
@@ -559,17 +556,17 @@ export default function Phase2() {
                             </div>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <div class="row">
+                        <div className="card-body">
+                          <div className="row">
                             <Quill name='features' value={features} error={errors.features} onChange={setFeatures} />
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>
                     </div>
-                    <div id="nonfunctional" class="card">
+                    <div id="nonfunctional" className="card">
                       <form onSubmit={handleNonFunSubmit}>
-                        <div class="card-header">
+                        <div className="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <h5>5. Other Nonfunctional Requirements</h5><small className="text-muted"></small>
@@ -582,22 +579,22 @@ export default function Phase2() {
                             </div>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <div class="row">
+                        <div className="card-body">
+                          <div className="row">
                             <Input tag='textarea' name={'perfReq'} value={nonFun.performance} label={"5.1 Performance Requirements"} error={errors.performance} onChange={e => setNonFun({ ...nonFun, performance: e.target.value })} />
                             <Input tag='textarea' name={'safeReq'} value={nonFun.safety} label={"5.2 Safety Requirements"} error={errors.safety} onChange={e => setNonFun({ ...nonFun, safety: e.target.value })} />
                             <Input tag='textarea' name={'secReq'} value={nonFun.security} label={"5.3 Security Requirements"} error={errors.security} onChange={e => setNonFun({ ...nonFun, security: e.target.value })} />
                             <Input tag='textarea' name={'qualityReq'} value={nonFun.quality} label={"5.4 Software Quality Attributes"} error={errors.quality} onChange={e => setNonFun({ ...nonFun, quality: e.target.value })} />
                             <Input tag='textarea' name={'business'} value={nonFun.business} label={"5.5 Business Rules"} error={errors.business} onChange={e => setNonFun({ ...nonFun, business: e.target.value })} />
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>
                     </div>
                     {/* Chapter 6 */}
-                    <div id="otherrequirements" class="card">
+                    <div id="otherrequirements" className="card">
                       <form onSubmit={doOtherReqSubmit}>
-                        <div class="card-header">
+                        <div className="card-header">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <h5>6. Other Requirements</h5><small className="text-muted"></small>
@@ -610,11 +607,11 @@ export default function Phase2() {
                             </div>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <div class="row">
+                        <div className="card-body">
+                          <div className="row">
                             <Quill name='requirements' value={otherRequirements} error={errors.otherRequirements} onChange={setOtherRequirements} />
 
-                            <div class="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
                       </form>

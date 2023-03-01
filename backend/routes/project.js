@@ -19,8 +19,7 @@ const { Features } = require("./../models/features");
 const {
     OtherRequirements,
 } = require("./../models/OtherRequirements");
-const router = express.Router();
-const Fawn = require('fawn');
+const router = express.Router(); 
 
 // POST | ADD PROJECT | TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/', [auth, manager], async (req, res, next) => {
@@ -54,6 +53,8 @@ router.post('/', [auth, manager], async (req, res, next) => {
             status: "started"
         });
 
+        
+
         await project.save();
         res.status(200).send(project);
 
@@ -61,7 +62,6 @@ router.post('/', [auth, manager], async (req, res, next) => {
         next();
     }
 });
-
 //  GET | All Projects | TWO MIDDLWARE { AUTH, ADMIN } | ONLY ADMIN | USE ADMIN MIDDLEWARE FOR VERIFY 
 router.get('/', [auth, admin], async (req, res, next) => {
     try {
@@ -93,7 +93,6 @@ router.get('/stakeholder', [auth, stakeholder], async (req, res, next) => {
     }
 
 });
-
 //  GET | Projects BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.get('/:id', [auth], async (req, res, next) => {
     try {
@@ -120,7 +119,6 @@ router.get('/:id', [auth], async (req, res, next) => {
     }
 
 });
-
 //  DELETE | DELETE Project BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY 
 router.delete('/:id', [auth], async (req, res, next) => {
     try {
@@ -154,7 +152,6 @@ router.delete('/:id', [auth], async (req, res, next) => {
     }
 
 });
-
 //  PUT | Projects BY ID | ONLY MANAGER | USE MANAGER MIDDLEWARE FOR VERIFY | UPDATE TITLE PAGE 
 router.put('/p/:id', [auth, manager], async (req, res, next) => {
     try {

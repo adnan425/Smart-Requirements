@@ -460,7 +460,7 @@ router.get("/other/:id", [auth, manager], async (req, res, next) => {
 });
 let newFileName;
 const storage = multer.diskStorage({
-    destination: "./public/upload",
+    destination: "backend/assets/upload",
     filename: function (req, file, cb) {
         newFileName =
             file.fieldname + "-" + Date.now() + path.extname(file.originalname);
@@ -475,37 +475,49 @@ const upload = multer({
 
 router.post("/uploadimg", [auth], (req, res, next) => {
     try {
-        upload(req, res, async function (err) {
-            if (err) {
-                res.status(500).send({ error: err });
-            }
-            if (req.file == null) {
-                res.send("Select Image.");
-            } else {
-                // read the img file from tmp in-memory location
-                var newImg = fs.readFileSync(req.file.path);
-                // encode the file as a base64 string.
-                // var encImg = newImg.toString('base64');
-                var newItem = {
-                    url: `/public/upload/${newFileName}`,
-                };
-                let img = new imageModel(newItem);
-                await img.save();
-                console.log("Saved To database");
-                res.send(newItem.url);
-            }
+      upload(req, res, async function (err) {
+        if (err) {
+          res.status(500).send({ error: err });
+          return;
+        }
+  
+        if (req.file == null) {
+          res.status(400).send("Select Image.");
+          return;
+        }
+  
+        // Read the img file from tmp in-memory location
+        const readStream = fs.createReadStream(req.file.path); 
+  
+        // Create a new image model
+        const newItem = {
+          url: `/${newFileName}`,
+        };
+        const img = new imageModel(newItem);
+  
+        // Save the image to the database
+        try {
+          await img.save();
+        } catch (err) {
+          res.status(500).send({ error: "Failed to save image to database" });
+          return;
+        }
+  
+        console.log("Saved to database");
+  
+        // Send a JSON response with information about the uploaded image
+        res.json({
+          id: img._id,
+          url: `/assets/upload/${newItem.url}`,
+          createdAt: img.createdAt,
         });
+      });
     } catch (err) {
-        console.log(err);
-        next();
+      console.error(err);
+      next();
     }
-});
-
-const htmlToLatex = async (html) => {
-    return await convertText(html);
-}
-
-
+  });
+const htmlToLatex = async (html) => await convertText(html);
 function generateTexFile(srsData) {
     let jsonData = {
         title: "My Report",
@@ -636,8 +648,7 @@ router.get("/generatepdf", auth, async (req, res) => {
     const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
     const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
     const otherReqLatex = await htmlToLatex(otherReq[0].requirements);
-
-
+ 
     srsData = { ...srsData, project };
     srsData = { ...srsData, intro };
     srsData = { ...srsData, conventionLatex };
@@ -657,12 +668,10 @@ router.get("/generatepdf", auth, async (req, res) => {
     const texFileName = path.resolve(projectDir, filename);
     
     fs.mkdirSync(projectDir, { recursive: true });
-
     fs.writeFile(texFileName, texFile, (err) => {
         if (err) {
             console.error("An error occurred while writing the file.");
             return res.status(500).send("An error occurred while writing the file.");
-
         }
         console.log("File has been successfully written.");
         exec(`pdflatex -output-directory=${projectDir} ${texFileName}`, (err, stdout, stderr) => {

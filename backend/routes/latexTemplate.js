@@ -234,4 +234,5 @@
     \\end{document}`;
     return texFile;
 }
+
 module.exports = generateTexFile;

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@grammarly/editor-sdk-react": "^2.3.13",
     "@reduxjs/toolkit": "^1.9.1",
     "@tabler/icons": "^1.117.0",
     "@testing-library/jest-dom": "^5.16.5",

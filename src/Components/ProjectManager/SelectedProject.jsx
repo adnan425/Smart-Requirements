@@ -139,7 +139,6 @@ export default function SelectedProject({ handlePhase }) {
     <div className="dash-container">
       <div className="dash-content">
         <PageHeader title={projectTitle} />
-
         <div className="row" key={_id}>
           <div className="card bg-primary">
             <div className="card-body">
@@ -176,8 +175,6 @@ export default function SelectedProject({ handlePhase }) {
                     </div>
                   </div> */}
                 </div>
-
-
               </div>
             </div>
           </div>
@@ -208,6 +205,7 @@ export default function SelectedProject({ handlePhase }) {
                         >
                           <div className="card" data-id="8">
                             <div className="pt-3 ps-3">
+
                               <span className="badge rounded-pill bg-warning ml-1">
                                 Phase
                               </span>
@@ -227,7 +225,7 @@ export default function SelectedProject({ handlePhase }) {
                                     <div className="dropdown-menu dropdown-menu-end">
                                       <a
                                         href="#!"
-                                        className="dropdown-item" 
+                                        className="dropdown-item"
                                       >
                                         <i className="ti ti-sticker"></i>
                                         <span>Add Label</span>
@@ -240,9 +238,12 @@ export default function SelectedProject({ handlePhase }) {
                                 {" "}
                                 <div className="d-flex align-items-center justify-content-between">
                                   <ul className="list-inline mb-0">
-                                    <li className="list-inline-item d-inline-flex align-items-center">
-                                      {/* <i className="f-16 text-primary ti ti-message-2"></i> */}
-                                      {/* Oct 23, 2021 */}
+                                    <li className="list-inline-item">
+                                      <select  class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                          <option value="1">Pending</option>
+                                          <option value="2">Started</option>
+                                          <option value="3">Completed</option>
+                                        </select> 
                                     </li>
                                   </ul>
                                 </div>
@@ -274,13 +275,13 @@ export default function SelectedProject({ handlePhase }) {
                       const { _id, name, date, email } = stakeholder;
                       const start_date = moment(date).fromNow();
                       return (
-                        <div className="col-lg-3 col-sm-6 col-md-6" key={_id+98}>
+                        <div className="col-lg-3 col-sm-6 col-md-6" key={_id + 98}>
 
                           <ProfileCard id={_id} name={name} email={email} date={start_date} handleClick={handleDelete} />
                         </div>
                       )
                     })}
-                     
+
                     <div className="col-xl-3 col-lg-4 col-sm-6">
                       <Link onClick={handleShow} className="btn-addnew-project"
                         data-bs-toggle="tooltip" data-bs-placement="top" title="project" >

@@ -1,4 +1,5 @@
 import React from "react";
+import { GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
 
 const Input = ({ tag ="input", name, value, label, placeholder="", type = "text",  error, onChange , classes = ""}) => {
   const Tag = tag;
@@ -7,6 +8,7 @@ const Input = ({ tag ="input", name, value, label, placeholder="", type = "text"
       <label htmlFor={name} className="form-label">
         {label}
       </label>
+      <GrammarlyEditorPlugin clientId={process.env.REACT_APP_GRAMMERLY_KEY}> 
       <Tag
         type={type}
         value={value}
@@ -16,6 +18,8 @@ const Input = ({ tag ="input", name, value, label, placeholder="", type = "text"
         className="form-control"
         onChange={onChange}
       />
+      </GrammarlyEditorPlugin>
+  
       {error && <small className="small  text-danger ">{error}</small>}
     </div>
   );

@@ -674,7 +674,7 @@ router.get("/generatepdf", auth, async (req, res) => {
             return res.status(500).send("An error occurred while writing the file.");
         }
         console.log("File has been successfully written.");
-        exec(`pdflatex -output-directory=${projectDir} ${texFileName}`, (err, stdout, stderr) => {
+        exec(`C:/Users/Adnan/AppData/Local/Programs/MiKTeX/miktex/bin/x64/pdflatex -output-directory=${projectDir} ${texFileName}`, (err, stdout, stderr) => {
             if (err) {
                 console.error(`Error: ${err}`);
                 return res.status(500).send(`Error: ${err}`);

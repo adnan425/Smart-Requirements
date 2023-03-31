@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 export default function Theme() {
     const handleThemeColor = theme => {
         localStorage.setItem('theme', theme);
         window.location.reload();
-    } 
+    }
 
     const handleThemeType = e => {
         if (e.target.checked) {
@@ -55,7 +55,7 @@ export default function Theme() {
                                                     <label className="form-check-label f-w-600 pl-1" htmlFor="cust-theme-bg">Transparent layout</label>
                                                 </div>
                                             </div> */}
-                                            <div className="col-3">
+                                            {/* <div className="col-3">
                                                 <h6 className="">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>Layout settings
                                                 </h6>
@@ -64,7 +64,7 @@ export default function Theme() {
                                                     <input type="checkbox" className="form-check-input" id="cust-darklayout" onChange={handleThemeType} checked={localStorage.hasOwnProperty('themeMode')} name="cust_darklayout" />
                                                     <label className="form-check-label f-w-600 pl-1" htmlFor="cust-darklayout">Dark Layout</label>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>

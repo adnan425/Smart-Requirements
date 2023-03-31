@@ -113,23 +113,23 @@ export default function SelectedProject({ handlePhase }) {
       title: "Requirement Analysis",
       path: '/manager/analysis'
     },
+    // {
+    //   id: 3,
+    //   title: "Requirement Validation",
+    //   path: '/manager/phase1'
+    // },
+    // {
+    //   id: 4,
+    //   title: "Requirement Management",
+    //   path: '/manager/phase1'
+    // },
     {
       id: 3,
-      title: "Requirement Validation",
-      path: '/manager/phase1'
-    },
-    {
-      id: 4,
-      title: "Requirement Management",
-      path: '/manager/phase1'
-    },
-    {
-      id: 5,
       title: "Documentation",
       path: '/manager/documentation'
     },
     {
-      id: 6,
+      id: 4,
       title: "Generate Report",
       path: '/manager/pdf'
     },
@@ -239,11 +239,11 @@ export default function SelectedProject({ handlePhase }) {
                                 <div className="d-flex align-items-center justify-content-between">
                                   <ul className="list-inline mb-0">
                                     <li className="list-inline-item">
-                                      <select  class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                          <option value="1">Pending</option>
-                                          <option value="2">Started</option>
-                                          <option value="3">Completed</option>
-                                        </select> 
+                                      <select className="form-select form-select-sm" aria-label=".form-select-sm example">
+                                        <option value="1">Pending</option>
+                                        <option value="2">Started</option>
+                                        <option value="3">Completed</option>
+                                      </select>
                                     </li>
                                   </ul>
                                 </div>
@@ -293,7 +293,7 @@ export default function SelectedProject({ handlePhase }) {
                       </Link>
                       <Modal show={show} size="lg" onHide={handleClose}>
                         <Modal.Header closeButton>
-                          <Modal.Title>Requirements</Modal.Title>
+                          <Modal.Title>Add Stakeholder</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                           <div className="col-md-12 form-group">

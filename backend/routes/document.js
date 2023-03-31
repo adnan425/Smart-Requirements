@@ -475,49 +475,50 @@ const upload = multer({
 
 router.post("/uploadimg", [auth], (req, res, next) => {
     try {
-      upload(req, res, async function (err) {
-        if (err) {
-          res.status(500).send({ error: err });
-          return;
-        }
-  
-        if (req.file == null) {
-          res.status(400).send("Select Image.");
-          return;
-        }
-  
-        // Read the img file from tmp in-memory location
-        const readStream = fs.createReadStream(req.file.path); 
-  
-        // Create a new image model
-        const newItem = {
-          url: `/${newFileName}`,
-        };
-        const img = new imageModel(newItem);
-  
-        // Save the image to the database
-        try {
-          await img.save();
-        } catch (err) {
-          res.status(500).send({ error: "Failed to save image to database" });
-          return;
-        }
-  
-        console.log("Saved to database");
-  
-        // Send a JSON response with information about the uploaded image
-        res.json({
-          id: img._id,
-          url: `/assets/upload/${newItem.url}`,
-          createdAt: img.createdAt,
+        upload(req, res, async function (err) {
+            if (err) {
+                res.status(500).send({ error: err });
+                return;
+            }
+
+            if (req.file == null) {
+                res.status(400).send("Select Image.");
+                return;
+            }
+
+            // Read the img file from tmp in-memory location
+            const readStream = fs.createReadStream(req.file.path);
+
+            // Create a new image model
+            const newItem = {
+                url: `/${newFileName}`,
+            };
+            const img = new imageModel(newItem);
+
+            // Save the image to the database
+            try {
+                await img.save();
+            } catch (err) {
+                res.status(500).send({ error: "Failed to save image to database" });
+                return;
+            }
+
+            console.log("Saved to database");
+
+            // Send a JSON response with information about the uploaded image
+            res.json({
+                id: img._id,
+                url: `/assets/upload/${newItem.url}`,
+                createdAt: img.createdAt,
+            });
         });
-      });
     } catch (err) {
-      console.error(err);
-      next();
+        console.error(err);
+        next();
     }
-  });
+});
 const htmlToLatex = async (html) => await convertText(html);
+//rendering json to latex
 function generateTexFile(srsData) {
     let jsonData = {
         title: "My Report",
@@ -567,7 +568,7 @@ function generateTexFile(srsData) {
             \\vspace{1.5cm} 
             \\\\for\\\\
             \\vspace{1.5cm}
-            IICT WEBSITE\\\\
+            ${srsData.project.title}\\\\
             \\vspace{1.5cm}
             \\LARGE{Version \\myversion}\\\\
             \\vspace{1.5cm}
@@ -648,7 +649,7 @@ router.get("/generatepdf", auth, async (req, res) => {
     const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
     const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
     const otherReqLatex = await htmlToLatex(otherReq[0].requirements);
- 
+
     srsData = { ...srsData, project };
     srsData = { ...srsData, intro };
     srsData = { ...srsData, conventionLatex };
@@ -666,7 +667,7 @@ router.get("/generatepdf", auth, async (req, res) => {
     const filename = `srs_${projectId}.tex`;
     const projectDir = path.resolve('backend/documents', projectId);
     const texFileName = path.resolve(projectDir, filename);
-    
+
     fs.mkdirSync(projectDir, { recursive: true });
     fs.writeFile(texFileName, texFile, (err) => {
         if (err) {

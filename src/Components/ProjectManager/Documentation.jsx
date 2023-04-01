@@ -6,13 +6,13 @@ import ReactQuill from 'react-quill';
 import Button from '../Utllils/Button';
 import Input from '../Utllils/Input';
 import PageHeader from "../Utllils/PageHeader";
-import { useSelector } from 'react-redux';
 import http from '../Services/httpService';
 import Quill from '../Utllils/Quill';
-import DataList from '../Utllils/DataList';
+import { useSelector, useDispatch } from 'react-redux';
+import { projectRequirements } from '../Store/Projects/projects';
 import { Link } from 'react-router-dom';
-import Avatar from 'react-avatar';
 const moment = require('moment');
+
 const _ = require('lodash');
 const apiUrl = "http://localhost:3004/api";
 
@@ -317,12 +317,29 @@ export default function Phase2() {
   }
   const doFeaturSubmit = e => {
     e.preventDefault();
-    http.post(`${apiUrl}/project/feature`, { projectId: projectId, requirementId, features })
+
+    if (featureData.srId === '') {
+      toast.info("Select Feature Requirement");
+      return false;
+    } else if (featureData.features === '') {
+      toast.info("Feature description is required.");
+      return false;
+    } else if (featureData.features.length < 5) {
+      toast.info("Feature length must be at least 5 characters long.");
+      return false;
+    }
+    console.log("Feature Data", featureData);
+    http.post(`${apiUrl}/project/feature`, featureData)
       .then(res => {
         console.log(res);
         if (res.status === 200) {
           toast.success("Successfully Added.");
-          setFeatures('');
+          getFeaturesList();
+          setFeatureData({
+            title: `Feature ${featureList.length + 1}`,
+            features: '',
+            srId: '',
+          })
         }
       }).catch(err => {
         console.log(err.response);
@@ -398,9 +415,38 @@ export default function Phase2() {
       }
     },
   }), [])
+
+  // Redux Call
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(projectRequirements(projectId));
+  }, [dispatch, projectId]);
+
+  const requirements = useSelector(c => c.projects.requirements);
+
   // Features list
   const [featureList, setFeatureList] = useState([]);
-  const [requirementId, setRequirementId] = useState(null);
+
+  function getFeaturesList() {
+    http.get(`${apiUrl}/project/feature/${projectId}`).then(({ data }) => {
+      setFeatureList(data);
+      console.log("Feature List", featureList);
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  useEffect(() => {
+    getFeaturesList();
+  }, [projectId]);
+
+  // Features States for Data Store
+  const [featureData, setFeatureData] = useState({
+    projectId: projectId,
+    title: `Feature ${featureList.length + 1}`,
+    features: '',
+    srId: '',
+
+  });
   return (
     <div className="page-content">
       <div className="dash-container">
@@ -549,100 +595,109 @@ export default function Phase2() {
                     </div>
                     {/* Chapter 4 */}
                     <div id="features" className="card">
-                      <form onSubmit={doFeaturSubmit} >
-                        <div className="card-header">
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div>
-                              <h5>4. System Features</h5><small className="text-muted"></small>
-                            </div>
-                            <div className="float-end">
-                              <button className="btn btn-sm btn-primary mx-2" onClick={e => e.preventDefault()} title="Lock It.">
-                                <i className="ti ti-check"></i></button>
-                              <button className="btn btn-sm btn-primary" onClick={e => e.preventDefault()} title="Lock It.">
-                                <i className="ti ti-lock-open"></i></button>
-                            </div>
+                      <div className="card-header">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            <h5>4. System Features</h5><small className="text-muted"></small>
+                          </div>
+                          <div className="float-end">
+                            <button className="btn btn-sm btn-primary mx-2" onClick={e => e.preventDefault()} title="Lock It.">
+                              <i className="ti ti-check"></i></button>
+                            <button className="btn btn-sm btn-primary" onClick={e => e.preventDefault()} title="Lock It.">
+                              <i className="ti ti-lock-open"></i></button>
                           </div>
                         </div>
-                        <div className="card-body">
+                      </div>
+                      <div className="card-body">
+                        <form onSubmit={doFeaturSubmit} >
                           <div className="row">
+
                             <div className="col-12 mb-2">
                               <div className="btn-box">
-                                <select className="form-control select" name="requirement">
+                                <h5 className="h4 d-inline-block font-weight-400 mb-2">Requirements</h5>
+                                <select className="form-control select" name="srId" value={featureData.srId} onChange={(e) => { setFeatureData({ ...featureData, srId: e.target.value }) }}>
                                   <option value="" selected="selected">Select REQ</option>
-                                  <option value="1">Keire</option>
-                                  <option value="2">Protiong</option>
+                                  {
+                                    requirements && requirements.length !== 0 && requirements.map((requirement) => (<option key={requirement._id} value={requirement._id}  >{requirement.title}</option>))
+                                  }
                                 </select>
                               </div>
                             </div>
                             <div className="col-12">
-                              <Quill name='features' value={features} error={errors.features} onChange={setFeatures} />
+                              <Input tag='textarea' name={'features'} value={featureData.features} label={"Feature Description"} error={errors.assumptions} onChange={e => setFeatureData({ ...featureData, features: e.target.value })} />
                             </div>
                             <div className="card-footer text-end pb-0"> <Button label='Add' /> </div>
                           </div>
-                          <div className="row"></div>
-                          {
-                            featureList && featureList.length !== 0 && <>
-                              <h5 className="h4 d-inline-block font-weight-400 mb-2">Features List</h5>
-                              <div className="row">
-                                <div className="col-12">
-                                  <div className="card">
-                                    <div className="card-body table-border-style table-border-style">
-                                      <div className="table-responsive">
-                                        <table className="table">
-                                          <tbody>
-                                            <tr>
-                                              <th className="text-dark text-center" style={{ width: '10%' }}>Feature No</th>
-                                              <th className="text-dark text-center" style={{ width: '50%' }}>Description</th>
-                                              <th className="text-dark text-center" style={{ width: '10%' }}>Date</th>
-                                              <th className="text-dark text-center" style={{ width: '10%' }}>Action</th>
-                                            </tr>
-                                            {
-                                              featureList && featureList.map((feature) => (
-                                                <tr>
-                                                  <td className="Id text-center">
-                                                    <a href="#/" className="btn btn-outline-primary">#Feature 1</a>
+                        </form>
+                        <div className="row"></div>
+                        {
+                          featureList && featureList.length !== 0 && <>
+                            <h5 className="h6 d-inline-block font-weight-300 mb-2">Features List</h5>
+                            <div className="row">
+                              <div className="col-12">
+                                <div className="card">
+                                  <div className="card-body table-border-style table-border-style">
+                                    <div className="table-responsive">
+                                      <table className="table">
+                                        <thead>
+                                          <tr>
+                                            <th className="text-dark text-center" style={{ width: '10%' }}>Feature No</th>
+                                            <th className="text-dark text-center" style={{ width: '50%' }}>Description</th>
+                                            <th className="text-dark text-center" style={{ width: '10%' }}>Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+
+                                          {
+                                            featureList && featureList.map((feature, index) => (
+                                              <tr>
+                                                <td className="Id text-center">
+                                                  <a href="#/" className="btn btn-outline-primary">#{`Feature ${index + 1}`}</a>
+                                                </td>
+                                                <td className='text-center' style={{ whiteSpace: 'pre-wrap' }}>{feature.features}</td>
+                                                <td>
+                                                  <td className="Action text-center">
+                                                    {/* <div className="action-btn bg-warning ms-2"> */}
+                                                    {/* <a href="#/"
+                                                        className="mx-3 btn btn-sm align-items-center"
+                                                        data-bs-toggle="tooltip" title="" data-original-title="Ledger Summary"
+                                                        data-bs-original-title="View">
+                                                        <i className="ti ti-eye text-white"></i>
+                                                      </a> */}
+                                                    {/* </div> */}
+                                                    <div className="action-btn bg-info ms-2">
+                                                      <button className="mx-3 btn btn-sm align-items-center"  >
+                                                        <i className="ti ti-edit text-white"></i>
+                                                      </button>
+                                                    </div>
+                                                    <div className="action-btn bg-danger ms-2">
+                                                      <button className="mx-3 btn btn-sm align-items-center bs-pass-para" onClick={() => {
+                                                        http.delete(`${apiUrl}/project/feature/${feature._id}`).then(({ data }) => {
+                                                          toast.success(data);
+                                                          getFeaturesList();
+                                                        }).catch(err => {
+                                                          console.log(err);
+                                                        });
+                                                      }} >
+                                                        <i className="ti ti-trash text-white"></i>
+                                                      </button>
+                                                    </div>
                                                   </td>
-                                                  <td className='text-center'>Animi commodo volup</td>
-                                                  <td className='text-center'>Aug 17, 2022</td>
-                                                  <td>
-                                                    <td className="Action text-center">
-                                                      <div className="action-btn bg-warning ms-2">
-                                                        <a href="#/"
-                                                          className="mx-3 btn btn-sm align-items-center"
-                                                          data-bs-toggle="tooltip" title="" data-original-title="Ledger Summary"
-                                                          data-bs-original-title="View">
-                                                          <i className="ti ti-eye text-white"></i>
-                                                        </a>
-                                                      </div>
-                                                      <div className="action-btn bg-info ms-2">
-                                                        <a className="mx-3 btn btn-sm align-items-center" href="#/"
-                                                          data-ajax-popup="true" data-title="Edit Account"
-                                                          data-bs-toggle="tooltip" title="" data-original-title="Edit" data-bs-original-title="Edit">
-                                                          <i className="ti ti-edit text-white"></i>
-                                                        </a>
-                                                      </div>
-                                                      <div className="action-btn bg-danger ms-2">
-                                                        <a href="#/" className="mx-3 btn btn-sm align-items-center bs-pass-para"
-                                                          data-bs-toggle="tooltip"  >
-                                                          <i className="ti ti-trash text-white"></i>
-                                                        </a>
-                                                      </div>
-                                                    </td>
-                                                  </td>
-                                                </tr>
-                                              ))
-                                            }
-                                          </tbody></table>
-                                      </div>
+                                                </td>
+                                              </tr>
+                                            ))
+                                          }
+                                        </tbody></table>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </>
-                          }
+                            </div>
+                          </>
+                        }
 
-                        </div>
-                      </form>
+                      </div>
+
                     </div>
                     <div id="nonfunctional" className="card">
                       <form onSubmit={handleNonFunSubmit}>

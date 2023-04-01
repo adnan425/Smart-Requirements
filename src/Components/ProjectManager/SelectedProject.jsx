@@ -10,6 +10,8 @@ import http from '../Services/httpService';
 import ProfileCard from "../Utllils/ProfileCard";
 import { useSelector, useDispatch } from 'react-redux';
 import { getProjectTitle } from './../Store/SRS/srs';
+import { projectRequirements } from '../Store/Projects/projects';
+
 const moment = require('moment');
 
 const apiUrl = 'http://localhost:3004/api';
@@ -101,7 +103,6 @@ export default function SelectedProject({ handlePhase }) {
   const { _id, title: projectTitle, date } = project;
   const start_date = moment(date).format("MMM Do YYYY");
 
-  // const classes = "bg-success";
   const phases = [
     {
       id: 1,

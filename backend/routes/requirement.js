@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const express = require('express');
 const auth = require('./../middleware/auth');
-const manager = require('./../middleware/manager');
 const { Requirement, validateRequirement } = require('../models/requirement');
 const { Project } = require('./../models/project');
 const { User } = require('../models/user');
@@ -61,20 +60,20 @@ router.get('/:id', [auth], async (req, res, next) => {
             promises.push(User.findById(element.userId).select('name email date'));
         });
         pro = await Promise.all(promises);
-        
+
         let p = {};
         requirements.forEach((element, index) => {
-            p[index] = {...element._doc};
+            p[index] = { ...element._doc };
             pro.forEach(user => {
-                if(user._id.toString() === element.userId.toString()) {
+                if (user._id.toString() === element.userId.toString()) {
                     p[index].name = user.name;
                     p[index].email = user.email;
                 }
             });
-        }); 
+        });
         return res.status(200).send(Object.values(p));
-        
-        
+
+
     } catch (error) {
         console.log(error);
         next();

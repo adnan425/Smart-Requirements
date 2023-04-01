@@ -8,30 +8,45 @@ const featuresSchema = new mongoose.Schema({
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'projects'  
-    }, 
+        ref: 'projects'
+    },
+    title: {
+        type: String,
+        minLength: 3,
+        maxLength: 300,
+        trim: true,
+    },
     features: {
         type: String,
         minLength: 3,
         maxLength: 3000,
         trim: true,
     },
+    // req Id
+    srId: {
+        type: String,
+        minLength: 5,
+        maxLength: 100,
+        required: true,
+    },
     locked: {
         type: String,
-        enum: ['locked','unlocked'],
+        enum: ['locked', 'unlocked'],
         lowercase: true,
-         default: 'unlocked'
+        default: 'unlocked'
     },
     date: {
         type: Date, default: Date.now
     }
 });
 
-function featuresValidation(feature){
+function featuresValidation(feature) {
     const schema = Joi.object({
-        userId:  Joi.objectId().required(),
+        userId: Joi.objectId().required(),
         projectId: Joi.objectId().required(),
-        features: Joi.string().min(5).max(3000).required() 
+        title: Joi.string().min(5).max(300).required(), // feature 1, feature 2...
+        srId: Joi.objectId().required(),
+        features: Joi.string().min(5).max(3000).required()
     });
     return schema.validate(feature);
 

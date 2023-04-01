@@ -14,8 +14,7 @@ router.get('/me', auth, async (req, res, next) => {
     } catch (err) {
         next();
     }
-})
-
+});
 // STORING NEW USER | NO NEED AUTH
 router.post('/', async (req, res) => {
     const { error } = validateUser(req.body);
@@ -31,19 +30,18 @@ router.post('/', async (req, res) => {
 
     await user.save();
 
-  
+
 
 
     res.status(200).send("Successfully registered.");
-})
-
+});
 //GET ALL MANAGER | ONLY ADMIN CAN GET ALL MANAGER LIST | 2 MIDDLEWARE | AUTH | CHECK IS_ADMIN
 router.get('/', [auth, admin], async (req, res) => {
-    const users = await User.find({role: 'manager'})
+    const users = await User.find({ role: 'manager' })
         .select('_id name email date');
 
-    res.status(200).send(users); 
+    res.status(200).send(users);
 
-        
+
 });
 module.exports = router;

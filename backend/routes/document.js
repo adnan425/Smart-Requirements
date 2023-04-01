@@ -8,10 +8,13 @@ const auth = require("../middleware/auth");
 const manager = require("../middleware/manager");
 const { exec } = require('child_process');
 const { convertText } = require('html-to-latex');
+const mongoose = require('mongoose')
 
 
 // const admin = require('../middleware/admin');
 const { validateProject, Project } = require("../models/project");
+const { Requirement } = require('../models/requirement');
+const { RTM, validateRTM } = require('../models/rtm');
 const {
     introductionValidation,
     Introduction,
@@ -251,37 +254,157 @@ router.get("/desc/:id", [auth, manager], async (req, res, next) => {
 router.post("/feature", [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { userId: req.user._id, ...req.body };
-        const feature = _.pick(bodyData, ["userId", "projectId", "features"]);
+        const feature = _.pick(bodyData, ["userId", "projectId", "title", "srId", "features"]);
+
+        // Validate the feature object using Joi
         const { error } = featuresValidation(feature);
-        if (error) return res.status(400).send(error.details[0].message);
+        if (error) {
+            return res.status(400).send(error.details[0].message);
+        }
 
-        const isUnique = await Project.findById(req.body.projectId);
-        if (!isUnique) return res.status(400).send("Project not found.");
+        // Check if the project exists
+        const project = await Project.findById(req.body.projectId);
+        if (!project) {
+            return res.status(404).send("Project not found.");
+        }
 
+        // Check if the user is a manager of the project
         const isManager = await Project.findOne(
-            { _id: req.body.projectId },
-            { manager: req.user._id }
+            { _id: req.body.projectId, manager: req.user._id }
         );
-        if (!isManager) return res.status(403).send("Access denied.");
+        if (!isManager) {
+            return res.status(403).send("Access denied.");
+        }
 
-        // if(req.body.proj)
-        const isUpdate = await Features.find({ projectId: req.body.projectId });
-        console.log(isUpdate[0]);
+        // Check if the srId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(req.body.srId)) {
+            return res.status(400).send("Invalid srId.");
+        }
 
-        if (isUpdate[0]) {
-            const featureId = isUpdate[0]._id;
-            console.log(featureId);
-            let update = await Features.findOneAndUpdate(
-                { _id: featureId },
-                { $set: { features: req.body.features } }
+        // Check if the srId exists in the Requirement collection
+        const requirement = await Requirement.findById(req.body.srId);
+        if (!requirement) {
+            return res.status(404).send("Requirement not found.");
+        }
+        // Create a new feature record
+        const newFeature = new Features({
+            userId: req.user._id,
+            projectId: req.body.projectId,
+            title: req.body.title,
+            srId: req.body.srId,
+            features: req.body.features
+        });
+        let featureId = await newFeature.save();
+        console.log(featureId);
+
+        // Create a new RTM record
+        const rtm = new RTM({
+            featureId: featureId._id,
+            userId: req.user._id,
+            projectId: req.body.projectId,
+            srId: req.body.srId,
+            urId: requirement.userId,
+            requirement: requirement.title
+        });
+        await rtm.save();
+
+        res.status(200).send("Successfully added.");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Internal server error.");
+    }
+});
+
+// PUT |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.put("/feature/:id", [auth, manager], async (req, res, next) => {
+    try {
+        const featureId = req.params.id;
+        const bodyData = { userId: req.user._id, ...req.body };
+        const feature = _.pick(bodyData, ["userId", "projectId", "title", "srId", "features"]);
+
+        // Validate the feature object using Joi
+        const { error } = featuresValidation(feature);
+        if (error) {
+            return res.status(400).send(error.details[0].message);
+        }
+        try {
+            // Check if the project exists
+            const project = await Project.findById(req.body.projectId);
+            if (!project) {
+                return res.status(404).send("Project not found.");
+            }
+
+            // Check if the feature exists
+            const existingFeature = await Features.findById(featureId);
+            if (!existingFeature) {
+                return res.status(404).send("Feature not found.");
+            }
+
+            // Check if the user is a manager of the project
+            const isManager = await Project.findOne(
+                { _id: req.body.projectId },
+                { manager: req.user._id }
             );
-            res.status(200).send(update);
-        } else {
-            console.log("New");
+            if (!isManager) {
+                return res.status(403).send("Access denied.");
+            }
+            // Check if the srId exists in the Requirement collection
+            const requirement = await Requirement.findById(req.body.srId);
+            if (!requirement) {
+                return res.status(404).send("Requirement not found.");
+            }
+            // Update the feature 
+            await Features.findByIdAndUpdate(featureId, feature, { new: true });
 
-            let features = new Features(feature);
-            await features.save();
-            res.status(200).send(features);
+            // Update the RTM
+            const rtmId = await RTM.findOne({ featureId: featureId });
+            await RTM.findByIdAndUpdate(rtmId._id, {
+                featureId: featureId._id,
+                userId: req.user._id,
+                projectId: req.body.projectId,
+                srId: req.body.srId,
+                urId: requirement.userId,
+                requirement: requirement.title
+            }, { new: true });
+            res.status(200).send("Successfully Updated.");
+        } catch (err) {
+            console.log(err);
+            res.status(500).send("Internal server error.");
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+// DELETE |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.delete("/feature/:id", [auth, manager], async (req, res, next) => {
+    try {
+        const featureId = req.params.id;
+
+        // Validate the feature ID using ObjectId.isValid() method
+        if (!mongoose.Types.ObjectId.isValid(featureId)) {
+            return res.status(400).send("Invalid feature ID.");
+        }
+        try {
+            // Check if the feature exists
+            const existingFeature = await Features.findById(featureId);
+            if (!existingFeature) {
+                return res.status(404).send("Feature not found.");
+            }
+            // Check if the user is a manager of the project
+            const isManager = await Project.findOne(
+                { _id: existingFeature.projectId, manager: req.user._id }
+            );
+            if (!isManager) {
+                return res.status(403).send("Access denied.");
+            }
+            // Delete the feature and send a success message in the response
+            await RTM.findOneAndDelete({ featureId });
+            await Features.findByIdAndDelete(featureId);
+            res.status(200).send("Feature deleted successfully.");
+        } catch (err) {
+            console.log(err);
+            res.status(500).send("Internal server error.");
         }
     } catch (err) {
         console.log(err);
@@ -304,8 +427,27 @@ router.get("/feature/:id", [auth, manager], async (req, res, next) => {
         );
         if (!isManager) return res.status(403).send("Access denied.");
 
-        const feature = await Features.findById(isHas._id);
+        const feature = await Features.find({ projectId });
         res.status(200).send(feature);
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+router.get("/rtm/:id", [auth, manager], async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const isUnique = await Project.findById(projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const rtm = await RTM.find({ projectId }).select(' -featureId -userId -projectId -date -__v');
+        res.status(200).send(rtm);
     } catch (err) {
         console.log(err);
         next();

@@ -15,11 +15,10 @@ const {
 const {
     NonFunctional,
 } = require("./../models/nonfunctional");
-const { Features } = require("./../models/features");
 const {
     OtherRequirements,
 } = require("./../models/OtherRequirements");
-const router = express.Router(); 
+const router = express.Router();
 
 // POST | ADD PROJECT | TITLE | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE | 
 router.post('/', [auth, manager], async (req, res, next) => {
@@ -53,7 +52,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
             status: "started"
         });
 
-        
+
 
         await project.save();
         res.status(200).send(project);
@@ -133,15 +132,15 @@ router.delete('/:id', [auth], async (req, res, next) => {
         }
 
         const query = { projectId: projectId };
-        
+
         // Define the names of the collections to delete documents from
         const collections = ['introduction', 'description', 'features', 'nonFunctional', 'otherRequirements', 'project'];
         // Delete documents from each collection using the projectId as the criteria
-      
+
         const result = await Project.findByIdAndDelete(projectId);
-        if(result){
+        if (result) {
             res.status(200).send("Successfully Deleted.");
-        }else{
+        } else {
             res.status(400).send("Failed to Deleted.");
         }
 

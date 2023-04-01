@@ -9,6 +9,9 @@ import PageHeader from "../Utllils/PageHeader";
 import { useSelector } from 'react-redux';
 import http from '../Services/httpService';
 import Quill from '../Utllils/Quill';
+import DataList from '../Utllils/DataList';
+import { Link } from 'react-router-dom';
+import Avatar from 'react-avatar';
 const moment = require('moment');
 const _ = require('lodash');
 const apiUrl = "http://localhost:3004/api";
@@ -314,11 +317,12 @@ export default function Phase2() {
   }
   const doFeaturSubmit = e => {
     e.preventDefault();
-    http.post(`${apiUrl}/project/feature`, { projectId: projectId, features })
+    http.post(`${apiUrl}/project/feature`, { projectId: projectId, requirementId, features })
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          toast.success("Successfully Updated.");
+          toast.success("Successfully Added.");
+          setFeatures('');
         }
       }).catch(err => {
         console.log(err.response);
@@ -343,7 +347,7 @@ export default function Phase2() {
 
   }
   const quillRef = useRef();
-  
+
   const imageHandler = (e) => {
     if (e && e.preventDefault instanceof Function) {
       e.preventDefault();
@@ -353,12 +357,12 @@ export default function Phase2() {
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();
-  
+
     input.onchange = async () => {
       const file = input.files[0];
       if (/^image\//.test(file.type)) {
         const formData = new FormData();
-  
+
         formData.append("image", file);
         console.log(formData);
         http.post(`${apiUrl}/project/uploadimg`, formData, {
@@ -378,7 +382,7 @@ export default function Phase2() {
       }
     };
   };
-  
+
   const modules = useMemo(() => ({
     toolbar: {
       container: [
@@ -394,6 +398,9 @@ export default function Phase2() {
       }
     },
   }), [])
+  // Features list
+  const [featureList, setFeatureList] = useState([]);
+  const [requirementId, setRequirementId] = useState(null);
   return (
     <div className="page-content">
       <div className="dash-container">
@@ -475,10 +482,10 @@ export default function Phase2() {
                         <div className="card-body">
                           <div className="row">
                             <Input tag='textarea' name={'purpose'} value={intro.purpose} label={"1.1 purpose"} error={errors.purpose} onChange={e => setIntro({ ...intro, purpose: e.target.value })} />
-                            <Quill name='conventions' label={"1.2 Document Conventions"} value={intro.conventions} error={errors.conventions}  onChange={(content, delta, source, editor) => setIntro({...intro, conventions:editor.getHTML()})}  />
-                            <Quill name='audience' label={"1.3 Intended Audience and Reading Suggestions"} value={intro.audience} error={errors.audience} onChange={(content, delta, source, editor) => setIntro({...intro, audience:editor.getHTML()})} />
-                            <Quill name='scope' label={"1.4 Product Scope"} value={intro.scope} error={errors.scope} onChange={(content, delta, source, editor) => setIntro({...intro, scope:editor.getHTML()})} />
-                            <Quill name='references' label={"1.5 References"} value={intro.references} error={errors.references} onChange={(content, delta, source, editor) => setIntro({...intro, references:editor.getHTML()})} />
+                            <Quill name='conventions' label={"1.2 Document Conventions"} value={intro.conventions} error={errors.conventions} onChange={(content, delta, source, editor) => setIntro({ ...intro, conventions: editor.getHTML() })} />
+                            <Quill name='audience' label={"1.3 Intended Audience and Reading Suggestions"} value={intro.audience} error={errors.audience} onChange={(content, delta, source, editor) => setIntro({ ...intro, audience: editor.getHTML() })} />
+                            <Quill name='scope' label={"1.4 Product Scope"} value={intro.scope} error={errors.scope} onChange={(content, delta, source, editor) => setIntro({ ...intro, scope: editor.getHTML() })} />
+                            <Quill name='references' label={"1.5 References"} value={intro.references} error={errors.references} onChange={(content, delta, source, editor) => setIntro({ ...intro, references: editor.getHTML() })} />
                             <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
                           </div>
                         </div>
@@ -558,9 +565,82 @@ export default function Phase2() {
                         </div>
                         <div className="card-body">
                           <div className="row">
-                            <Quill name='features' value={features} error={errors.features} onChange={setFeatures} />
-                            <div className="card-footer text-end pb-0"><Button label='Save Changes' /> </div>
+                            <div className="col-12 mb-2">
+                              <div className="btn-box">
+                                <select className="form-control select" name="requirement">
+                                  <option value="" selected="selected">Select REQ</option>
+                                  <option value="1">Keire</option>
+                                  <option value="2">Protiong</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="col-12">
+                              <Quill name='features' value={features} error={errors.features} onChange={setFeatures} />
+                            </div>
+                            <div className="card-footer text-end pb-0"> <Button label='Add' /> </div>
                           </div>
+                          <div className="row"></div>
+                          {
+                            featureList && featureList.length !== 0 && <>
+                              <h5 className="h4 d-inline-block font-weight-400 mb-2">Features List</h5>
+                              <div className="row">
+                                <div className="col-12">
+                                  <div className="card">
+                                    <div className="card-body table-border-style table-border-style">
+                                      <div className="table-responsive">
+                                        <table className="table">
+                                          <tbody>
+                                            <tr>
+                                              <th className="text-dark text-center" style={{ width: '10%' }}>Feature No</th>
+                                              <th className="text-dark text-center" style={{ width: '50%' }}>Description</th>
+                                              <th className="text-dark text-center" style={{ width: '10%' }}>Date</th>
+                                              <th className="text-dark text-center" style={{ width: '10%' }}>Action</th>
+                                            </tr>
+                                            {
+                                              featureList && featureList.map((feature) => (
+                                                <tr>
+                                                  <td className="Id text-center">
+                                                    <a href="#/" className="btn btn-outline-primary">#Feature 1</a>
+                                                  </td>
+                                                  <td className='text-center'>Animi commodo volup</td>
+                                                  <td className='text-center'>Aug 17, 2022</td>
+                                                  <td>
+                                                    <td className="Action text-center">
+                                                      <div className="action-btn bg-warning ms-2">
+                                                        <a href="#/"
+                                                          className="mx-3 btn btn-sm align-items-center"
+                                                          data-bs-toggle="tooltip" title="" data-original-title="Ledger Summary"
+                                                          data-bs-original-title="View">
+                                                          <i className="ti ti-eye text-white"></i>
+                                                        </a>
+                                                      </div>
+                                                      <div className="action-btn bg-info ms-2">
+                                                        <a className="mx-3 btn btn-sm align-items-center" href="#/"
+                                                          data-ajax-popup="true" data-title="Edit Account"
+                                                          data-bs-toggle="tooltip" title="" data-original-title="Edit" data-bs-original-title="Edit">
+                                                          <i className="ti ti-edit text-white"></i>
+                                                        </a>
+                                                      </div>
+                                                      <div className="action-btn bg-danger ms-2">
+                                                        <a href="#/" className="mx-3 btn btn-sm align-items-center bs-pass-para"
+                                                          data-bs-toggle="tooltip"  >
+                                                          <i className="ti ti-trash text-white"></i>
+                                                        </a>
+                                                      </div>
+                                                    </td>
+                                                  </td>
+                                                </tr>
+                                              ))
+                                            }
+                                          </tbody></table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          }
+
                         </div>
                       </form>
                     </div>
@@ -618,11 +698,11 @@ export default function Phase2() {
                     </div>
                   </div>
                 </div>
-               </div>
-             </div>
-           </div>
-         </div> 
-       </div>
-     </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div >
+    </div >
   );
 }

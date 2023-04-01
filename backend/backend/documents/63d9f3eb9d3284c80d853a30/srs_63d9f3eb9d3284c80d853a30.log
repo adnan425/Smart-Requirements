@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.3.29)  31 MAR 2023 14:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.3.29)  1 APR 2023 17:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -373,81 +373,124 @@ Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 Package babel Info: Importing font and identification data for english
 (babel)             from babel-en.ini. Reported on input line 11.
 )
+(C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip66
+\LTright=\skip67
+\LTpre=\skip68
+\LTpost=\skip69
+\LTchunksize=\count282
+\LTcapwidth=\dimen152
+\LT@head=\box55
+\LT@firsthead=\box56
+\LT@foot=\box57
+\LT@lastfoot=\box58
+\LT@gbox=\box59
+\LT@cols=\count283
+\LT@rows=\count284
+\c@LT@tables=\count285
+\c@LT@chunks=\count286
+\LT@p@ftn=\toks20
+)
+Class scrreprt Info: longtable captions redefined on input line 10.
+
+(C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen153
+\ar@mcellbox=\box60
+\extrarowheight=\dimen154
+\NC@list=\toks21
+\extratabsurround=\skip70
+\backup@length=\skip71
+\ar@cellbox=\box61
+)
+(C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen155
+\lightrulewidth=\dimen156
+\cmidrulewidth=\dimen157
+\belowrulesep=\dimen158
+\belowbottomsep=\dimen159
+\aboverulesep=\dimen160
+\abovetopsep=\dimen161
+\cmidrulesep=\dimen162
+\cmidrulekern=\dimen163
+\defaultaddspace=\dimen164
+\@cmidla=\count287
+\@cmidlb=\count288
+\@aboverulesep=\dimen165
+\@belowrulesep=\dimen166
+\@thisruleclass=\count289
+\@lastruleclass=\count290
+\@thisrulewidth=\dimen167
+)
 
 Package hyperref Warning: Option `bookmarks' has already been used,
-(hyperref)                setting the option has no effect on input line 21.
+(hyperref)                setting the option has no effect on input line 24.
 
-Package hyperref Info: Option `colorlinks' set `true' on input line 21.
+Package hyperref Info: Option `colorlinks' set `true' on input line 24.
 
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count282
-\l__pdf_internal_box=\box55
+\l__color_backend_stack_int=\count291
+\l__pdf_internal_box=\box62
 )
 (C:\Users\Adnan\Desktop\Smart-Requirements\backend\backend\documents\63d9f3eb9d
 3284c80d853a30\srs_63d9f3eb9d3284c80d853a30.aux)
 \openout1 = `srs_63d9f3eb9d3284c80d853a30.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-Package scrbase Info: activating english \abstractname on input line 25.
-Package scrbase Info: activating english \partname on input line 25.
-Package scrbase Info: activating english \chaptername on input line 25.
-Package scrbase Info: activating english \appendixname on input line 25.
-Package scrbase Info: activating english \figurename on input line 25.
-Package scrbase Info: activating english \tablename on input line 25.
-Package scrbase Info: activating english \contentsname on input line 25.
-Package scrbase Info: activating english \listfigurename on input line 25.
-Package scrbase Info: activating english \listtablename on input line 25.
-Package scrbase Info: activating english \bibname on input line 25.
-Package scrbase Info: activating english \indexname on input line 25.
-\c@lstlisting=\count283
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+Package scrbase Info: activating english \abstractname on input line 28.
+Package scrbase Info: activating english \partname on input line 28.
+Package scrbase Info: activating english \chaptername on input line 28.
+Package scrbase Info: activating english \appendixname on input line 28.
+Package scrbase Info: activating english \figurename on input line 28.
+Package scrbase Info: activating english \tablename on input line 28.
+Package scrbase Info: activating english \contentsname on input line 28.
+Package scrbase Info: activating english \listfigurename on input line 28.
+Package scrbase Info: activating english \listtablename on input line 28.
+Package scrbase Info: activating english \bibname on input line 28.
+Package scrbase Info: activating english \indexname on input line 28.
+\c@lstlisting=\count292
 
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count284
-\scratchdimen=\dimen152
-\scratchbox=\box56
-\nofMPsegments=\count285
-\nofMParguments=\count286
-\everyMPshowfont=\toks20
-\MPscratchCnt=\count287
-\MPscratchDim=\dimen153
-\MPnumerator=\count288
-\makeMPintoPDFobject=\count289
-\everyMPtoPDFconversion=\toks21
+\scratchcounter=\count293
+\scratchdimen=\dimen168
+\scratchbox=\box63
+\nofMPsegments=\count294
+\nofMParguments=\count295
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count296
+\MPscratchDim=\dimen169
+\MPnumerator=\count297
+\makeMPintoPDFobject=\count298
+\everyMPtoPDFconversion=\toks23
 )
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-
-(C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty
-Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
-)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 504.
 
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
 fg
@@ -460,7 +503,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 Package color Info: Driver file: pdftex.def on input line 149.
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 )
-Package hyperref Info: Link coloring ON on input line 25.
+Package hyperref Info: Link coloring ON on input line 28.
 
 (C:\Users\Adnan\Desktop\Smart-Requirements\backend\backend\documents\63d9f3eb9d
 3284c80d853a30\srs_63d9f3eb9d3284c80d853a30.out)
@@ -476,16 +519,16 @@ Class scrreprt Info: loading recommended package `bookmark'.
 (scrreprt)           `bookmarkpackage=false' before \begin{document} and
 (scrreprt)           you can avoid this message adding:
 (scrreprt)             \usepackage{bookmark}
-(scrreprt)           before \begin{document} on input line 25.
+(scrreprt)           before \begin{document} on input line 28.
 
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
 
 (C:\Users\Adnan\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bkm-pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count290
+\BKM@id=\count299
 ))
-Overfull \hbox (36.98853pt too wide) in paragraph at lines 28--28
+Overfull \hbox (36.98853pt too wide) in paragraph at lines 31--31
  []
  []
 
@@ -531,6 +574,61 @@ chapter 2.
 
 ] [8]
 chapter 3.
+
+Overfull \hbox (0.65582pt too wide) in paragraph at lines 183--183
+[]|\OT1/cmr/bx/n/10.95 RTM
+ []
+
+
+Overfull \hbox (30.08298pt too wide) in alignment at lines 180--185
+ [] [] [] [] 
+ []
+
+
+Overfull \hbox (0.65582pt too wide) in paragraph at lines 188--188
+[]|\OT1/cmr/bx/n/10.95 RTM
+ []
+
+
+Overfull \hbox (30.08298pt too wide) in alignment at lines 185--190
+ [] [] [] [] 
+ []
+
+
+Overfull \hbox (30.08298pt too wide) in alignment at lines 190--193
+ [] [] [] [] 
+ []
+
+
+Overfull \hbox (30.08298pt too wide) in alignment at lines 193--195
+ [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
+[]|\OT1/cmr/m/n/10.95 URID-63d9f4-1e9d32-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
+[]|\OT1/cmr/m/n/10.95 SRID-63d9f7-3e12cd-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
+[]|\OT1/cmr/m/n/10.95 URID-63d9f4-1e9d32-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
+[]|\OT1/cmr/m/n/10.95 SRID-63d9f7-2712cd-
+ []
+
+
+Overfull \hbox (30.08298pt too wide) in alignment at lines 195--199
+ [] [] [] [] 
+ []
+
 [9
 
 ]
@@ -549,22 +647,23 @@ anged.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13977 strings out of 476334
- 253714 string characters out of 5787971
- 1858382 words of memory out of 5000000
- 34207 multiletter control sequences out of 15000+600000
- 517429 words of font info for 49 fonts, out of 8000000 for 9000
+ 14174 strings out of 476334
+ 256559 string characters out of 5787971
+ 1859382 words of memory out of 5000000
+ 34396 multiletter control sequences out of 15000+600000
+ 517775 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,8n,106p,10741b,472s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmbx12.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmr10.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmssbx10.pfb>
+cmbx10.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmbx12.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb><C:/Users/Adnan/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmssbx10.pfb>
 Output written on C:\Users\Adnan\Desktop\Smart-Requirements\backend\backend\doc
-uments\63d9f3eb9d3284c80d853a30\srs_63d9f3eb9d3284c80d853a30.pdf (12 pages, 915
-67 bytes).
+uments\63d9f3eb9d3284c80d853a30\srs_63d9f3eb9d3284c80d853a30.pdf (12 pages, 106
+629 bytes).
 PDF statistics:
- 203 PDF objects out of 1000 (max. 8388607)
- 45 named destinations out of 1000 (max. 500000)
- 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 217 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
+ 193 words of extra memory for PDF output out of 10000 (max. 10000000)
 

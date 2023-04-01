@@ -11,14 +11,14 @@ export default function Pdf() {
     const [loading, setLoading] = useState(false);
     const [showPdf, setShowPdf] = useState(false);
     const getPdf = () => {
-        http.get("http://localhost:3004/api/project/generatepdf", {
+        http.get("http://localhost:3004/api/project/generatepdf/63d9f3eb9d3284c80d853a30", {
             responseType: 'blob', // had to add this one here
         }).then((response) => {
             const blob = new Blob([response.data], { type: 'application/pdf' });
             setPdfData(URL.createObjectURL(blob));
             setLoading(false);
             console.log(URL.createObjectURL(blob));
-        }).catch(error => {console.log(error);setLoading(false);});
+        }).catch(error => { console.log(error); setLoading(false); });
     };
     return (
         <>
@@ -104,10 +104,10 @@ export default function Pdf() {
                                                         <div className="col-md-12 d-flex align-items-center justify-content-center ">
                                                             {pdfData ? (
                                                                 <><Document
-                                                                file={{
-                                                                  url: pdfData
-                                                                }}
-                                                              /></>
+                                                                    file={{
+                                                                        url: pdfData
+                                                                    }}
+                                                                /></>
                                                             ) : (
                                                                 "Loading PDF..."
                                                             )}

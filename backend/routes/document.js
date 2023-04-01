@@ -9,12 +9,11 @@ const manager = require("../middleware/manager");
 const { exec } = require('child_process');
 const { convertText } = require('html-to-latex');
 const mongoose = require('mongoose')
+const { ObjectId } = require('mongodb');
 
-
-// const admin = require('../middleware/admin');
 const { validateProject, Project } = require("../models/project");
 const { Requirement } = require('../models/requirement');
-const { RTM, validateRTM } = require('../models/rtm');
+const { RTM } = require('../models/rtm');
 const {
     introductionValidation,
     Introduction,
@@ -434,6 +433,7 @@ router.get("/feature/:id", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+// RTM
 router.get("/rtm/:id", [auth, manager], async (req, res, next) => {
     try {
         const projectId = req.params.id;
@@ -677,6 +677,31 @@ function generateTexFile(srsData) {
             }
         ]
     };
+    const objectIdToString = (objectId) => {
+        if (ObjectId.isValid(objectId)) {
+            const timestamp = new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+            const machineId = parseInt(objectId.substring(8, 14), 16);
+            const processId = parseInt(objectId.substring(14, 18), 16);
+            const counter = parseInt(objectId.substring(18, 24), 16);
+            return `${timestamp.toISOString()} ${machineId} ${processId} ${counter}`;
+        }
+        return objectId;
+    };
+
+    const rtmData = srsData.rtm.map(item => {
+        const urId = `URID-${item.urId.toString().substr(0, 6)}-${item.urId.toString().substr(6, 6)}-${item.urId.toString().substr(12, 6)}`; // Convert Object ID to string and use a meaningful naming convention for URID
+        const srId = `SRID-${item.srId.toString().substr(0, 6)}-${item.srId.toString().substr(6, 6)}-${item.srId.toString().substr(12, 6)}`; // Convert Object ID to string and use a meaningful naming convention for SRID
+        return {
+            urId,
+            srId,
+            requirement: item.requirement
+        };
+    });
+
+
+
+
+    console.log(rtmData);
     let texFile = `
     \\documentclass{scrreprt} 
     \\usepackage{listings}
@@ -685,6 +710,9 @@ function generateTexFile(srsData) {
     \\usepackage[bookmarks=true]{hyperref}
     \\usepackage[utf8]{inputenc}
     \\usepackage[english]{babel}
+    \\usepackage{longtable}
+    \\usepackage{array}
+    \\usepackage{booktabs}
     \\hypersetup{
         bookmarks=false,    % show bookmarks bar?
         pdftitle={Software Requirement Specification},    % title
@@ -750,10 +778,37 @@ function generateTexFile(srsData) {
     ${srsData.desc[0].documentation}
     \\section{Assumptions and Dependencies}
     ${srsData.desc[0].assumptions}
-     
-    \\chapter{Features} 
-    ${srsData.featuresLatex}
-      
+    \\chapter{Features}  
+    ${srsData.features.map((req, index) => `
+    \\section{Feature ${index + 1}}
+        ${req.features}
+    
+
+    `).join('\n')}
+    
+    \\begin{center}
+    \\begin{longtable}{| m{1cm} | m{4cm} | m{4cm} | m{5cm} |}
+    \\caption{Requirement Tracability Matrix}\\label{tab:Requirement Tracability Matrix}\\\\
+    \\hline
+    \\textbf{RTM Id} & \\textbf{URID} & \\textbf{SRID} & \\textbf{Requirement}\\\\ 
+    \\hline
+    \\endfirsthead
+    \\multicolumn{4}{l}{\\tablename\\ \\thetable\\ -- \\textit{Continued from previous page}} \\\\
+    \\hline
+    \\textbf{RTM Id} & \\textbf{URID} & \\textbf{SRID} & \\textbf{Requirement}\\\\
+    \\hline
+    \\endhead
+    \\hline
+    \\multicolumn{4}{r}{\\textit{Continued on next page}} \\\\
+    \\endfoot
+    \\hline
+    \\endlastfoot
+
+    ${rtmData.map((item, index) => `\\textbf{${index + 1}.} & ${item.urId} & ${item.srId} & ${item.requirement} \\\\ \\hline`).join('')}
+
+    \\end{longtable}
+    \\end{center}
+
     \\chapter{Other Nonfunctional Requirements}
     \\section{Performance Requirements} 
     ${srsData.nonFun[0].performance} 
@@ -773,8 +828,18 @@ function generateTexFile(srsData) {
     \\end{document}`;
     return texFile;
 }
-router.get("/generatepdf", auth, async (req, res) => {
-    const projectId = "63d9f3eb9d3284c80d853a30";
+router.get("/generatepdf/:id", auth, async (req, res) => {
+
+    const projectId = req.params.id;
+    // Validate the feature ID using ObjectId.isValid() method
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+        return res.status(400).send("Invalid project ID.");
+    }
+    const isProject = await Project.findById(projectId);
+    if (!isProject) {
+        return res.status(404).send("Prohect not found.");
+    }
+    // const projectId = "63d9f3eb9d3284c80d853a30";
     let srsData = null;
     const query = { projectId: projectId };
     const project = await Project.findById(projectId).select('-description -status -stakeholders');
@@ -786,8 +851,8 @@ router.get("/generatepdf", auth, async (req, res) => {
 
     const desc = await Description.find(query).select('-_id -userId -projectId -locked');
     const features = await Features.find(query).select('-_id -userId -projectId -locked');
-    const featuresLatex = await htmlToLatex(features[0].features);
-
+    const rtm = await RTM.find({ projectId }).select(' -featureId -userId -projectId -date -__v');
+    console.log(features);
     const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
     const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
     const otherReqLatex = await htmlToLatex(otherReq[0].requirements);
@@ -799,10 +864,10 @@ router.get("/generatepdf", auth, async (req, res) => {
     srsData = { ...srsData, scopeLatex };
     srsData = { ...srsData, referencesLatex };
     srsData = { ...srsData, desc };
-    srsData = { ...srsData, featuresLatex };
+    srsData = { ...srsData, features };
+    srsData = { ...srsData, rtm };
     srsData = { ...srsData, nonFun };
     srsData = { ...srsData, otherReqLatex };
-    console.log(srsData);
     // Generate the .tex file
     const texFile = generateTexFile(srsData);
     // Generating dynamic file name and folder according to project id

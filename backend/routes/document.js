@@ -677,17 +677,6 @@ function generateTexFile(srsData) {
             }
         ]
     };
-    const objectIdToString = (objectId) => {
-        if (ObjectId.isValid(objectId)) {
-            const timestamp = new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
-            const machineId = parseInt(objectId.substring(8, 14), 16);
-            const processId = parseInt(objectId.substring(14, 18), 16);
-            const counter = parseInt(objectId.substring(18, 24), 16);
-            return `${timestamp.toISOString()} ${machineId} ${processId} ${counter}`;
-        }
-        return objectId;
-    };
-
     const rtmData = srsData.rtm.map(item => {
         const urId = `URID-${item.urId.toString().substr(0, 6)}-${item.urId.toString().substr(6, 6)}-${item.urId.toString().substr(12, 6)}`; // Convert Object ID to string and use a meaningful naming convention for URID
         const srId = `SRID-${item.srId.toString().substr(0, 6)}-${item.srId.toString().substr(6, 6)}-${item.srId.toString().substr(12, 6)}`; // Convert Object ID to string and use a meaningful naming convention for SRID
@@ -697,11 +686,6 @@ function generateTexFile(srsData) {
             requirement: item.requirement
         };
     });
-
-
-
-
-    console.log(rtmData);
     let texFile = `
     \\documentclass{scrreprt} 
     \\usepackage{listings}
@@ -840,34 +824,7 @@ router.get("/generatepdf/:id", auth, async (req, res) => {
         return res.status(404).send("Prohect not found.");
     }
     // const projectId = "63d9f3eb9d3284c80d853a30";
-    let srsData = null;
-    const query = { projectId: projectId };
-    const project = await Project.findById(projectId).select('-description -status -stakeholders');
-    const intro = await Introduction.find(query).select('-_id -userId -projectId -locked');
-    const conventionLatex = await htmlToLatex(intro[0].conventions);
-    const audienceLatex = await htmlToLatex(intro[0].audience);
-    const scopeLatex = await htmlToLatex(intro[0].scope);
-    const referencesLatex = await htmlToLatex(intro[0].references);
-
-    const desc = await Description.find(query).select('-_id -userId -projectId -locked');
-    const features = await Features.find(query).select('-_id -userId -projectId -locked');
-    const rtm = await RTM.find({ projectId }).select(' -featureId -userId -projectId -date -__v');
-    console.log(features);
-    const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
-    const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
-    const otherReqLatex = await htmlToLatex(otherReq[0].requirements);
-
-    srsData = { ...srsData, project };
-    srsData = { ...srsData, intro };
-    srsData = { ...srsData, conventionLatex };
-    srsData = { ...srsData, audienceLatex };
-    srsData = { ...srsData, scopeLatex };
-    srsData = { ...srsData, referencesLatex };
-    srsData = { ...srsData, desc };
-    srsData = { ...srsData, features };
-    srsData = { ...srsData, rtm };
-    srsData = { ...srsData, nonFun };
-    srsData = { ...srsData, otherReqLatex };
+    const srsData = await getSrsData(projectId);
     // Generate the .tex file
     const texFile = generateTexFile(srsData);
     // Generating dynamic file name and folder according to project id
@@ -906,5 +863,37 @@ router.get("/generatepdf/:id", auth, async (req, res) => {
     });
 
 });
+
+async function getSrsData(projectId) {
+    const query = { projectId: projectId };
+
+    const project = await Project.findById(projectId).select('-description -status -stakeholders');
+    const intro = await Introduction.find(query).select('-_id -userId -projectId -locked');
+    const conventionLatex = await htmlToLatex(intro[0].conventions);
+    const audienceLatex = await htmlToLatex(intro[0].audience);
+    const scopeLatex = await htmlToLatex(intro[0].scope);
+    const referencesLatex = await htmlToLatex(intro[0].references);
+
+    const desc = await Description.find(query).select('-_id -userId -projectId -locked');
+    const features = await Features.find(query).select('-_id -userId -projectId -locked');
+    const rtm = await RTM.find({ projectId }).select(' -featureId -userId -projectId -date -__v');
+    const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
+    const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
+    const otherReqLatex = await htmlToLatex(otherReq[0].requirements);
+
+    return {
+        project,
+        intro,
+        conventionLatex,
+        audienceLatex,
+        scopeLatex,
+        referencesLatex,
+        desc,
+        features,
+        rtm,
+        nonFun,
+        otherReqLatex
+    };
+}
 
 module.exports = router;

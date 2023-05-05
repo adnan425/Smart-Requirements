@@ -1,28 +1,29 @@
 import axios from "axios";
-import { toast } from 'react-toastify'; 
+import { toast } from "react-toastify";
 
-axios.interceptors.response.use(null,error =>{
-    const expectedError = 
-        error.response && 
-        error.response.status >= 400 &&
-        error.response.status <500;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-    if(!expectedError){
-        toast.error("An un expected error occured.");
-    }
+axios.interceptors.response.use(null, (error) => {
+  const expectedError =
+    error.response &&
+    error.response.status >= 400 &&
+    error.response.status < 500;
 
-    return Promise.reject(error);
+  if (!expectedError) {
+    toast.error("An un expected error occured.");
+  }
+
+  return Promise.reject(error);
 });
 
-
-function setJWT(jwt){
-    console.log(jwt);
-    axios.defaults.headers.common['token'] = jwt;
+function setJWT(jwt) {
+  console.log(jwt);
+  axios.defaults.headers.common["token"] = jwt;
 }
 export default {
-    get : axios.get,
-    post : axios.post,
-    put : axios.put,
-    delete : axios.delete,
-    setJWT
-}
+  get: axios.get,
+  post: axios.post,
+  put: axios.put,
+  delete: axios.delete,
+  setJWT,
+};

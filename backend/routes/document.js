@@ -8,8 +8,7 @@ const auth = require("../middleware/auth");
 const manager = require("../middleware/manager");
 const { exec } = require('child_process');
 const { convertText } = require('html-to-latex');
-const mongoose = require('mongoose')
-const { ObjectId } = require('mongodb');
+const mongoose = require('mongoose') 
 
 const { validateProject, Project } = require("../models/project");
 const { Requirement } = require('../models/requirement');

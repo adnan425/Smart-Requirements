@@ -8,9 +8,15 @@ const otherReqSchema = new mongoose.Schema({
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'projects'  
-    }, 
+        ref: 'projects'
+    },
     requirements: {
+        type: String,
+        minLength: 3,
+        maxLength: 3000,
+        trim: true,
+    },
+    requirementsReview: {
         type: String,
         minLength: 3,
         maxLength: 3000,
@@ -18,26 +24,34 @@ const otherReqSchema = new mongoose.Schema({
     },
     locked: {
         type: String,
-        enum: ['locked','unlocked'],
+        enum: ['locked', 'unlocked'],
         lowercase: true,
-         default: 'unlocked'
+        default: 'unlocked'
     },
     date: {
         type: Date, default: Date.now
     }
 });
 
-function otherReqValidation(intro){
+function otherReqValidation(intro) {
     const schema = Joi.object({
-        userId:  Joi.objectId().required(),
+        userId: Joi.objectId().required(),
         projectId: Joi.objectId().required(),
-        requirements: Joi.string().min(5).max(3000).required() 
+        requirements: Joi.string().min(5).max(3000).required()
     });
     return schema.validate(intro);
-
+}
+function otherReqValidationReview(intro) {
+    const schema = Joi.object({
+        userId: Joi.objectId().required(),
+        projectId: Joi.objectId().required(),
+        requirementsReview: Joi.string().min(5).max(3000).required()
+    });
+    return schema.validate(intro);
 }
 
 const OtherRequirements = mongoose.model('OtherRequirements', otherReqSchema);
 exports.otherReqValidation = otherReqValidation;
+exports.otherReqValidationReview = otherReqValidationReview;
 exports.otherReqSchema = otherReqSchema;
 exports.OtherRequirements = OtherRequirements;

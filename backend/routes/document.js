@@ -8,26 +8,30 @@ const auth = require("../middleware/auth");
 const manager = require("../middleware/manager");
 const { exec } = require('child_process');
 const { convertText } = require('html-to-latex');
-const mongoose = require('mongoose') 
+const mongoose = require('mongoose')
 
 const { validateProject, Project } = require("../models/project");
 const { Requirement } = require('../models/requirement');
 const { RTM } = require('../models/rtm');
 const {
     introductionValidation,
+    introductionValidationReview,
     Introduction,
 } = require("../models/introduction");
 const {
     Description,
     descriptionValidation,
+    descriptionValidationReview,
 } = require("./../models/description");
 const {
     NonFunctional,
     nonfunctionalValidation,
+    nonfunctionalValidationReview,
 } = require("./../models/nonfunctional");
 const { Features, featuresValidation } = require("./../models/features");
 const {
     OtherRequirements,
+    otherReqValidationReview,
     otherReqValidation,
 } = require("./../models/OtherRequirements");
 var imageModel = require("./../models/images");
@@ -895,4 +899,57 @@ async function getSrsData(projectId) {
     };
 }
 
+// ------------------------- Review -----------------------
+router.post("/introreview", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const intro = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "purposeReview",
+            "conventionsReview",
+            "audienceReview",
+            "scopeReview",
+            "referencesReview",
+        ]);
+        const { error } = introductionValidationReview(intro);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const isUpdate = await Introduction.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            console.log("update");
+            let update = await Introduction.findOneAndUpdate(
+                { _id: updateId },
+                {
+                    $set: {
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        purposeReview: req.body.purpose,
+                        conventionsReview: req.body.conventions,
+                        audienceReview: req.body.audience,
+                        scopeReview: req.body.scope,
+                        referencesReview: req.body.references,
+                    },
+                }
+            );
+            res.status(200).send(update);
+        } else {
+            let introduction = new Introduction(intro);
+            await introduction.save();
+            res.status(200).send(introduction);
+        }
+    } catch (err) {
+        next();
+    }
+});
 module.exports = router;

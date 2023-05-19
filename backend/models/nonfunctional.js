@@ -8,9 +8,15 @@ const nonfunctionalSchema = new mongoose.Schema({
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'projects'  
+        ref: 'projects'
     },
     performance: {
+        type: String,
+        minLength: 3,
+        maxLength: 3000,
+        trim: true,
+    },
+    performanceReview: {
         type: String,
         minLength: 3,
         maxLength: 3000,
@@ -22,7 +28,19 @@ const nonfunctionalSchema = new mongoose.Schema({
         maxLength: 3000,
         trim: true,
     },
-    security:{
+    safetyReview: {
+        type: String,
+        minLength: 3,
+        maxLength: 3000,
+        trim: true,
+    },
+    security: {
+        type: String,
+        minLength: 3,
+        maxLength: 3000,
+        trim: true,
+    },
+    securityReview: {
         type: String,
         minLength: 3,
         maxLength: 3000,
@@ -34,26 +52,38 @@ const nonfunctionalSchema = new mongoose.Schema({
         maxLength: 3000,
         trim: true,
     },
+    qualityReview: {
+        type: String,
+        minLength: 3,
+        maxLength: 3000,
+        trim: true,
+    },
     business: {
         type: String,
         minLength: 3,
         maxLength: 3000,
         trim: true,
-    },  
+    },
+    businessReview: {
+        type: String,
+        minLength: 3,
+        maxLength: 3000,
+        trim: true,
+    },
     locked: {
         type: String,
-        enum: ['locked','unlocked'],
+        enum: ['locked', 'unlocked'],
         lowercase: true,
-         default: 'unlocked'
+        default: 'unlocked'
     },
     date: {
         type: Date, default: Date.now
     }
 });
 
-function nonfunctionalValidation(nonFun){
+function nonfunctionalValidation(nonFun) {
     const schema = Joi.object({
-        userId:  Joi.objectId().required(),
+        userId: Joi.objectId().required(),
         projectId: Joi.objectId().required(),
         performance: Joi.string().min(5).max(3000).required(),
         safety: Joi.string().min(5).max(3000).required(),
@@ -64,8 +94,21 @@ function nonfunctionalValidation(nonFun){
     return schema.validate(nonFun);
 
 }
+function nonfunctionalValidationReview(nonFun) {
+    const schema = Joi.object({
+        userId: Joi.objectId().required(),
+        projectId: Joi.objectId().required(),
+        performanceReview: Joi.string().min(5).max(3000).required(),
+        safetyReview: Joi.string().min(5).max(3000).required(),
+        securityReview: Joi.string().min(5).max(3000).required(),
+        qualityReview: Joi.string().min(5).max(3000).required(),
+        businessReview: Joi.string().min(5).max(3000).required(),
+    });
+    return schema.validate(nonFun);
 
+}
 const NonFunctional = mongoose.model('NonFunctional', nonfunctionalSchema);
 exports.nonfunctionalValidation = nonfunctionalValidation;
+exports.nonfunctionalValidationReview = nonfunctionalValidationReview;
 exports.nonfunctionalSchema = nonfunctionalSchema;
 exports.NonFunctional = NonFunctional;

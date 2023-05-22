@@ -39,7 +39,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
                 res.status(200).send("Successfully added as a stakeholder.");
             }
         } else {
-            req.body.role = "stakeholder";
+            ;
             const stakeholder = new User(_.pick(req.body, ['name', 'email', 'password', 'role']));
             const salt = await bcrypt.genSalt(10);
             stakeholder.password = await bcrypt.hash(stakeholder.password, salt);
@@ -49,7 +49,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
                 { $push: { stakeholders: stakeholder._id } }
             )
             sendEmail(proj.title, stakeholder.name, stakeholder.email, req.body.password);
-            res.status(200).send("Successfully added as a stakeholder.");
+            res.status(200).send("Successfully added.");
         }
     } catch (error) {
         console.log(error);
@@ -61,7 +61,7 @@ router.post('/', [auth, manager], async (req, res, next) => {
 router.delete('/', [auth, manager], async (req, res, next) => {
     try {
         // PROJECT ID IN WHICH STAKEHOLDER ADD  
-        const userId = req.body.userId; 
+        const userId = req.body.userId;
         const projectId = req.body.projectId;
 
         if (!userId) return res.status(400).send("User Id required!");

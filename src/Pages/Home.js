@@ -20,7 +20,7 @@ import PreLoader from "../Components/Utllils/PreLoader";
 
 import Signup from './Signup';
 import ForgetPassword from './ForgetPassword';
-const Logout = lazy(()=> import('./../Components/Utllils/Logout'));
+const Logout = lazy(() => import('./../Components/Utllils/Logout'));
 const Login = lazy(() => import('./Login'));
 
 const Manager = lazy(() => import('../Components/ProjectManager/Home'));
@@ -34,9 +34,11 @@ const Analysis = lazy(() => import("../Components/ProjectManager/Analysis"));
 
 
 const Stakeholder = lazy(() => import('../Components/Stakeholder/Home'));
+const Reviewer = lazy(() => import('../Components/Reviewer/Home'));
 const StakeDashboard = lazy(() => import('../Components/Stakeholder/Dashboard'));
+const RDashboard = lazy(() => import('../Components/Reviewer/Dashboard'));
 const StakeholderSettings = lazy(() => import('./../Components/Stakeholder/Settings'));
- 
+
 
 
 export default function Home() {
@@ -56,11 +58,11 @@ export default function Home() {
       />
       {/* Same as */}
       {/* <ToastContainer /> */}
-      <Suspense fallback={<PreLoader/>}>
+      <Suspense fallback={<PreLoader />}>
 
         <ConfigProvider colors={['#685ee5', '#4ebbd3', '#6fd943', '#685ee5']}>
           <Routes>
-            {/* <Route path="/" element={<LandingPage />} /> */} 
+            {/* <Route path="/" element={<LandingPage />} /> */}
             <Route path="/" element={<Login />} />
             {/* <Route path="/" element={<PreLoader />} /> */}
             <Route path="/login" element={<Login />} />
@@ -92,6 +94,11 @@ export default function Home() {
               <Route index element={<StakeholderRoute><StakeDashboard /></StakeholderRoute>} />
               <Route exact path="settings" element={<StakeholderRoute><StakeholderSettings /></StakeholderRoute>} />
             </Route>
+
+            <Route path="/reviewer" element={<><Reviewer /></>} >
+              <Route index element={<><RDashboard /></>} />
+            </Route>
+
           </Routes>
         </ConfigProvider>
       </Suspense>

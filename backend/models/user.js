@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const  Jwt  = require("jsonwebtoken");  
+const Jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -22,23 +22,23 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     maxLength: 1024,
   },
-  role: { 
+  role: {
     type: String,
     default: "manager",
-    enum: ['manager','stakeholder'],
+    enum: ['manager', 'stakeholder', 'reviewer'],
     lowercase: true
   },
   date: {
     type: Date, default: Date.now
-}
+  }
 });
 
-userSchema.methods.generateAuthToken = function() {
-  const token = Jwt.sign({_id: this.user._id, role: this.user.role }, "myKey");
+userSchema.methods.generateAuthToken = function () {
+  const token = Jwt.sign({ _id: this.user._id, role: this.user.role }, "myKey");
   return token;
-}; 
+};
 const User = mongoose.model("Users", userSchema);
- 
+
 
 function validateUser(user) {
   const schema = Joi.object({

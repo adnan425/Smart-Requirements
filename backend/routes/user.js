@@ -29,10 +29,6 @@ router.post('/', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save();
-
-
-
-
     res.status(200).send("Successfully registered.");
 });
 //GET ALL MANAGER | ONLY ADMIN CAN GET ALL MANAGER LIST | 2 MIDDLEWARE | AUTH | CHECK IS_ADMIN

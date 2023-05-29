@@ -50,7 +50,6 @@ class Login extends Form {
     reviewer: false,
     loading: false,
   };
-
   doSubmit = async () => {
     // call server
     // await auth.login(this.state.data.email, this.state.data.password);

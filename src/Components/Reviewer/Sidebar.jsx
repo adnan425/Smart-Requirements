@@ -13,11 +13,11 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
       title: "My Projects",
     },
     ...projects,
-    {
-      _id: 11,
-      icon: "ti ti-settings",
-      title: "Settings",
-    },
+    // {
+    //   _id: 11,
+    //   icon: "ti ti-settings",
+    //   title: "Settings",
+    // },
   ];
   const isShow = useSelector((state) => state.sidebar.isActive);
   const dispatch = useDispatch();
@@ -32,9 +32,15 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
     setActive(title);
   };
 
+  const handleId = (data) => {
+    console.log(data._id);
+    if (data.title !== "My Projects" && data._id) {
+      localStorage.setItem("id", data._id);
+    }
+  };
   return (
     <nav
-      className={`dash-sidebar light-sidebar transprent-bg active dash-trigger ${classes}`}
+      className={`dash-sidebar light-sidebar transprent-bgg active dash-trigger ${classes}`}
     >
       <div className="navbar-wrapper" style={{ display: "block" }}>
         <div className="m-header main-logo">
@@ -52,7 +58,9 @@ export default function Sidebar({ items: projects, onProjectSelect }) {
                       }`}
                       onClick={() => {
                         onProjectSelect(list);
+                        handleId(list);
                         activeClick(list);
+
                         dispatch(closeSidebar());
                       }}
                       key={list._id}

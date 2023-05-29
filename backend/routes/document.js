@@ -11,6 +11,7 @@ const { convertText } = require('html-to-latex');
 const mongoose = require('mongoose')
 
 const { validateProject, Project } = require("../models/project");
+const { chap3ValidationReview, Chapt3, chap3Validation } = require("../models/chap3");
 const { Requirement } = require('../models/requirement');
 const { RTM } = require('../models/rtm');
 const {
@@ -146,6 +147,58 @@ router.post("/intro", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+router.post("/introreview", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const intro = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "purposeReview",
+            "conventionsReview",
+            "audienceReview",
+            "scopeReview",
+            "referencesReview",
+        ]);
+        const { error } = introductionValidationReview(intro);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const isUpdate = await Introduction.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            console.log("update");
+            let update = await Introduction.findOneAndUpdate(
+                { _id: updateId },
+                {
+                    $set: {
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        purposeReview: req.body.purposeReview,
+                        conventionsReview: req.body.conventionsReview,
+                        audienceReview: req.body.audienceReview,
+                        scopeReview: req.body.scopeReview,
+                        referencesReview: req.body.referencesReview,
+                    },
+                }
+            );
+            res.status(200).send(update);
+        } else {
+            let introduction = new Introduction(intro);
+            await introduction.save();
+            res.status(200).send(introduction);
+        }
+    } catch (err) {
+        next();
+    }
+});
 // PUT | GET PROJECT INTRO | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/intro/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -228,6 +281,63 @@ router.post("/desc", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+router.post("/descreview", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const desc = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "perspectiveReview",
+            "functionsReview",
+            "characteristicsReview",
+            "envirnomentReview",
+            "implementationReview",
+            "documentationReview",
+            "assumptionsReview",
+        ]);
+        const { error } = descriptionValidationReview(desc);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const isUpdate = await Description.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            console.log("update");
+            let update = await Description.findOneAndUpdate(
+                { _id: updateId },
+                {
+                    $set: {
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        perspectiveReviwe: req.body.perspectiveReviwe,
+                        functionsReview: req.body.functionsReview,
+                        characteristicsReview: req.body.characteristicsReview,
+                        envirnomentReview: req.body.envirnomentReview,
+                        implementationReview: req.body.implementationReview,
+                        documentationReview: req.body.documentationReview,
+                        assumptionsReview: req.body.assumptionsReview,
+                    },
+                }
+            );
+            res.status(200).send(update);
+        } else {
+            let description = new Description(desc);
+            await description.save();
+            res.status(200).send(description);
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
 // PUT | GET PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/desc/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -245,6 +355,121 @@ router.get("/desc/:id", [auth, manager], async (req, res, next) => {
         if (!isManager) return res.status(403).send("Access denied.");
 
         const desc = await Description.findById(isHas._id);
+        res.status(200).send(desc);
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+//  -----------  CHAPTER 3 : Req --------------
+// POST | ADD PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.post("/requi", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const desc = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "requi",
+        ]);
+        const { error } = chap3Validation(desc);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const isUpdate = await Chapt3.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            console.log("update");
+            let update = await Chapt3.findOneAndUpdate(
+                { _id: updateId },
+                {
+                    $set: {
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        requi: req.body.requi,
+                    },
+                }
+            );
+            res.status(200).send(update);
+        } else {
+            let description = new Chapt3(desc);
+            await description.save();
+            res.status(200).send(description);
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+router.post("/requireview", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const desc = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "requReview",
+        ]);
+        const { error } = chap3ValidationReview(desc);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const isUpdate = await Chapt3.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            console.log("update");
+            let update = await Chapt3.findOneAndUpdate(
+                { _id: updateId },
+                {
+                    $set: {
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        requReview: req.body.requReview,
+                    },
+                }
+            );
+            res.status(200).send(update);
+        } else {
+            let description = new Chapt3(desc);
+            await description.save();
+            res.status(200).send(description);
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+// PUT | GET PROJECT  | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
+router.get("/requi/:id", [auth, manager], async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const isUnique = await Project.findById(projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isHas = await Chapt3.findOne({ projectId });
+        if (!isHas) return res.status(400).send("Record not found.");
+
+        const isManager = await Project.findOne(
+            { _id: projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const desc = await Chapt3.findById(isHas._id);
         res.status(200).send(desc);
     } catch (err) {
         console.log(err);
@@ -316,7 +541,49 @@ router.post("/feature", [auth, manager], async (req, res, next) => {
         res.status(500).send("Internal server error.");
     }
 });
+router.post("/featurereview", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const desc = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "featuresReview",
+        ]);
 
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const isUpdate = await Features.find({ projectId: req.body.projectId });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            console.log("update");
+            let update = await Features.findOneAndUpdate(
+                { _id: updateId },
+                {
+                    $set: {
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        featuresReview: req.body.featuresReview,
+                    },
+                }
+            );
+            res.status(200).send(update);
+        } else {
+            let description = new Features(desc);
+            await description.save();
+            res.status(200).send(description);
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
 // PUT |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.put("/feature/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -512,6 +779,60 @@ router.post("/nonfun", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+router.post("/nonfunreview", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const nonFun = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "performanceReview",
+            "safetyReview",
+            "securityReview",
+            "qualityReview",
+            "businessReview",
+        ]);
+        const { error } = nonfunctionalValidationReview(nonFun);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        const isUpdate = await NonFunctional.find({
+            projectId: req.body.projectId,
+        });
+        if (isUpdate[0]) {
+            const updateId = isUpdate[0]._id;
+            let update = await NonFunctional.findOneAndUpdate(
+                { _id: updateId },
+                {
+                    $set: {
+                        userId: req.user._id,
+                        projectId: req.body.projectId,
+                        performanceReview: req.body.perspectiveReview,
+                        safetyReview: req.body.functionsReview,
+                        securityReview: req.body.characteristicsReview,
+                        qualityReview: req.body.implementationReview,
+                        businessReview: req.body.documentationReview,
+                    },
+                }
+            );
+            res.status(200).send(update);
+        } else {
+            let nonfunction = new NonFunctional(nonFun);
+            await nonfunction.save();
+            res.status(200).send(nonfunction);
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
 // GET |  NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/nonfun/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -580,6 +901,49 @@ router.post("/other", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+router.post("/otherreview", [auth, manager], async (req, res, next) => {
+    try {
+        const bodyData = { userId: req.user._id, ...req.body };
+        const otherRequir = _.pick(bodyData, [
+            "userId",
+            "projectId",
+            "requirementsReview",
+        ]);
+        const { error } = otherReqValidationReview(otherRequir);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        const isUnique = await Project.findById(req.body.projectId);
+        if (!isUnique) return res.status(400).send("Project not found.");
+
+        const isManager = await Project.findOne(
+            { _id: req.body.projectId },
+            { manager: req.user._id }
+        );
+        if (!isManager) return res.status(403).send("Access denied.");
+
+        // if(req.body.proj)
+        const isUpdate = await OtherRequirements.find({
+            projectId: req.body.projectId,
+        });
+        console.log(isUpdate[0]);
+
+        if (isUpdate[0]) {
+            const featureId = isUpdate[0]._id;
+            let update = await OtherRequirements.findOneAndUpdate(
+                { _id: featureId },
+                { $set: { requirementsReview: req.body.requirementsReview } }
+            );
+            res.status(200).send(update);
+        } else {
+            let otherReq = new OtherRequirements(otherRequir);
+            await otherReq.save();
+            res.status(200).send(otherReq);
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
 // GET |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/other/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -603,6 +967,7 @@ router.get("/other/:id", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
 let newFileName;
 const storage = multer.diskStorage({
     destination: "backend/assets/upload",
@@ -815,6 +1180,120 @@ function generateTexFile(srsData) {
     \\end{document}`;
     return texFile;
 }
+function generateTexFileReview(srsData) {
+    let jsonData = {
+        title: "SRS Review",
+        author: "",
+        date: "",
+        data: [
+            {
+                name: "Item 1",
+                value: 100
+            },
+            {
+                name: "Item 2",
+                value: 200
+            }
+        ]
+    };
+
+    let texFile = `
+    \\documentclass{scrreprt} 
+    \\usepackage{listings}
+    \\usepackage{underscore}
+    \\usepackage{graphicx}
+    \\usepackage[bookmarks=true]{hyperref}
+    \\usepackage[utf8]{inputenc}
+    \\usepackage[english]{babel}
+    \\usepackage{longtable}
+    \\usepackage{array}
+    \\usepackage{booktabs}
+    \\hypersetup{
+        bookmarks=false,    % show bookmarks bar?
+        pdftitle={Software Requirement Specification},    % title
+        pdfauthor={Jean-Philippe Eisenbarth},                     % author
+        pdfsubject={TeX and LaTeX},                        % subject of the document
+        pdfkeywords={TeX, LaTeX, graphics, images}, % list of keywords
+        colorlinks=true,       % false: boxed links; true: colored links
+        linkcolor=blue,       % color of internal links
+        citecolor=black,       % color of links to bibliography
+        filecolor=black,        % color of file links
+        urlcolor=purple,        % color of external links
+        linktoc=page            % only page is linked
+    }% 
+    \\def\\myversion{${jsonData.title}}
+    \\date{}
+    
+    \\begin{document}
+    
+    \\begin{flushright}
+        \\rule{16cm}{5pt}\\vskip1cm
+        \\begin{bfseries}
+            \\Huge{SOFTWARE REQUIREMENTS\\ SPECIFICATION}\\
+            \\vspace{1.5cm} 
+            \\\\for\\\\
+            \\vspace{1.5cm}
+            ${srsData.project.title}\\\\
+            \\vspace{1.5cm}
+            \\LARGE{Version \\myversion}\\\\
+            \\vspace{1.5cm}
+            Prepared by : ${srsData.project.author}\\\\ 
+            \\vspace{1.5cm}
+            \\today\\
+        \\end{bfseries}
+    \\end{flushright}
+    
+    
+    \\tableofcontents
+    
+    \\chapter{Introduction} 
+    \\section{Purpose Review}
+    ${srsData.intro[0].purpose}
+    \\section{Document Conventions Review} 
+    ${srsData.conventionLatex}
+    \\section{Intended Audience and Reading Suggestions Review}
+    ${srsData.conventionLatex}
+    \\section{Product Scope Review}
+    ${srsData.scopeLatex}
+    \\section{References Review} 
+    ${srsData.referencesLatex}
+    
+    \\chapter{Overall Description} 
+    \\section{Product Perspective}
+    ${srsData.desc[0].perspectiveReview}
+    \\section{Product Functions Review}
+    ${srsData.desc[0].functions}
+    \\section{User Classes and Characteristics Review}
+    ${srsData.desc[0].characteristicsReview}
+    \\section{Operating Environment Review}
+    ${srsData.desc[0].envirnomentReview}
+    \\section{Design and Implementation Constraints Review}
+    ${srsData.desc[0].implementationReview}
+    \\section{User Documentation Review}
+    ${srsData.desc[0].documentationReview}
+    \\section{Assumptions and Dependencies Review}
+    ${srsData.desc[0].assumptionsReview}
+    \\chapter{Features Review}  
+     
+    \\chapter{Other Nonfunctional Requirements}
+    \\section{Performance Requirements} 
+    ${srsData.nonFun[0].performanceReview} 
+    \\section{Saftey Requirements}
+    ${srsData.nonFun[0].safetyReview} 
+    \\section{Security Requirements}
+    ${srsData.nonFun[0].securityReview} 
+    \\section{Software Quality Attributes}
+    ${srsData.nonFun[0].qualityReview}  
+    \\section{Business Rules} 
+    ${srsData.nonFun[0].businessReview}
+
+    \\chapter{Other Requirements}
+    ${srsData.otherReqLatex}
+
+
+    \\end{document}`;
+    return texFile;
+}
 router.get("/generatepdf/:id", auth, async (req, res) => {
 
     const projectId = req.params.id;
@@ -866,7 +1345,88 @@ router.get("/generatepdf/:id", auth, async (req, res) => {
     });
 
 });
+router.get("/generatepdfreview/:id", auth, async (req, res) => {
 
+    const projectId = req.params.id;
+    // Validate the feature ID using ObjectId.isValid() method
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+        return res.status(400).send("Invalid project ID.");
+    }
+    const isProject = await Project.findById(projectId);
+    if (!isProject) {
+        return res.status(404).send("Prohect not found.");
+    }
+    // const projectId = "63d9f3eb9d3284c80d853a30";
+    const srsData = await getSrsDataReview(projectId);
+    // Generate the .tex file
+    const texFile = generateTexFileReview(srsData);
+    // Generating dynamic file name and folder according to project id
+    const filename = `srs_${projectId}-review.tex`;
+    const projectDir = path.resolve('backend/documents', projectId);
+    const texFileName = path.resolve(projectDir, filename);
+
+    fs.mkdirSync(projectDir, { recursive: true });
+    fs.writeFile(texFileName, texFile, (err) => {
+        if (err) {
+            console.error("An error occurred while writing the file.");
+            return res.status(500).send("An error occurred while writing the file.");
+        }
+        console.log("File has been successfully written.");
+        exec(`C:/Users/Adnan/AppData/Local/Programs/MiKTeX/miktex/bin/x64/pdflatex -output-directory=${projectDir} ${texFileName}`, (err, stdout, stderr) => {
+            if (err) {
+                console.error(`Error: ${err}`);
+                return res.status(500).send(`Error: ${err}`);
+            }
+            console.error(`stdout: ${stdout}`);
+            console.error(`stderr: ${stderr}`);
+            if (stderr) {
+                console.error(`LaTeX compiling errors: ${stderr}`);
+                return res.status(500).send(`LaTeX compiling errors: ${stderr}`);
+            }
+            const pdfFile = path.resolve(path.dirname(texFileName), filename.replace(".tex", ".pdf"));
+            if (!fs.existsSync(pdfFile)) {
+                console.error("Error: PDF file not found.");
+                return res.status(500).send("Error: PDF file not found.");
+            }
+            console.log("File has been successfully converted to PDF.");
+            res.contentType("application/pdf");
+            res.setHeader("Content-Disposition", "attachment");
+            return res.status(200).sendFile(pdfFile);
+        });
+    });
+
+});
+async function getSrsDataReview(projectId) {
+    const query = { projectId: projectId };
+
+    const project = await Project.findById(projectId).select('-description -status -stakeholders');
+    const intro = await Introduction.find(query).select('-_id -userId -projectId -locked');
+    const conventionLatex = await htmlToLatex(intro[0].conventionsReview);
+    const audienceLatex = await htmlToLatex(intro[0].audienceReview);
+    const scopeLatex = await htmlToLatex(intro[0].scopeReview);
+    const referencesLatex = await htmlToLatex(intro[0].referencesReview);
+
+    const desc = await Description.find(query).select('-_id -userId -projectId -locked');
+    const features = await Features.find(query).select('-_id -userId -projectId -locked');
+    const rtm = await RTM.find({ projectId }).select(' -featureId -userId -projectId -date -__v');
+    const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
+    const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
+    const otherReqLatex = await htmlToLatex(otherReq[0].requirementsReview);
+
+    return {
+        project,
+        intro,
+        conventionLatex,
+        audienceLatex,
+        scopeLatex,
+        referencesLatex,
+        desc,
+        features,
+        rtm,
+        nonFun,
+        otherReqLatex
+    };
+}
 async function getSrsData(projectId) {
     const query = { projectId: projectId };
 

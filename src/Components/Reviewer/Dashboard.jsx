@@ -68,7 +68,7 @@ export default function Dashboard() {
             <div className="col-sm-12">
               <div className="row">
                 <div className="row">
-                  <div className="col-xl-6 d-flex">
+                  <div className="col-12 d-flex">
                     <div className="card w-100">
                       <div className="card-body stats welcome-card">
                         <div className="col-xxl-12 pt-2">
@@ -84,35 +84,6 @@ export default function Dashboard() {
                       </div>
                     </div>
                   </div>
-                  <div className="col-xxl-6">
-                    <div className="row">
-                      {cardData &&
-                        cardData.map((card) => {
-                          return (
-                            <div
-                              className="col-lg-3 col-6 d-flex"
-                              key={card.id}
-                            >
-                              <div className="card w-100">
-                                <div className="card-body">
-                                  <div
-                                    className={"theme-avtar " + card.className}
-                                  >
-                                    <i className={card.icon}></i>
-                                  </div>
-                                  <p className="text-muted text-sm mt-4 mb-2">
-                                    Total
-                                  </p>
-                                  <h6 className="mb-3">{card.heading}</h6>
-                                  <h3 className="mb-0">{card.total}</h3>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-
                   <div className="col-xxl-12">
                     <div className="card">
                       <div className="card-header">

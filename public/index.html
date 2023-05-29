@@ -12,16 +12,16 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <title>Smart Requirements</title>
-    <link
-      rel="stylesheet"
-      href="../public/assets/css/custom.min.css"
-    />
+    <link rel="stylesheet" href="../public/assets/css/custom.min.css" />
     <!-- <link
       rel="stylesheet"
       type="text/css"
       href="assets/css/css-responsive.css"
-    />      --> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css">
+    />      -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css"
+    />
     <link
       rel="stylesheet"
       href="//cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css"
@@ -30,7 +30,7 @@
 
   <body class="">
     <script>
-      const theme = localStorage.getItem("theme");
+      const theme = localStorage.getItem("theme") || "theme-4";
       if (theme) {
         document.body.classList.add(theme);
       } else {
@@ -69,7 +69,7 @@
         document.querySelector(".topbar .dash-menu-overlay").remove();
       }
     </script> -->
-<!-- 
+    <!-- 
     <script type="text/javascript">
       $(".custom-navbar-toggler").click(function () {
         if ($(this).attr("aria-expanded") == "true") {
@@ -82,6 +82,6 @@
       });
     </script> -->
 
-    <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script> 
+    <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
   </body>
 </html>

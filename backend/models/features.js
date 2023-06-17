@@ -12,27 +12,28 @@ const featuresSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        minLength: 3,
+        default: " ",
         maxLength: 300,
         trim: true,
     },
     features: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     }, featuresReview: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
     },
     // req Id
     srId: {
         type: String,
-        minLength: 5,
         maxLength: 100,
-        required: true,
+        default: " ",
+
     },
     locked: {
         type: String,

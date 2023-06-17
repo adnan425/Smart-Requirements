@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const  mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 const requirementSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -9,7 +9,7 @@ const requirementSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'projects' // referencing requirements tables for get other details
     },
-    title:{
+    title: {
         type: String,
         minLength: 5,
         maxLength: 120,
@@ -21,10 +21,10 @@ const requirementSchema = new mongoose.Schema({
         required: true,
         minLength: 3,
         maxLength: 500,
-        trim: true, 
+        trim: true,
     },
-    type:{
-        type: String, 
+    type: {
+        type: String,
         required: true
     },
     date: {
@@ -34,7 +34,7 @@ const requirementSchema = new mongoose.Schema({
 });
 
 
-function validateRequirement(requirement){
+function validateRequirement(requirement) {
     const schema = Joi.object({
         projectId: Joi.objectId().required(),
         title: Joi.string().min(5).max(50).required(),
@@ -46,7 +46,7 @@ function validateRequirement(requirement){
 
 
 
-const Requirement = mongoose.model('requirements',requirementSchema);
+const Requirement = mongoose.model('requirements', requirementSchema);
 
 exports.requirementSchema = requirementSchema;
 exports.Requirement = Requirement;

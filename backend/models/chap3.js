@@ -12,15 +12,13 @@ const chap3Schema = new mongoose.Schema({
     },
     requ: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
-        trim: true,
+        default: " ",
     },
     requReview: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
-        trim: true,
+        default: " ",
     },
     locked: {
         type: String,
@@ -45,7 +43,7 @@ function chap3ValidationReview(intro) {
     const schema = Joi.object({
         userId: Joi.objectId().required(),
         projectId: Joi.objectId().required(),
-        requReview: Joi.string().min(5).max(3000).required()
+        requReview: Joi.string().max(3000).required()
     });
     return schema.validate(intro);
 }

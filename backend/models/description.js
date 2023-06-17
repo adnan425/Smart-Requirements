@@ -12,87 +12,105 @@ const descriptionSchema = new mongoose.Schema({
     },
     perspective: {
         type: String,
-        minLength: 3,
+
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     perspectiveReview: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     functions: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     functionsReview: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     characteristics: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     characteristicsReview: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     envirnoment: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     envirnomentReview: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     implementation: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     implementationReview: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
+
     documentation: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     documentationReview: {
         type: String,
-        minLength: 3,
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     assumptions: {
         type: String,
-        minLength: 3,
+
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     assumptionsReview: {
         type: String,
-        minLength: 3,
+
         maxLength: 2000,
         trim: true,
+        default: " ",
+
     },
     locked: {
         type: String,

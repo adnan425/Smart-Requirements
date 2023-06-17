@@ -12,15 +12,19 @@ const otherReqSchema = new mongoose.Schema({
     },
     requirements: {
         type: String,
-        minLength: 3,
+
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     requirementsReview: {
         type: String,
-        minLength: 3,
+
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     locked: {
         type: String,

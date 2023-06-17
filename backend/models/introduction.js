@@ -15,17 +15,23 @@ const introductionSchema = new mongoose.Schema({
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     purposeReview: {
         type: String,
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     conventions: {
         type: String,
         minLength: 3,
         maxLength: 3000,
+        default: " ",
+
         trim: true,
     },
     conventionsReview: {
@@ -33,11 +39,15 @@ const introductionSchema = new mongoose.Schema({
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     audience: {
         type: String,
         minLength: 3,
         maxLength: 3000,
+        default: " ",
+
         trim: true,
     },
     audienceReview: {
@@ -45,30 +55,40 @@ const introductionSchema = new mongoose.Schema({
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     scope: {
         type: String,
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     scopeReview: {
         type: String,
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     references: {
         type: String,
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     referencesReview: {
         type: String,
         minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: " ",
+
     },
     locked: {
         type: String,

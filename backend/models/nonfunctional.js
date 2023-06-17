@@ -12,63 +12,72 @@ const nonfunctionalSchema = new mongoose.Schema({
     },
     performance: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     performanceReview: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     safety: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     safetyReview: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     security: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     securityReview: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     quality: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     qualityReview: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     business: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
+
     },
     businessReview: {
         type: String,
-        minLength: 3,
         maxLength: 3000,
         trim: true,
+        default: ""
     },
     locked: {
         type: String,

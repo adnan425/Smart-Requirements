@@ -8,20 +8,24 @@ const phasesSchema = new mongoose.Schema({
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'projects'  
+        ref: 'projects'
     },
     phaseId: {
         type: String,
         minLength: 3,
-        maxLength: 500, 
+        maxLength: 500,
+        default: " ",
+
     },
     phase: {
         type: String,
         minLength: 3,
         maxLength: 500,
         trim: true,
+        default: " ",
+
     },
-    status:{
+    status: {
         type: String,
         enum: ['start', 'completed', 'pending'],
         default: 'pending'
@@ -34,9 +38,9 @@ const phasesSchema = new mongoose.Schema({
     }
 });
 
-function phasesValidation(phase){
+function phasesValidation(phase) {
     const schema = Joi.object({
-        userId:  Joi.objectId().required(),
+        userId: Joi.objectId().required(),
         projectId: Joi.objectId().required(),
         phaseId: Joi.string().min(10).max(30).required(),
         phase: Joi.string().min(3).max(500).required(),

@@ -119,34 +119,30 @@ router.post("/intro", [auth, manager], async (req, res, next) => {
         );
         if (!isManager) return res.status(403).send("Access denied.");
 
-        const isUpdate = await Introduction.find({ projectId: req.body.projectId });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            console.log("update");
-            let update = await Introduction.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        purpose: req.body.purpose,
-                        conventions: req.body.conventions,
-                        audience: req.body.audience,
-                        scope: req.body.scope,
-                        references: req.body.references,
-                    },
-                }
-            );
-            res.status(200).send(update);
+        const isUpdate = await Introduction.findOne({ projectId: req.body.projectId });
+        console.log(isUpdate);
+
+        if (isUpdate) {
+            isUpdate.userId = req.user._id;
+            isUpdate.purpose = req.body.purpose;
+            isUpdate.conventions = req.body.conventions;
+            isUpdate.audience = req.body.audience;
+            isUpdate.scope = req.body.scope;
+            isUpdate.references = req.body.references;
+
+            const updatedIntroduction = await isUpdate.save();
+            res.status(200).send(updatedIntroduction);
         } else {
             let introduction = new Introduction(intro);
             await introduction.save();
             res.status(200).send(introduction);
         }
     } catch (err) {
+        console.log(err);
         next();
     }
 });
+
 router.post("/introreview", [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { userId: req.user._id, ...req.body };
@@ -250,27 +246,20 @@ router.post("/desc", [auth, manager], async (req, res, next) => {
         );
         if (!isManager) return res.status(403).send("Access denied.");
 
-        const isUpdate = await Description.find({ projectId: req.body.projectId });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            console.log("update");
-            let update = await Description.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        perspective: req.body.perspective,
-                        functions: req.body.functions,
-                        characteristics: req.body.characteristics,
-                        envirnoment: req.body.envirnoment,
-                        implementation: req.body.implementation,
-                        documentation: req.body.documentation,
-                        assumptions: req.body.assumptions,
-                    },
-                }
-            );
-            res.status(200).send(update);
+        const isUpdate = await Description.findOne({ projectId: req.body.projectId });
+
+        if (isUpdate) {
+            isUpdate.userId = req.user._id;
+            isUpdate.perspective = req.body.perspective;
+            isUpdate.functions = req.body.functions;
+            isUpdate.characteristics = req.body.characteristics;
+            isUpdate.envirnoment = req.body.envirnoment;
+            isUpdate.implementation = req.body.implementation;
+            isUpdate.documentation = req.body.documentation;
+            isUpdate.assumptions = req.body.assumptions;
+
+            const updatedDescription = await isUpdate.save();
+            res.status(200).send(updatedDescription);
         } else {
             let description = new Description(desc);
             await description.save();
@@ -281,6 +270,7 @@ router.post("/desc", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
 router.post("/descreview", [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { userId: req.user._id, ...req.body };
@@ -307,27 +297,22 @@ router.post("/descreview", [auth, manager], async (req, res, next) => {
         );
         if (!isManager) return res.status(403).send("Access denied.");
 
-        const isUpdate = await Description.find({ projectId: req.body.projectId });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            console.log("update");
-            let update = await Description.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        perspectiveReviwe: req.body.perspectiveReviwe,
-                        functionsReview: req.body.functionsReview,
-                        characteristicsReview: req.body.characteristicsReview,
-                        envirnomentReview: req.body.envirnomentReview,
-                        implementationReview: req.body.implementationReview,
-                        documentationReview: req.body.documentationReview,
-                        assumptionsReview: req.body.assumptionsReview,
-                    },
-                }
-            );
-            res.status(200).send(update);
+        const existingDescription = await Description.findOne({
+            projectId: req.body.projectId,
+        });
+        console.log(existingDescription);
+
+        if (existingDescription) {
+            existingDescription.perspectiveReview = req.body.perspectiveReview;
+            existingDescription.functionsReview = req.body.functionsReview;
+            existingDescription.characteristicsReview = req.body.characteristicsReview;
+            existingDescription.envirnomentReview = req.body.envirnomentReview;
+            existingDescription.implementationReview = req.body.implementationReview;
+            existingDescription.documentationReview = req.body.documentationReview;
+            existingDescription.assumptionsReview = req.body.assumptionsReview;
+
+            const updatedDescription = await existingDescription.save();
+            res.status(200).send(updatedDescription);
         } else {
             let description = new Description(desc);
             await description.save();
@@ -338,6 +323,7 @@ router.post("/descreview", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
 // PUT | GET PROJECT DESCRIPTION | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/desc/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -369,7 +355,7 @@ router.post("/requi", [auth, manager], async (req, res, next) => {
         const desc = _.pick(bodyData, [
             "userId",
             "projectId",
-            "requi",
+            "requ",
         ]);
         const { error } = chap3Validation(desc);
         if (error) return res.status(400).send(error.details[0].message);
@@ -393,7 +379,7 @@ router.post("/requi", [auth, manager], async (req, res, next) => {
                     $set: {
                         userId: req.user._id,
                         projectId: req.body.projectId,
-                        requi: req.body.requi,
+                        requ: req.body.requ,
                     },
                 }
             );
@@ -428,21 +414,16 @@ router.post("/requireview", [auth, manager], async (req, res, next) => {
         );
         if (!isManager) return res.status(403).send("Access denied.");
 
-        const isUpdate = await Chapt3.find({ projectId: req.body.projectId });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            console.log("update");
-            let update = await Chapt3.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        requReview: req.body.requReview,
-                    },
-                }
-            );
-            res.status(200).send(update);
+        const existingChapt3 = await Chapt3.findOne({
+            projectId: req.body.projectId,
+        });
+        console.log(existingChapt3);
+
+        if (existingChapt3) {
+            existingChapt3.requReview = req.body.requReview;
+
+            const updatedChapt3 = await existingChapt3.save();
+            res.status(200).send(updatedChapt3);
         } else {
             let description = new Chapt3(desc);
             await description.save();
@@ -453,6 +434,7 @@ router.post("/requireview", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
 // PUT | GET PROJECT  | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/requi/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -553,37 +535,25 @@ router.post("/featurereview", [auth, manager], async (req, res, next) => {
         const isUnique = await Project.findById(req.body.projectId);
         if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne(
-            { _id: req.body.projectId },
-            { manager: req.user._id }
-        );
-        if (!isManager) return res.status(403).send("Access denied.");
 
-        const isUpdate = await Features.find({ projectId: req.body.projectId });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            console.log("update");
-            let update = await Features.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        featuresReview: req.body.featuresReview,
-                    },
-                }
-            );
-            res.status(200).send(update);
+        const existingFeatures = await Features.findOne({ projectId: req.body.projectId });
+
+        if (existingFeatures) {
+            existingFeatures.featuresReview = req.body.featuresReview;
+
+            const updatedFeatures = await existingFeatures.save();
+            res.status(200).send(updatedFeatures);
         } else {
-            let description = new Features(desc);
-            await description.save();
-            res.status(200).send(description);
+            let features = new Features(desc);
+            await features.save();
+            res.status(200).send(features);
         }
     } catch (err) {
         console.log(err);
         next();
     }
 });
+
 // PUT |  SYSTEM FEATURES REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.put("/feature/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -727,6 +697,7 @@ router.get("/rtm/:id", [auth, manager], async (req, res, next) => {
 // POST | ADD PROJECT NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.post("/nonfun", [auth, manager], async (req, res, next) => {
     try {
+        console.log("test");
         const bodyData = { userId: req.user._id, ...req.body };
         const nonFun = _.pick(bodyData, [
             "userId",
@@ -737,38 +708,27 @@ router.post("/nonfun", [auth, manager], async (req, res, next) => {
             "quality",
             "business",
         ]);
+        console.log(nonFun);
         const { error } = nonfunctionalValidation(nonFun);
         if (error) return res.status(400).send(error.details[0].message);
 
         const isUnique = await Project.findById(req.body.projectId);
         if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne(
-            { _id: req.body.projectId },
-            { manager: req.user._id }
-        );
-        if (!isManager) return res.status(403).send("Access denied.");
-
-        const isUpdate = await NonFunctional.find({
+        const existingNonFunctional = await NonFunctional.findOne({
             projectId: req.body.projectId,
         });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            let update = await NonFunctional.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        performance: req.body.perspective,
-                        safety: req.body.functions,
-                        security: req.body.characteristics,
-                        quality: req.body.implementation,
-                        business: req.body.documentation,
-                    },
-                }
-            );
-            res.status(200).send(update);
+
+        if (existingNonFunctional) {
+            existingNonFunctional.performance = req.body.performance;
+            existingNonFunctional.safety = req.body.safety;
+            existingNonFunctional.security = req.body.security;
+            existingNonFunctional.quality = req.body.quality;
+            existingNonFunctional.business = req.body.business;
+
+            const updatedNonFunctional = await existingNonFunctional.save();
+            console.log(updatedNonFunctional);
+            res.status(200).send(updatedNonFunctional);
         } else {
             let nonfunction = new NonFunctional(nonFun);
             await nonfunction.save();
@@ -779,6 +739,8 @@ router.post("/nonfun", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
+
 router.post("/nonfunreview", [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { userId: req.user._id, ...req.body };
@@ -797,32 +759,20 @@ router.post("/nonfunreview", [auth, manager], async (req, res, next) => {
         const isUnique = await Project.findById(req.body.projectId);
         if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne(
-            { _id: req.body.projectId },
-            { manager: req.user._id }
-        );
-        if (!isManager) return res.status(403).send("Access denied.");
-
-        const isUpdate = await NonFunctional.find({
+        const existingNonFunctional = await NonFunctional.findOne({
             projectId: req.body.projectId,
         });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            let update = await NonFunctional.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        performanceReview: req.body.perspectiveReview,
-                        safetyReview: req.body.functionsReview,
-                        securityReview: req.body.characteristicsReview,
-                        qualityReview: req.body.implementationReview,
-                        businessReview: req.body.documentationReview,
-                    },
-                }
-            );
-            res.status(200).send(update);
+        console.log(existingNonFunctional);
+
+        if (existingNonFunctional) {
+            existingNonFunctional.performanceReview = req.body.performanceReview;
+            existingNonFunctional.safetyReview = req.body.safetyReview;
+            existingNonFunctional.securityReview = req.body.securityReview;
+            existingNonFunctional.qualityReview = req.body.qualityReview;
+            existingNonFunctional.businessReview = req.body.businessReview;
+
+            const updatedNonFunctional = await existingNonFunctional.save();
+            res.status(200).send(updatedNonFunctional);
         } else {
             let nonfunction = new NonFunctional(nonFun);
             await nonfunction.save();
@@ -833,6 +783,8 @@ router.post("/nonfunreview", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
+
 // GET |  NON FUNCTIONAL REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/nonfun/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -872,25 +824,21 @@ router.post("/other", [auth, manager], async (req, res, next) => {
         const isUnique = await Project.findById(req.body.projectId);
         if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne(
-            { _id: req.body.projectId },
-            { manager: req.user._id }
-        );
-        if (!isManager) return res.status(403).send("Access denied.");
+        // const isManager = await Project.findOne({
+        //     _id: req.body.projectId,
+        //     manager: req.user._id,
+        // });
+        // if (!isManager) return res.status(403).send("Access denied.");
 
-        // if(req.body.proj)
-        const isUpdate = await OtherRequirements.find({
+        const existingOtherRequirements = await OtherRequirements.findOne({
             projectId: req.body.projectId,
         });
-        console.log(isUpdate[0]);
+        console.log(existingOtherRequirements);
 
-        if (isUpdate[0]) {
-            const featureId = isUpdate[0]._id;
-            let update = await OtherRequirements.findOneAndUpdate(
-                { _id: featureId },
-                { $set: { requirements: req.body.requirements } }
-            );
-            res.status(200).send(update);
+        if (existingOtherRequirements) {
+            existingOtherRequirements.requirements = req.body.requirements;
+            const updatedOtherRequirements = await existingOtherRequirements.save();
+            res.status(200).send(updatedOtherRequirements);
         } else {
             let otherReq = new OtherRequirements(otherRequir);
             await otherReq.save();
@@ -901,6 +849,7 @@ router.post("/other", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
 router.post("/otherreview", [auth, manager], async (req, res, next) => {
     try {
         const bodyData = { userId: req.user._id, ...req.body };
@@ -915,25 +864,21 @@ router.post("/otherreview", [auth, manager], async (req, res, next) => {
         const isUnique = await Project.findById(req.body.projectId);
         if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne(
-            { _id: req.body.projectId },
-            { manager: req.user._id }
-        );
-        if (!isManager) return res.status(403).send("Access denied.");
+        // const isManager = await Project.findOne({
+        //     _id: req.body.projectId,
+        //     manager: req.user._id,
+        // });
+        // if (!isManager) return res.status(403).send("Access denied.");
 
-        // if(req.body.proj)
-        const isUpdate = await OtherRequirements.find({
+        const existingOtherRequirements = await OtherRequirements.findOne({
             projectId: req.body.projectId,
         });
-        console.log(isUpdate[0]);
+        console.log(existingOtherRequirements);
 
-        if (isUpdate[0]) {
-            const featureId = isUpdate[0]._id;
-            let update = await OtherRequirements.findOneAndUpdate(
-                { _id: featureId },
-                { $set: { requirementsReview: req.body.requirementsReview } }
-            );
-            res.status(200).send(update);
+        if (existingOtherRequirements) {
+            existingOtherRequirements.requirementsReview = req.body.requirementsReview;
+            const updatedOtherRequirements = await existingOtherRequirements.save();
+            res.status(200).send(updatedOtherRequirements);
         } else {
             let otherReq = new OtherRequirements(otherRequir);
             await otherReq.save();
@@ -944,6 +889,7 @@ router.post("/otherreview", [auth, manager], async (req, res, next) => {
         next();
     }
 });
+
 // GET |  OTHER REQUIREMENTS | TWO MIDDLWARE { AUTH, MANAGER } | USER_ID FROM MIDDLEWARE |
 router.get("/other/:id", [auth, manager], async (req, res, next) => {
     try {
@@ -1274,7 +1220,7 @@ function generateTexFileReview(srsData) {
     \\section{Assumptions and Dependencies Review}
     ${srsData.desc[0].assumptionsReview}
     \\chapter{Features Review}  
-     
+    ${srsData.featuresLatex}
     \\chapter{Other Nonfunctional Requirements}
     \\section{Performance Requirements} 
     ${srsData.nonFun[0].performanceReview} 
@@ -1412,7 +1358,7 @@ async function getSrsDataReview(projectId) {
     const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
     const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
     const otherReqLatex = await htmlToLatex(otherReq[0].requirementsReview);
-
+    const featuresLatex = await htmlToLatex(features[0].featuresReview);
     return {
         project,
         intro,
@@ -1424,7 +1370,8 @@ async function getSrsDataReview(projectId) {
         features,
         rtm,
         nonFun,
-        otherReqLatex
+        otherReqLatex,
+        featuresLatex
     };
 }
 async function getSrsData(projectId) {
@@ -1443,6 +1390,7 @@ async function getSrsData(projectId) {
     const nonFun = await NonFunctional.find(query).select('-_id -userId -projectId -locked');
     const otherReq = await OtherRequirements.find(query).select('-_id -userId -projectId -locked');
     const otherReqLatex = await htmlToLatex(otherReq[0].requirements);
+    const featuresLatex = await htmlToLatex(features[0].featuresReview);
 
     return {
         project,
@@ -1455,7 +1403,8 @@ async function getSrsData(projectId) {
         features,
         rtm,
         nonFun,
-        otherReqLatex
+        featuresLatex,
+        otherReqLatex,
     };
 }
 
@@ -1478,38 +1427,36 @@ router.post("/introreview", [auth, manager], async (req, res, next) => {
         const isUnique = await Project.findById(req.body.projectId);
         if (!isUnique) return res.status(400).send("Project not found.");
 
-        const isManager = await Project.findOne(
-            { _id: req.body.projectId },
-            { manager: req.user._id }
-        );
+        const isManager = await Project.findOne({
+            _id: req.body.projectId,
+            manager: req.user._id,
+        });
         if (!isManager) return res.status(403).send("Access denied.");
 
-        const isUpdate = await Introduction.find({ projectId: req.body.projectId });
-        if (isUpdate[0]) {
-            const updateId = isUpdate[0]._id;
-            console.log("update");
-            let update = await Introduction.findOneAndUpdate(
-                { _id: updateId },
-                {
-                    $set: {
-                        userId: req.user._id,
-                        projectId: req.body.projectId,
-                        purposeReview: req.body.purpose,
-                        conventionsReview: req.body.conventions,
-                        audienceReview: req.body.audience,
-                        scopeReview: req.body.scope,
-                        referencesReview: req.body.references,
-                    },
-                }
-            );
-            res.status(200).send(update);
+        const existingIntroduction = await Introduction.findOne({
+            projectId: req.body.projectId,
+        });
+        console.log(existingIntroduction);
+
+        if (existingIntroduction) {
+            existingIntroduction.purposeReview = req.body.purposeReview;
+            existingIntroduction.conventionsReview = req.body.conventionsReview;
+            existingIntroduction.audienceReview = req.body.audienceReview;
+            existingIntroduction.scopeReview = req.body.scopeReview;
+            existingIntroduction.referencesReview = req.body.referencesReview;
+
+            const updatedIntroduction = await existingIntroduction.save();
+            res.status(200).send(updatedIntroduction);
         } else {
             let introduction = new Introduction(intro);
             await introduction.save();
             res.status(200).send(introduction);
         }
     } catch (err) {
+        console.log(err);
         next();
     }
 });
+
+
 module.exports = router;

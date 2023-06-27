@@ -35,7 +35,7 @@ function chap3Validation(intro) {
     const schema = Joi.object({
         userId: Joi.objectId().required(),
         projectId: Joi.objectId().required(),
-        requi: Joi.string().min(5).max(3000).required()
+        requ: Joi.string().min(5).max(3000).required()
     });
     return schema.validate(intro);
 }
